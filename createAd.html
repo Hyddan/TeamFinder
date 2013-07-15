@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="js/zapto.js"></script>
+		<script src="js/createAd.js"></script>
+	</head>
+	<body>
+		<h1 id="head">
+		</h1>
+		<div id="page-wrap">
+			<div id="menuPlaceHolder"></div>
+			<div id="upper_content">
+				<div id='form_div'>
+					<h1>
+						Create an ad
+					</h1>
+					<form action="#" id="createAd" method="post" enctype="multipart/form-data" onsubmit="return false">
+					<p>
+						<label for="headline">
+						Headline
+						</label>
+						<br />
+						<input type="text" id="headline" name="headline" autofocus="autofocus" />
+					</p>
+					<p>
+					  <input type="radio" id="team" name="looking_group" value='team' checked/>
+					  <label for="test_radio_1">
+						Looking for a team
+					  </label>
+					  &nbsp;
+					  &nbsp;
+						<input type="radio" id="players" name="looking_group" value='players'/>
+					  <label for="test_radio_2">
+						Looking for more players
+					  </label>
+					</p>
+					<p>
+					  <label for="textarea">
+						Ad text
+					  </label>
+					<br />
+						<textarea id="textarea" name="textarea" rows="7" placeholder="Enter your advert text here!"></textarea>
+					</p>
+					<table class="horiz">
+					  <tr>
+						<td>
+						  <label for="url">
+						  Name
+						  </label>
+						  <br />
+						  <input type="name" id="name" name="name" autofocus="autofocus" />
+						</td>
+						<td>
+						  <label for="email">
+						  Email
+						  </label>
+						  <br />
+						  <input type="email" id="email" name="email" placeholder="name@example.com" />
+						</td>
+						<td>
+						  <label for="password">
+						  Password
+						  </label>
+						  <br />
+						  <input type="password" id="password" name="password" placeholder="Alphanumeric123!" />
+						</td>
+					  </tr>
+					  <tr>
+					  <td>
+						<label>Select location </label>
+						<br  />
+						  <select name="selectLocation">
+						  <option value="Stockholm">Stockholm</option>
+						  <option value="Uppsala">Uppsala</option>
+						  <option value="Linköping">Linköping</option>
+						  <option value="Sundsvall">Sundsvall</option>                      
+						</select>
+					  </td>
+					  <td>
+						<label>Select sport </label>
+						<br  />
+						  <select name="selectSport">
+						  <option value="Floorball">Floorball</option>
+						  <option value="Fotball">Fotball</option>
+						  <option value="Basket">Basket</option>
+						  <option value="Hockey">Hockey</option>                      
+						</select>
+					  </td>
+					  <td>
+					  <label for="age">
+					  Age
+					  </label>
+					  <br />
+					  <input type="age" id="age" name="age" />
+					  </td>
+					  </tr>
+					</table>
+					<p>
+					  <input type="radio" id="gender_1" name="gender" value='male' checked/>
+					  <label for="gender_1">
+						Male
+					  </label>
+					  &nbsp;
+					  &nbsp;
+						<input type="radio" id="gender_2" name="gender" value='female'/>
+					  <label for="gender_2">
+						Female
+					  </label>
+					</p>
+					<p>
+					<input type="submit" name='submit' value="Submit" />
+					</p>
+					</form>
+				</div>
+				<div id="success_ad">
+						<p><b>Your ad has been successfully submitted!</b></p>
+						<p><img src="images/ok.png" /></p>
+				</div>
+				<div id='result_div'>
+					<div id="success_result">
+						<p>
+						<label for="result_headline">
+						<b>Headline</b>
+						</label>
+						<br />
+						<span id='result_headline'></span>
+						</p>
+						
+						<p>
+						<label for="result_looking_for">
+						You are a 
+						</label>
+						<span id='result_looking_for'></span>
+						</p>
+						
+						<p>
+						<label for="result_ad_text">
+						<b>Ad text</b>
+						</label>
+						<br />
+						<span id='result_ad_text'></span>
+						</p>
+                        
+                        <p>
+                        	<table>
+                            	<tr>
+                                	<td class='results'>
+                                        <label for="result_name">
+                                        <b>Name</b>
+                                        </label>
+                                        <br />
+                                        <span id='result_name'></span>
+                                	</td>
+                                    <td class='results'>
+                                        <label for="result_email">
+                                        <b>Email</b>
+                                        </label>
+                                        <br />
+                                        <span id='result_email'></span>
+                                	</td>
+                                	<td class='results'>
+                                        <label for="result_password">
+                                        <b>Password</b>
+                                        </label>
+                                        <br />
+                                        <span id='result_password'></span>
+                                	</td>
+                                </tr>
+                                <tr>
+                                	<td class='results'>
+                                        <label for="result_location">
+                                        <b>Location</b>
+                                        </label>
+                                        <br />
+                                        <span id='result_location'></span>
+                                	</td>
+                                    <td class='results'>
+                                        <label for="result_sport">
+                                        <b>Sport</b>
+                                        </label>
+                                        <br />
+                                        <span id='result_sport'></span>
+                                	</td>
+                                	<td class='results'>
+                                        <label for="result_age">
+                                        <b>Age</b>
+                                        </label>
+                                        <br />
+                                        <span id='result_age'></span>
+                                	</td>
+                                </tr>
+                            </table>
+                        </p>
+                        <p>
+						<label for="result_gender">
+						<b>Gender</b>
+						</label>
+						<br />
+						<span id='result_gender'></span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div id="lower_content">
+			</div>
+			<div id="footer">
+			</div>
+		</div>
+	</body>
+</html>

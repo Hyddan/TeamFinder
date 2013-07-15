@@ -1,0 +1,64 @@
+#divAdContainer
+{
+	opacity: 0.5;
+}
+
+#divFilterButton
+{
+	right: 0px;
+}
+
+#divApplyFilterButton
+{
+	display: inline;
+	right: 0px;
+}
+
+#divClearFilterButton
+{
+	display: inline;
+	right: 80px;
+}
+
+#divPagination
+{
+    width: 600px;
+}
+
+.adContent
+{
+	font-size: 14px;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-left: 2.8em;
+	padding-right: 2.2em;
+}
+
+.adContentWrapper
+{
+	padding: 0px !important;
+}
+
+.adHeadline > span
+{
+	float: right;
+	font-size: 14px;
+}
+
+.aButton
+{
+    line-height: 15px;
+}
+
+.divButton
+{
+	cursor: pointer;
+    font-size: small;
+    position: absolute;
+}
+
+.divButtonBackground
+{
+    margin: 2px;
+	padding: 2px 5px;
+}
