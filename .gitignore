@@ -1,11 +1,18 @@
 #################
+## Project
+#################
+
+java/
+WEB-INF/
+
+
+#################
 ## Eclipse
 #################
 
 *.pydevproject
 .project
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
