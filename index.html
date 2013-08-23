@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="js/zapto.js"></script>
 		<script src="js/home.js"></script>
@@ -42,21 +41,11 @@
 				</div>
 			</div>
 			<div id="lower_content">
-				<form name="quick_search_form" id="quick_search_form">
-					<ul id="qs_list">
-						<li>Sport&nbsp;
-							<select id="qs_sport" name='s'></select>
-						</li>
-						<li>Stad&nbsp;
-							<select id="qs_location" name='c'></select>
-						</li>
-						<li>Letar&nbsp;
-							<select id="qs_looking" name='l'></select>
-						</li>
-						<li>
-							<input type="button" onclick="quickSearch()" value="Search">
-						</li>
-					</ul>
+				<form name="formQuickSearch" id="quick_search_form">
+					<div><select id="selectSport" name='s'></select></div><br />
+					<div><select id="selectLocation" name='loc'></select></div><br />
+					<div><select id="selectLookingFor" name='lf'></select></div><br />
+					<div><input type="button" onclick="Zapto.Home.quickSearch()" value="Quick Search"></div>
 				</form>
 			</div>
 			<div id="footer"></div>
