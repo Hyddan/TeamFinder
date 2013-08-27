@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `TeamFinder`.`Users` (
 	`Name` VARCHAR(500) NOT NULL,
 	`Password` VARCHAR(500) NOT NULL,
 	`PictureUrl` VARCHAR(500) NULL,
+	`Salt` VARCHAR(500) NULL,
 	`SessionId` VARCHAR(500) NULL,
 	PRIMARY KEY (`Id`)
 )

@@ -1,11 +1,11 @@
 ﻿<?php
 	//Includes
-	require_once '../bin/setupDataConnection.php';
-	require_once '../bin/entities.php';
+	require_once '/../bin/setupDataConnection.php';
+	require_once '/../bin/entities.php';
 	
 	//Set parameters
-	$q = isset($_GET["q"]) ? $_GET["q"] : null;
-	$class = ("locations" == $q ? "Location" : ("lookingFor" == $q ? "LookingFor" : ("sports" == $q ? "Sport" : null)));
+	$q		=	isset($_GET["q"]) ? $_GET["q"] : null;
+	$class	=	("locations" == $q ? "Location" : ("lookingFor" == $q ? "LookingFor" : ("sports" == $q ? "Sport" : null)));
 	
 	if(null == $class)
 	{

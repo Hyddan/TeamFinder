@@ -1,21 +1,21 @@
 ﻿<?php
 	//Includes
-	require_once '../bin/setupDataConnection.php';
-	require_once '../bin/zapto.php';
-	require_once '../bin/entities.php';
-	require_once '../bin/repositories.php';
+	require_once '/../bin/setupDataConnection.php';
+	require_once '/../bin/zapto.php';
+	require_once '/../bin/entities.php';
+	require_once '/../bin/repositories.php';
 	
 	//Set parameters
 	$tableName = '`Ads`';
 	
-	$pageIndex = isset($_GET["pageIndex"]) ? (int) $_GET["pageIndex"] : null;
-	$pageSize = isset($_GET["pageSize"]) ? (int) $_GET["pageSize"] : null;
-	$q = isset($_GET["q"]) ? $_GET["q"] : null;
-	$loc = isset($_GET["loc"]) ? $_GET["loc"] : null;
-	$lf = isset($_GET["lf"]) ? $_GET["lf"] : null;
-	$s = isset($_GET["s"]) ? $_GET["s"] : null;
-	$i = isset($_GET["i"]) ? (int) $_GET["i"] : null;
-	$filter = Zapto::getFilter($loc, $lf, $s);
+	$pageIndex	=	isset($_GET["pageIndex"]) ? (int) $_GET["pageIndex"] : null;
+	$pageSize	=	isset($_GET["pageSize"]) ? (int) $_GET["pageSize"] : null;
+	$q 			=	isset($_GET["q"]) ? $_GET["q"] : null;
+	$loc 		=	isset($_GET["loc"]) ? $_GET["loc"] : null;
+	$lf 		=	isset($_GET["lf"]) ? $_GET["lf"] : null;
+	$s			=	isset($_GET["s"]) ? $_GET["s"] : null;
+	$i			=	isset($_GET["i"]) ? (int) $_GET["i"] : null;
+	$filter 	=	Zapto::getFilter($loc, $lf, $s);
 	
 	if(("count" != $q && "data" != $q && "specific" != $q) || null === $filter)
 	{

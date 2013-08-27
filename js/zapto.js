@@ -264,6 +264,7 @@
 		
 		Zapto.loadScript('../js/title.js', null);
 		Zapto.loadScript('../js/menu.js', null);
+		Zapto.loadScript('../lib/webtoolkit.base64.js', null);
 	};
 	
 	Zapto.loadScript = function (url, onLoad) {
@@ -318,7 +319,7 @@
 	};
 	
 	Zapto.logIn = function (user) {
-		if (null == _loggedInUser) {
+		if (null == _loggedInUser && Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
 			Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
 			_loggedInUser = user;
 		}

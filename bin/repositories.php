@@ -1,6 +1,6 @@
 <?php
 	//Includes
-	require_once '../bin/entities.php';
+	require_once '/../bin/entities.php';
 	
 	//Set parameters
 	$GLOBALS["reposHost"] = "localhost";
@@ -212,20 +212,44 @@
 			return UserRepository::GetByFilter(" WHERE `SessionId` = '" . $sessionId . "'");
 		}
 		
+		static function GetSalt($userId)
+		{
+			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
+				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			
+			$query = "SELECT `Salt` FROM `Users` WHERE `Id` = " . $userId;
+			
+			if ($result = mysqli_query($reposConnection, $query)) {
+				if ($row = mysqli_fetch_row($result)) {
+					mysqli_free_result($result);
+			
+					mysqli_close($reposConnection);
+					
+					return $row[0];
+				}
+			}
+			
+			mysqli_close($reposConnection);
+			
+			return null;
+		}
+		
 		static function Save($user)
 		{
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `Gender`, `Name`, `Password`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->Gender . "', '" . $user->Name . "', '" . $user->Password . "', '" . $user->PictureUrl . "', '" . $user->SessionId . "');";
+			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `Gender`, `Name`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->Gender . "', '" . $user->Name . "', '" . $user->PictureUrl . "', '" . $user->SessionId . "');";
 			if (0 < $user->Id) {
 				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `Gender` = '" . $user->Gender . "', `Name` = '" . $user->Name . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "' WHERE `Id` = " . $user->Id;
 			}
 			
 			if ($result = mysqli_query($reposConnection, $query)) {
-				if (0 < $user-Id) {
+				if (0 >= $user->Id) {
 					$user = UserRepository::GetById(mysqli_insert_id($connection));
 				}
+				
+				mysqli_free_result($result);
 			}
 			
 			mysqli_close($reposConnection);
@@ -238,21 +262,45 @@
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$query = "UPDATE `Users` SET `Password` = '" . $password . "' WHERE `Id` = " . $userId;
+			$salt = UserRepository::SetSalt($userId);
+			
+			$query = "UPDATE `Users` SET `Password` = '" . hash("sha256", (null != $salt ? $salt : "") . $password) . "' WHERE `Id` = " . $userId;
 			
 			if ($result = mysqli_query($reposConnection, $query)) {
+				mysqli_close($reposConnection);
+				
+				return true;
 			}
 			
 			mysqli_close($reposConnection);
 			
-			return true;
+			return false;
+		}
+		
+		static function SetSalt($userId)
+		{
+			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
+				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			
+			$salt = Zapto::GenerateGuid();
+			$query = "UPDATE `Users` SET `Salt` ='" . $salt . "' WHERE `Id` = " . $userId;
+			
+			if ($result = mysqli_query($reposConnection, $query)) {
+				mysqli_close($reposConnection);
+				
+				return $salt;
+			}
+			
+			mysqli_close($reposConnection);
+			
+			return null;
 		}
 		
 		static function StartSession($user)
 		{
-			$user->SessionId = "RandomValue2";
+			$user->SessionId = Zapto::GenerateGuid();
 			
-			return $UserRepository::Save($user);
+			return UserRepository::Save($user);
 		}
 		
 		static function ValidatePassword($userId, $password)
@@ -266,7 +314,7 @@
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 					
-					return $row[0] == $password;
+					return $row[0] == hash("sha256", UserRepository::GetSalt($userId) . $password);
 				}
 			}
 			
