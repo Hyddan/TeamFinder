@@ -1,7 +1,7 @@
 window.Zapto.Title = (function(Title) {
 	Title.UI = (function(UI) {
 		UI.insertTitleOnPage = function(data) {
-			$('#head').html(data);
+			$('#h1HeadContainer').html(data);
 		};	
 		
 		return UI;

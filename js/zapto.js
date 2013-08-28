@@ -122,6 +122,10 @@
             }
         };
 		
+		Utils.deleteCookie = function (name) {
+			Zapto.Utils.setCookie(name, '', -1);
+		};
+		
 		Utils.exists = function (obj) {
             return 'undefined' !== typeof obj;
         };
@@ -253,10 +257,17 @@
 		console.log(error);
 	};
 	
+	Zapto.isLoggedIn = function () {
+		return null != _loggedInUser;
+	};
+	
 	Zapto.loadDependencies = function() {
 		Zapto.loadStyle('//code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css', null);
 		Zapto.loadStyle('//cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/2.9.0/jquery.selectBoxIt.css', null);
-		Zapto.loadStyle('../css/styles.css', null);
+		Zapto.loadStyle('../css/teamFinder.css', null);
+		Zapto.loadStyle('../css/oldStyles.css', null);
+		Zapto.loadStyle('../css/menu.css', null);
+		Zapto.loadStyle('../css/head.css', null);
 		
 		Zapto.loadScript('//code.jquery.com/ui/1.10.0/jquery-ui.min.js', function() {
 			Zapto.loadScript('//cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/2.9.0/jquery.selectBoxIt.min.js', null);
@@ -318,18 +329,37 @@
 		document.getElementsByTagName('head')[0].appendChild(link);
 	};
 	
-	Zapto.logIn = function (user) {
-		if (null == _loggedInUser && Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+	Zapto.logIn = function () {
+		Zapto.callServer('../authentication.php', {
+				ajaxAction: 'logIn',
+				username: Base64.encode('daniel.hedenius@gmail.com'), //ToDo: get from input
+				password: Base64.encode('asdf') //ToDo: get from input
+			}, 'POST', 'json', Zapto.logInCallback, Zapto.handleError
+		);
+	};
+	
+	Zapto.logOut = function () {
+		var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
+		
+		if (null != user && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+			Zapto.callServer('../authentication.php', {
+					ajaxAction: 'logOut',
+					sessionId: user.SessionId
+				}, 'POST', 'json', Zapto.logOutCallback, Zapto.handleError
+			);
+		}
+	};
+	
+	Zapto.logInCallback = function (user) {
+		if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
 			Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
 			_loggedInUser = user;
 		}
 	};
 	
-	Zapto.logOut = function () {
-		if (null != _loggedInUser) {
-			Zapto.Utils.setCookie('tfUser', '', -1);
-			_loggedInUser = null;
-		}
+	Zapto.logOutCallback = function () {
+		Zapto.Utils.deleteCookie('tfUser');
+		_loggedInUser = null;
 	};
 	
 	Zapto.initialize = function() {

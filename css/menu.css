@@ -1,0 +1,46 @@
+#divMenuPlaceHolder
+{
+	height: 70px;
+}
+
+#divMenuPlaceHolder ul
+{
+	background-image: url('../images/list_bg.png');
+	background-repeat: repeat-x;
+	height: 70px;
+	list-style: none;
+	width: 755px;
+}
+
+#divMenuPlaceHolder ul li a
+{
+	color: #c4d92e;
+	display: block;
+	float: left;
+	font-size: 23px;
+	margin-left: -30px;
+	margin-right: 30px;
+	margin-top: 6px;
+	padding-right: 30px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#divMenuPlaceHolder ul li a.home
+{
+	left: 0px;
+	top: 0px;
+	width: 114px;
+}
+
+#divMenuPlaceHolder ul li a.about
+{
+	left: 0px;
+	top: 0px;
+	width: 145px;
+}
+
+#divMenuPlaceHolder ul li a:hover , #divMenuPlaceHolder ul li.current_list_item a
+{
+	color: white;
+}

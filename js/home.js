@@ -1,23 +1,23 @@
 window.Zapto.Home = (function(Home) {
 	Home.UI = (function(UI) {
-		UI.initSlideshow = function () {
-			$("#slideshow > div:gt(0)").hide();
+		UI.initdivSlideshow = function () {
+			$("#divSlideshow > div:gt(0)").hide();
 			
 			setInterval(function() { 
-				$('#slideshow > div:first')
+				$('#divSlideshow > div:first')
 				.fadeOut(1000)
 				.next()
 				.fadeIn(1000)
 				.end()
-				.appendTo('#slideshow');
+				.appendTo('#divSlideshow');
 			},  3000);
 			
-			Zapto.callServer('data/getAdData.php', { pageIndex: 0, pageSize: 3, q: 'data' }, 'GET', 'json', UI.slideshowDataCallback, Zapto.handleError);
+			Zapto.callServer('data/getAdData.php', { pageIndex: 0, pageSize: 3, q: 'data' }, 'GET', 'json', UI.divSlideshowDataCallback, Zapto.handleError);
 		};
 		
-		UI.slideshowDataCallback = function (data) {
+		UI.divSlideshowDataCallback = function (data) {
 			$.each(data, function () {
-				$('#slider_table').append("<tr><td>" + this.Headline + "</td><td>" + this.Sport.Name + "</td><td>" + this.Location.Name + "</td></tr>");
+				$('#tableSlider').append("<tr><td>" + this.Headline + "</td><td>" + this.Sport.Name + "</td><td>" + this.Location.Name + "</td></tr>");
 			});
 		};
 		
@@ -34,7 +34,7 @@ window.Zapto.Home = (function(Home) {
 		Home.Elements.initialize();
 		
 		//Create UI elements
-		Home.UI.initSlideshow();
+		Home.UI.initdivSlideshow();
 		
 		Zapto.UI.createDropDown(Home.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
 		Zapto.UI.createDropDown(Home.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});

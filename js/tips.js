@@ -1,7 +1,7 @@
 window.Zapto.Tips = (function(Tips) {
 	Tips.UI = (function(UI) {
 		UI.createNavigation = function(data) {
-			$('#navigationPlaceHolder').html(data);
+			$('#divNavigationPlaceHolder').html(data);
 			
 			Zapto.Utils.delay.call(this, function () {
 				$('.navigateRMenu').navigateR();

@@ -2,27 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="js/zapto.js"></script>
 		<script src="js/home.js"></script>
 	</head>
 	<body>
-		<h1 id="head"></h1>
-		<div id="page-wrap">
-			<div id="menuPlaceHolder"></div>
-			<div id="upper_content">
-				<div id="welcome_msg">
+		<h1 id="h1HeadContainer"></h1>
+		<div id="divPageContainer">
+			<div id="divMenuPlaceHolder"></div>
+			<div id="divUpperContent">
+				<div id="divWelcomeMessage">
 					<h2>Welcome</h2>
-						<p>
-							Are you a team or are you more players to your team? You've come to the right place.
-							This is a site where individuals can add ads to search for a team or
-							Perhaps more team members to an existing team.
-						</p>
+					<p>
+						Are you a team or are you more players to your team? You've come to the right place.
+						This is a site where individuals can add ads to search for a team or
+						Perhaps more team members to an existing team.
+					</p>
 				</div>
-				<div id="img_slider">
-					<div id="slideshow">
-						<div id="output">
-							<table id="slider_table">
+				<div id="divImageSlider">
+					<div id="divSlideshow">
+						<div id="divOutput">
+							<table id="tableSlider">
 								<tr>
 									<td><strong>Headline</strong></td>
 									<td><strong>Sport</strong></td>
@@ -40,15 +40,15 @@
 					</div>
 				</div>
 			</div>
-			<div id="lower_content">
-				<form name="formQuickSearch" id="quick_search_form">
+			<div id="divLowerContent">
+				<form name="formQuickSearch" id="formQuickSearch">
 					<div><select id="selectSport" name='s'></select></div><br />
 					<div><select id="selectLocation" name='loc'></select></div><br />
 					<div><select id="selectLookingFor" name='lf'></select></div><br />
 					<div><input type="button" onclick="Zapto.Home.quickSearch()" value="Quick Search"></div>
 				</form>
 			</div>
-			<div id="footer"></div>
+			<div id="divFooter"></div>
 		</div>
 	</body>
 </html>

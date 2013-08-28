@@ -173,7 +173,7 @@
 		{
 			$user->SessionId = null;
 			
-			return $UserRepository::Save($user);
+			return UserRepository::Save($user);
 		}
 		
 		static function GetByFilter($filter)
