@@ -1,9 +1,9 @@
 window.Zapto.Menu = (function(Menu) {
 	Menu.UI = (function(UI) {
 		UI.insertMenuOnPage = function(data) {
-			$('#menuPlaceHolder').html(data);
+			$('#divMenuPlaceHolder').html(data);
 			if(Zapto.Utils.notNullOrEmpty(Zapto.selectedMenuItem)) {
-				$('#' + Zapto.selectedMenuItem).addClass('current_list_item');
+				$('#' + Zapto.selectedMenuItem).addClass('menuSelectedItem');
 			}
 		};	
 		
@@ -11,7 +11,7 @@ window.Zapto.Menu = (function(Menu) {
 	}(Menu.UI || {}));
 	
 	Menu.initialize = function() {
-		Zapto.callServer('menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, Zapto.handleError);
+		Zapto.callServer('../menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, Zapto.handleError);
 	};
 	
 	return Menu;

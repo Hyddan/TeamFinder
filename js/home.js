@@ -12,7 +12,7 @@ window.Zapto.Home = (function(Home) {
 				.appendTo('#divSlideshow');
 			},  3000);
 			
-			Zapto.callServer('data/getAdData.php', { pageIndex: 0, pageSize: 3, q: 'data' }, 'GET', 'json', UI.divSlideshowDataCallback, Zapto.handleError);
+			Zapto.callServer('../data/getAdData.php', { pageIndex: 0, pageSize: 3, q: 'data' }, 'GET', 'json', UI.divSlideshowDataCallback, Zapto.handleError);
 		};
 		
 		UI.divSlideshowDataCallback = function (data) {

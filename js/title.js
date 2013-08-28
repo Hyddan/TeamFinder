@@ -8,7 +8,7 @@ window.Zapto.Title = (function(Title) {
 	}(Title.UI || {}));
 	
 	Title.initialize = function() {
-		Zapto.callServer('title.html', '', 'GET', 'html', Title.UI.insertTitleOnPage, Zapto.handleError);
+		Zapto.callServer('../title.html', '', 'GET', 'html', Title.UI.insertTitleOnPage, Zapto.handleError);
 	};
 	
 	return Title;
