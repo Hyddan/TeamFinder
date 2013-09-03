@@ -1,6 +1,6 @@
-window.Zapto.Menu = (function(Menu) {
-	Menu.UI = (function(UI) {
-		UI.insertMenuOnPage = function(data) {
+window.Zapto.Menu = (function (Menu) {
+	Menu.UI = (function (UI) {
+		UI.insertMenuOnPage = function (data) {
 			$('#divMenuPlaceHolder').html(data);
 			if(Zapto.Utils.notNullOrEmpty(Zapto.selectedMenuItem)) {
 				$('#' + Zapto.selectedMenuItem).addClass('menuSelectedItem');
@@ -10,7 +10,7 @@ window.Zapto.Menu = (function(Menu) {
 		return UI;
 	}(Menu.UI || {}));
 	
-	Menu.initialize = function() {
+	Menu.initialize = function () {
 		Zapto.callServer('../menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, Zapto.handleError);
 	};
 	

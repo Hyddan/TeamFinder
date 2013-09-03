@@ -4,7 +4,7 @@ window.Zapto.CreateAd = (function (CreateAd) {
 			CreateAd.Elements.divSuccess.show();
 			CreateAd.Elements.divCreateAdFormContainer.hide();
 			
-			//Populate results by using data (data = Ad-object)
+			//Display results using data (data === Ad-object)
 			
 			CreateAd.Elements.divSuccess.delay(2000).fadeOut('fast', function() {
 				CreateAd.Elements.divResult.show();
@@ -31,11 +31,12 @@ window.Zapto.CreateAd = (function (CreateAd) {
 			var data = CreateAd.Elements.formCreateAd.serialize();
 			var json_data = CreateAd.Elements.formCreateAd.serializeArray();
 			
-			// Validation of fields
-			/*if(!Zapto.Utils.isValidEmail( $("#email").val())){
-				alert('Invalid Email!');
+			// ToDo: Validate fields (using jquery validate?)
+			var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
+			if (null == user || !Zapto.Utils.notNullOrEmpty(user.Id) || !Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+				alert('You need to be logged in to create an ad');
 				return false;
-			}*/
+			}
 			
 			Zapto.callServer('../data/createAd.php', {
 				description: CreateAd.Elements.txtDescription,
@@ -43,9 +44,8 @@ window.Zapto.CreateAd = (function (CreateAd) {
 				location: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
 				lookingFor: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
 				sport: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
-				userId: 1 //ToDo: Get userId from somewhere
+				userId: user.Id
 			}, 'POST', 'json', CreateAd.UI.createAdCallback, Zapto.handleError);
-			
 		});
 	};
 	

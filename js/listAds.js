@@ -1,4 +1,4 @@
-﻿window.Zapto.ListAds = (function(ListAds) {
+﻿window.Zapto.ListAds = (function (ListAds) {
 	ListAds.adCount = null;
 	ListAds.adFilter = {
 		loc: null,
@@ -9,11 +9,11 @@
 	ListAds.pageSize = null;
 	ListAds.pageData = null;
 	
-	ListAds.adCountCallback = function(data) {
+	ListAds.adCountCallback = function (data) {
 		ListAds.adCount = parseInt(data[0].AdCount, 10) == 0 ? 1 : parseInt(data[0].AdCount, 10);
 	};
 	
-	ListAds.applyFilter = function() {
+	ListAds.applyFilter = function () {
 		ListAds.adFilter = {
 			loc: Zapto.Utils.getSelectedDropDownValue(ListAds.Elements.selectLocation),
 			lf: Zapto.Utils.getSelectedDropDownValue(ListAds.Elements.selectLookingFor),
@@ -26,7 +26,7 @@
 		ListAds.Elements.divFilter.slideToggle();
 	};
 	
-	ListAds.clearFilter = function() {
+	ListAds.clearFilter = function () {
 		ListAds.adFilter = {
 			loc: null,
 			lf: null,
@@ -43,7 +43,7 @@
 		ListAds.Elements.divFilter.slideToggle();
 	};
 	
-	ListAds.createAdContent = function(data) {
+	ListAds.createAdContent = function (data) {
 		var adContentWrapper = $(document.createElement('div'));
 		adContentWrapper.addClass('adContentWrapper');
 		
@@ -74,7 +74,7 @@
 		return adContentWrapper;
 	};
 		
-	ListAds.createHeadline = function(data) {
+	ListAds.createHeadline = function (data) {
 		var headline = $(document.createElement('h3'));
 		headline.html(Zapto.Utils.notNullOrEmpty(data.Headline) ? data.Headline : '[No subject]');
 		headline.addClass('adHeadline');
@@ -87,7 +87,7 @@
 		return headline;
 	};
 	
-	ListAds.getAdsCallback = function(data) {
+	ListAds.getAdsCallback = function (data) {
 		var _isUiAccordion = false;
 		ListAds.pageData = data;
 		
@@ -103,7 +103,7 @@
 		}
 		
 		ListAds.Elements.divAdContainer.html('').css('position', 'relative');
-		$.each(ListAds.pageData, function(index) {
+		$.each(ListAds.pageData, function (index) {
 			ListAds.Elements.divAdContainer.append(ListAds.createHeadline(this));
 			ListAds.Elements.divAdContainer.append(ListAds.createAdContent(this));
 		});
@@ -120,20 +120,20 @@
 		}, 'obj => !Zapto.Utils.notNullOrUndefinedFunction(obj.accordion)', ListAds.Elements.divAdContainer, 1);
 	};
 		
-	ListAds.hasFilter = function() {
+	ListAds.hasFilter = function () {
 		return (ListAds.adFilter.loc != null || ListAds.adFilter.lf != null || ListAds.adFilter.s != null);
 	};
 	
-	ListAds.loadDependencies = function() {
+	ListAds.loadDependencies = function () {
 		Zapto.loadStyle('../lib/jquery.paginate.styles.css', null);
 		Zapto.loadStyle('../css/ListAds.css', null);
 	};
 	
-	ListAds.paginate = function(pageIndex) {	
+	ListAds.paginate = function (pageIndex) {	
 		ListAds.pageIndex = pageIndex || ListAds.pageIndex;
 		
-		if(ListAds.adCount) {
-			if(ListAds.Elements.divPagination.hasClass('jPaginate')) {
+		if (ListAds.adCount) {
+			if (ListAds.Elements.divPagination.hasClass('jPaginate')) {
 				ListAds.Elements.divPagination.removeClass('jPaginate');
 				ListAds.Elements.divPagination.attr('style', '');
 				ListAds.Elements.divPagination.html('');
@@ -165,7 +165,7 @@
 		}
 	};
 	
-	ListAds.pageChanged = function(page) {
+	ListAds.pageChanged = function (page) {
 		ListAds.pageIndex = page || ListAds.pageIndex;
 		
 		Zapto.callServer('../data/getAdData.php', {
@@ -179,8 +179,8 @@
 		);
 	};
 	
-	ListAds.initialize = function() {
-		Zapto.loadScript('../lib/jquery.paginate.js', function() {
+	ListAds.initialize = function () {
+		Zapto.loadScript('../lib/jquery.paginate.js', function () {
 			//Set initial values
 			ListAds.pageSize = 5;
 			ListAds.Elements.initialize();
@@ -215,7 +215,7 @@
 			);
 			
 			//Hook up events
-			ListAds.Elements.divFilterButton.on('click', function() {
+			ListAds.Elements.divFilterButton.on('click', function () {
 				ListAds.Elements.divFilter.slideToggle();
 			});
 			
@@ -223,21 +223,21 @@
 			
 			ListAds.Elements.divClearFilterButton.on('click', ListAds.clearFilter);
 			
-			ListAds.Elements.selectLocation.on('change', function() {
+			ListAds.Elements.selectLocation.on('change', function () {
 				ListAds.adFilter.loc = Zapto.Utils.getSelectedDropDownValue($(this));
 			});
 			
-			ListAds.Elements.selectLookingFor.on('change', function() {
+			ListAds.Elements.selectLookingFor.on('change', function () {
 				ListAds.adFilter.lf = Zapto.Utils.getSelectedDropDownValue($(this));
 			});
 			
-			ListAds.Elements.selectSport.on('change', function() {
+			ListAds.Elements.selectSport.on('change', function () {
 				ListAds.adFilter.s = Zapto.Utils.getSelectedDropDownValue($(this));
 			});
 		});
 	};
 	
-	ListAds.Elements = (function(Elements) {
+	ListAds.Elements = (function (Elements) {
 		Elements.divAdContainer = null;
 		Elements.divFilter = null;
 		Elements.divFilterButton = null;
@@ -248,7 +248,7 @@
 		Elements.selectLookingFor = null;
 		Elements.selectSport = null;
 		
-		Elements.initialize = function() {
+		Elements.initialize = function () {
 			Elements.divAdContainer = $('#divAdContainer');
 			Elements.divFilter = $('#divFilter');
 			Elements.divFilterButton = $('#divFilterButton');

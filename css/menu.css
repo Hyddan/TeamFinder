@@ -9,7 +9,7 @@
 	background-repeat: repeat-x;
 	height: 70px;
 	list-style: none;
-	width: 755px;
+	width: 800px;
 }
 
 #divMenuPlaceHolder ul li a
@@ -40,7 +40,44 @@
 	width: 145px;
 }
 
-#divMenuPlaceHolder ul li a:hover , #divMenuPlaceHolder ul li.current_list_item a
+#divMenuPlaceHolder ul li a:hover , #divMenuPlaceHolder ul li.menuSelectedItem a
 {
 	color: white;
+}
+
+#divAuthenticationPlaceHolder
+{
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	background-color: #dadada;
+	filter: alpha(opacity=80);
+	height: 150px;
+	opacity: 0.8;
+	padding: 10px;
+	position: absolute;
+	right: 80px;
+	top: 40px;
+	width: 160px;
+	z-index: 999;
+}
+
+#divAuthenticationPlaceHolder label
+{
+	margin-left: 2px;
+}
+
+#divAuthenticationContainer
+{
+	float: right;
+	height: 110px;
+	width: 60px;
+}
+
+#divCredentialsMessage
+{
+	display: none;
+	color: red;
+	font-size: 12px;
+	margin-left: 5px;
+	width: 120px;
 }

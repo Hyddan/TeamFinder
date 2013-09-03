@@ -25,8 +25,7 @@ window.Zapto.Home = (function(Home) {
 	}(Home.UI || {}));
 	
 	Home.quickSearch = function () {
-		var queryStringParams = CreateAd.Elements.formQuickSearch.serialize();
-		$(window.location).attr('href', '../listAds.html?' + queryStringParams);
+		$(window.location).attr('href', '../listAds.html?' + CreateAd.Elements.formQuickSearch.serialize());
 	};
 	
 	Home.initialize = function() {

@@ -1,14 +1,14 @@
-window.Zapto.Tips = (function(Tips) {
-	Tips.UI = (function(UI) {
-		UI.createNavigation = function(data) {
+window.Zapto.Tips = (function (Tips) {
+	Tips.UI = (function (UI) {
+		UI.createNavigation = function (data) {
 			$('#divNavigationPlaceHolder').html(data);
 			
 			Zapto.Utils.delay.call(this, function () {
 				$('.navigateRMenu').navigateR();
 				$('.navigateRSubMenu').navigateR();
 				
-				$('.navigateR-item').each(function() {
-					$(this).children(':first').on('click', function() {
+				$('.navigateR-item').each(function () {
+					$(this).children(':first').on('click', function () {
 						$(this).parent().children('.navigateRSubMenu').slideToggle();
 					});
 				});
@@ -18,13 +18,13 @@ window.Zapto.Tips = (function(Tips) {
 		return UI;
 	}(Tips.UI || {}));
 	
-	Tips.loadDependencies = function() {
+	Tips.loadDependencies = function () {
 		Zapto.loadStyle('../css/jquery.navigateR.css', null);
 		
 		Zapto.loadScript('../js/jquery.navigateR.js', null);
 	};
 	
-	Tips.initialize = function() {
+	Tips.initialize = function () {
 		Zapto.callServer('../tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, Zapto.handleError);
 	};
 	

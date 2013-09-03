@@ -1,7 +1,7 @@
-﻿window.Zapto = (function(Zapto) {
+﻿window.Zapto = (function (Zapto) {
 	var _loggedInUser = null;
 	
-	Zapto.UI = (function(UI) {
+	Zapto.UI = (function (UI) {
 		UI.adFilterData = {
 			locations: null,
 			lookingFor: null,
@@ -29,26 +29,26 @@
 			}
 		};
 		
-		UI.adFilterDataCallback = function(data) {
-			$.each(data.items, function(index) {
+		UI.adFilterDataCallback = function (data) {
+			$.each(data.items, function (index) {
 				UI.adFilterData[data.type] = UI.adFilterData[data.type] || [];
 				UI.adFilterData[data.type].push(this.Name);
 			});
 		};
 		
-		UI.center = function(element) {
+		UI.center = function (element) {
 			element.css("left", ($(window).width() - element.width()) / 2 + $(window).scrollLeft() + "px");
 		};
 		
-		UI.createDropDown = function(jqSelectElement, url, params) {
-			if(jqSelectElement.children().length > 1) {
+		UI.createDropDown = function (jqSelectElement, url, params) {
+			if (jqSelectElement.children().length > 1) {
 				return;
 			}
-			if(UI.adFilterData[params.q]) {
+			if (UI.adFilterData[params.q]) {
 				jqSelectElement.append($('<option></option').val('-').html(params.defaultText));
-				$.each(UI.adFilterData[params.q], function(index) {
+				$.each(UI.adFilterData[params.q], function (index) {
 					var option = $('<option></option').val(UI.adFilterMapping[params.q][this]).html(this);
-					if(UI.adFilterMapping[params.q][this] == params.selected) {
+					if (UI.adFilterMapping[params.q][this] == params.selected) {
 						option.attr('selected', 'selected');
 					}
 					jqSelectElement.append(option);
@@ -60,7 +60,7 @@
 			}
 			else {
 				Zapto.callServer(url, {q: params.q}, 'GET', 'json', UI.adFilterDataCallback, Zapto.handleError);
-				setTimeout(function() { UI.createDropDown(jqSelectElement, url, params); }, 500);
+				setTimeout(function () { UI.createDropDown(jqSelectElement, url, params); }, 500);
 			}
 				
 			return jqSelectElement;
@@ -69,7 +69,7 @@
 		return UI;
 	}(Zapto.UI || {}));
 	
-	Zapto.Utils = (function(Utils) {
+	Zapto.Utils = (function (Utils) {
 		Utils.emailValidationRegex = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
 		
 		Utils.createFunctionFromLambda = (function () {
@@ -132,7 +132,7 @@
 		
 		Utils.getCookie = function (name) {
 			var i, _cookie, _cookieArr = document.cookie.split(';');
-			for(i=0;i < _cookieArr.length;i++) {
+			for (i = 0; i < _cookieArr.length; i++) {
 				_cookie = _cookieArr[i].trimLeft();
 				
 				if (0 === _cookie.indexOf(name)) {
@@ -143,9 +143,9 @@
 			return null;
 		};
 		
-		Utils.getSelectedDropDownValue = function(jqSelectElement) {
+		Utils.getSelectedDropDownValue = function (jqSelectElement) {
 			var selectedValue = jqSelectElement.find('option:selected').val();
-			if(selectedValue == '-') {
+			if (selectedValue == '-') {
 				return null;
 			}
 			
@@ -228,14 +228,14 @@
         return Utils;
     }(Zapto.Utils || {}));
 	
-	Zapto.callServer = function(url, data, requestMethod, dataType, success, error) {
+	Zapto.callServer = function (url, data, requestMethod, dataType, success, error) {
 		var utils = Zapto.Utils;
 		$.ajax({
 			url: url,
 			type: requestMethod,
 			data: data,
 			dataType: dataType,
-			success: function(data) {
+			success: function (data) {
 				if(utils.notNullOrUndefinedFunction(success)) {
 					success(data);
 				}
@@ -243,7 +243,7 @@
 					return data;
 				}
 			},
-			error: function(xhr, message, err) {
+			error: function (xhr, message, err) {
 				if(utils.notNullOrUndefinedFunction(error)) {
 					error(xhr);
 					error(message);
@@ -253,28 +253,37 @@
 		});
 	};
 	
-	Zapto.handleError = function(error) {
+	Zapto.handleError = function (error) {
 		console.log(error);
 	};
 	
 	Zapto.isLoggedIn = function () {
+		if (null == _loggedInUser) {
+			var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
+		
+			if (null != user && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+				_loggedInUser = user;
+			}
+		}
+		
 		return null != _loggedInUser;
 	};
 	
-	Zapto.loadDependencies = function() {
-		Zapto.loadStyle('//code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css', null);
-		Zapto.loadStyle('//cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/2.9.0/jquery.selectBoxIt.css', null);
+	Zapto.loadDependencies = function () {
+		Zapto.loadStyle('../lib/jquery-ui.base-1.10.0.css', null);
+		Zapto.loadStyle('../lib/jquery.selectBoxIt-2.9.0.css', null);
 		Zapto.loadStyle('../css/teamFinder.css', null);
 		Zapto.loadStyle('../css/oldStyles.css', null);
 		Zapto.loadStyle('../css/menu.css', null);
 		Zapto.loadStyle('../css/head.css', null);
 		
-		Zapto.loadScript('//code.jquery.com/ui/1.10.0/jquery-ui.min.js', function() {
-			Zapto.loadScript('//cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/2.9.0/jquery.selectBoxIt.min.js', null);
+		Zapto.loadScript('../lib/jquery-ui-1.10.3.min.js', function() {
+			Zapto.loadScript('../lib/jquery.selectBoxIt-2.9.0.min.js', null);
 		});
 		
 		Zapto.loadScript('../js/title.js', null);
 		Zapto.loadScript('../js/menu.js', null);
+		Zapto.loadScript('../js/authentication.js', null);
 		Zapto.loadScript('../lib/webtoolkit.base64.js', null);
 	};
 	
@@ -329,18 +338,17 @@
 		document.getElementsByTagName('head')[0].appendChild(link);
 	};
 	
-	Zapto.logIn = function () {
+	Zapto.logIn = function (username, password) {
 		Zapto.callServer('../authentication.php', {
 				ajaxAction: 'logIn',
-				username: Base64.encode('daniel.hedenius@gmail.com'), //ToDo: get from input
-				password: Base64.encode('asdf') //ToDo: get from input
+				username: username,
+				password: password
 			}, 'POST', 'json', Zapto.logInCallback, Zapto.handleError
 		);
 	};
 	
 	Zapto.logOut = function () {
 		var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
-		
 		if (null != user && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
 			Zapto.callServer('../authentication.php', {
 					ajaxAction: 'logOut',
@@ -354,15 +362,22 @@
 		if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
 			Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
 			_loggedInUser = user;
+			Zapto.Authentication.updateButtonLabel();
+		}
+		else {
+			Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
+			Zapto.Authentication.Elements.divCredentialsMessage.text('Invalid credentials');
+			Zapto.Authentication.Elements.divCredentialsMessage.show();
 		}
 	};
 	
 	Zapto.logOutCallback = function () {
 		Zapto.Utils.deleteCookie('tfUser');
 		_loggedInUser = null;
+		Zapto.Authentication.updateButtonLabel();
 	};
 	
-	Zapto.initialize = function() {
+	Zapto.initialize = function () {
 		Zapto.loadDependencies();
 	};
 	

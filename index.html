@@ -1,8 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-		<script src="//code.jquery.com/jquery-latest.min.js"></script>
+		<title>teamFinder</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link rel="author" href="https://plus.google.com/u/0/110519189567069378831/" />
+		
+		<script src="../lib/jquery-1.10.2.min.js"></script>
 		<script src="../js/zapto.js"></script>
 		<script src="../js/home.js"></script>
 	</head>
@@ -19,34 +22,33 @@
 						Perhaps more team members to an existing team.
 					</p>
 				</div>
-				<div id="divImageSlider">
-					<div id="divSlideshow">
-						<div id="divOutput">
-							<table id="tableSlider">
-								<tr>
-									<td><strong>Headline</strong></td>
-									<td><strong>Sport</strong></td>
-									<td><strong>Location</strong></td>
-								</tr>
-							</table>
-						</div>
-						<div>
-							<img src="http://farm6.static.flickr.com/5224/5658667829_2bb7d42a9c_m.jpg" /><br />
-							Testing
-						</div>
-						<div>
-							<img src="http://farm6.static.flickr.com/5230/5638093881_a791e4f819_m.jpg" />
-						</div>
-					</div>
+				<div id="divLowerContent">
+					<form name="formQuickSearch" id="formQuickSearch">
+						<div><select id="selectSport" name='s'></select></div><br />
+						<div><select id="selectLocation" name='loc'></select></div><br />
+						<div><select id="selectLookingFor" name='lf'></select></div><br />
+						<div><input type="button" onclick="Zapto.Home.quickSearch()" value="Quick Search"></div>
+					</form>
 				</div>
 			</div>
-			<div id="divLowerContent">
-				<form name="formQuickSearch" id="formQuickSearch">
-					<div><select id="selectSport" name='s'></select></div><br />
-					<div><select id="selectLocation" name='loc'></select></div><br />
-					<div><select id="selectLookingFor" name='lf'></select></div><br />
-					<div><input type="button" onclick="Zapto.Home.quickSearch()" value="Quick Search"></div>
-				</form>
+			<div id="divImageSlider">
+				<div id="divSlideshow">
+					<div id="divOutput">
+						<table id="tableSlider">
+							<tr>
+								<td><strong>Headline</strong></td>
+								<td><strong>Sport</strong></td>
+								<td><strong>Location</strong></td>
+							</tr>
+						</table>
+					</div>
+					<div>
+						<img src="http://farm6.static.flickr.com/5224/5658667829_2bb7d42a9c_m.jpg" />
+					</div>
+					<div>
+						<img src="http://farm6.static.flickr.com/5230/5638093881_a791e4f819_m.jpg" />
+					</div>
+				</div>
 			</div>
 			<div id="divFooter"></div>
 		</div>

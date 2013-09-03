@@ -1,13 +1,13 @@
-window.Zapto.Title = (function(Title) {
-	Title.UI = (function(UI) {
-		UI.insertTitleOnPage = function(data) {
+window.Zapto.Title = (function (Title) {
+	Title.UI = (function (UI) {
+		UI.insertTitleOnPage = function (data) {
 			$('#h1HeadContainer').html(data);
 		};	
 		
 		return UI;
 	}(Title.UI || {}));
 	
-	Title.initialize = function() {
+	Title.initialize = function () {
 		Zapto.callServer('../title.html', '', 'GET', 'html', Title.UI.insertTitleOnPage, Zapto.handleError);
 	};
 	
