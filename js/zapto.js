@@ -7,10 +7,10 @@
 				Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
 				_loggedInUser = user;
 				Zapto.Authentication.updateButtonLabel();
-				Zapto.Authentication.Elements.formAuthenticate[0].reset();
-				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
-				Zapto.Authentication.Elements.divCredentialsMessage.text('');
-				Zapto.Authentication.Elements.divCredentialsMessage.hide();
+				Zapto.Authentication.Elements.formSignUp[0].reset();
+				Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
+				Zapto.Authentication.Elements.divSignUpValidationMessage.text('');
+				Zapto.Authentication.Elements.divSignUpValidationMessage.hide();
 			}
 		};
 		
@@ -20,13 +20,13 @@
 				_loggedInUser = user;
 				Zapto.Authentication.updateButtonLabel();
 				Zapto.Authentication.Elements.formAuthenticate[0].reset();
-				Zapto.Authentication.Elements.divCredentialsMessage.text('');
-				Zapto.Authentication.Elements.divCredentialsMessage.hide();
+				Zapto.Authentication.Elements.divAuthenticateValidationMessage.text('');
+				Zapto.Authentication.Elements.divAuthenticateValidationMessage.hide();
 			}
 			else {
 				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
-				Zapto.Authentication.Elements.divCredentialsMessage.text('Invalid credentials');
-				Zapto.Authentication.Elements.divCredentialsMessage.show();
+				Zapto.Authentication.Elements.divAuthenticateValidationMessage.text('Invalid credentials');
+				Zapto.Authentication.Elements.divAuthenticateValidationMessage.show();
 			}
 		};
 		
