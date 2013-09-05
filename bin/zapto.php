@@ -56,7 +56,7 @@
 		static function logIn($email, $password)
 		{
 			$user = UserRepository::GetByEmail($email);
-			if (UserRepository::ValidatePassword($user->Id, $password))
+			if (null != $user && UserRepository::ValidatePassword($user->Id, $password))
 			{
 				return UserRepository::StartSession($user);
 			}

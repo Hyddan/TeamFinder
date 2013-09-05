@@ -11,7 +11,7 @@ window.Zapto.Menu = (function (Menu) {
 	}(Menu.UI || {}));
 	
 	Menu.initialize = function () {
-		Zapto.callServer('../menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, Zapto.handleError);
+		Zapto.callServer('../data/menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, Zapto.handleError);
 	};
 	
 	return Menu;

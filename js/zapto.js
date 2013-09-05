@@ -1,6 +1,44 @@
 ﻿window.Zapto = (function (Zapto) {
 	var _loggedInUser = null;
 	
+	Zapto.Callbacks = (function (Callbacks) {
+		Callbacks.createUser = function (user) {
+			if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+				Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
+				_loggedInUser = user;
+				Zapto.Authentication.updateButtonLabel();
+				Zapto.Authentication.Elements.formAuthenticate[0].reset();
+				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+				Zapto.Authentication.Elements.divCredentialsMessage.text('');
+				Zapto.Authentication.Elements.divCredentialsMessage.hide();
+			}
+		};
+		
+		Callbacks.logIn = function (user) {
+			if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+				Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
+				_loggedInUser = user;
+				Zapto.Authentication.updateButtonLabel();
+				Zapto.Authentication.Elements.formAuthenticate[0].reset();
+				Zapto.Authentication.Elements.divCredentialsMessage.text('');
+				Zapto.Authentication.Elements.divCredentialsMessage.hide();
+			}
+			else {
+				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
+				Zapto.Authentication.Elements.divCredentialsMessage.text('Invalid credentials');
+				Zapto.Authentication.Elements.divCredentialsMessage.show();
+			}
+		};
+		
+		Callbacks.logOut = function (user) {
+			Zapto.Utils.deleteCookie('tfUser');
+			_loggedInUser = null;
+			Zapto.Authentication.updateButtonLabel();
+		};
+		
+		return Callbacks;
+	}(Zapto.Callbacks || {}));
+	
 	Zapto.UI = (function (UI) {
 		UI.adFilterData = {
 			locations: null,
@@ -29,11 +67,18 @@
 			}
 		};
 		
+		UI.Callbacks = (function (Callbacks) {
+			Callbacks.adFilterData = function (data) {
+				$.each(data.items, function (index) {
+					UI.adFilterData[data.type] = UI.adFilterData[data.type] || [];
+					UI.adFilterData[data.type].push(this.Name);
+				});
+			};
+			
+			return Callbacks;
+		}(UI.Callbacks || {}));
+		
 		UI.adFilterDataCallback = function (data) {
-			$.each(data.items, function (index) {
-				UI.adFilterData[data.type] = UI.adFilterData[data.type] || [];
-				UI.adFilterData[data.type].push(this.Name);
-			});
 		};
 		
 		UI.center = function (element) {
@@ -59,7 +104,7 @@
 				}, 'obj => !Zapto.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', jqSelectElement, 1);
 			}
 			else {
-				Zapto.callServer(url, {q: params.q}, 'GET', 'json', UI.adFilterDataCallback, Zapto.handleError);
+				Zapto.callServer(url, {q: params.q}, 'GET', 'json', UI.Callbacks.adFilterData, Zapto.handleError);
 				setTimeout(function () { UI.createDropDown(jqSelectElement, url, params); }, 500);
 			}
 				
@@ -253,6 +298,19 @@
 		});
 	};
 	
+	Zapto.createUser = function (age, description, email, gender, name, password, pictureUrl) {
+		Zapto.callServer('../data/createUser.php', {
+				age: age,
+				description: description,
+				email: email,
+				gender: gender,
+				name: name,
+				password: password,
+				pictureUrl: pictureUrl
+			}, 'POST', 'json', Zapto.Callbacks.createUser, Zapto.handleError
+		);
+	}
+	
 	Zapto.handleError = function (error) {
 		console.log(error);
 	};
@@ -339,42 +397,23 @@
 	};
 	
 	Zapto.logIn = function (username, password) {
-		Zapto.callServer('../authentication.php', {
+		Zapto.callServer('../data/authentication.php', {
 				ajaxAction: 'logIn',
 				username: username,
 				password: password
-			}, 'POST', 'json', Zapto.logInCallback, Zapto.handleError
+			}, 'POST', 'json', Zapto.Callbacks.logIn, Zapto.handleError
 		);
 	};
 	
 	Zapto.logOut = function () {
 		var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
 		if (null != user && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
-			Zapto.callServer('../authentication.php', {
+			Zapto.callServer('../data/authentication.php', {
 					ajaxAction: 'logOut',
 					sessionId: user.SessionId
-				}, 'POST', 'json', Zapto.logOutCallback, Zapto.handleError
+				}, 'POST', 'json', Zapto.Callbacks.logOut, Zapto.handleError
 			);
 		}
-	};
-	
-	Zapto.logInCallback = function (user) {
-		if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
-			Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
-			_loggedInUser = user;
-			Zapto.Authentication.updateButtonLabel();
-		}
-		else {
-			Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
-			Zapto.Authentication.Elements.divCredentialsMessage.text('Invalid credentials');
-			Zapto.Authentication.Elements.divCredentialsMessage.show();
-		}
-	};
-	
-	Zapto.logOutCallback = function () {
-		Zapto.Utils.deleteCookie('tfUser');
-		_loggedInUser = null;
-		Zapto.Authentication.updateButtonLabel();
 	};
 	
 	Zapto.initialize = function () {

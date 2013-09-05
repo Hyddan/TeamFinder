@@ -1,6 +1,7 @@
 <?php
 	//Includes
 	require_once '/../bin/entities.php';
+	require_once '/../bin/zapto.php';
 	
 	//Set parameters
 	$GLOBALS["reposHost"] = "localhost";
@@ -55,7 +56,7 @@
 			
 			if ($result = mysqli_query($reposConnection, $query)) {
 				if (0 < $ad-Id) {
-					$ad = AdRepository::GetById(mysqli_insert_id($connection));
+					$ad = AdRepository::GetById(mysqli_insert_id($reposConnection));
 				}
 			}
 			
@@ -239,17 +240,15 @@
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `Gender`, `Name`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->Gender . "', '" . $user->Name . "', '" . $user->PictureUrl . "', '" . $user->SessionId . "');";
+			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `Gender`, `Name`, `Password`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->Gender . "', '" . $user->Name . "', null, '" . $user->PictureUrl . "', null);";
 			if (0 < $user->Id) {
 				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `Gender` = '" . $user->Gender . "', `Name` = '" . $user->Name . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "' WHERE `Id` = " . $user->Id;
 			}
 			
 			if ($result = mysqli_query($reposConnection, $query)) {
 				if (0 >= $user->Id) {
-					$user = UserRepository::GetById(mysqli_insert_id($connection));
+					$user = UserRepository::GetById(mysqli_insert_id($reposConnection));
 				}
-				
-				mysqli_free_result($result);
 			}
 			
 			mysqli_close($reposConnection);

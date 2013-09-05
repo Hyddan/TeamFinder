@@ -45,6 +45,13 @@
 	color: white;
 }
 
+#divAuthenticationContainer
+{
+	float: right;
+	height: 110px;
+	width: 60px;
+}
+
 #divAuthenticationPlaceHolder
 {
 	-moz-border-radius: 10px 10px 10px 10px;
@@ -66,13 +73,6 @@
 	margin-left: 2px;
 }
 
-#divAuthenticationContainer
-{
-	float: right;
-	height: 110px;
-	width: 60px;
-}
-
 #divCredentialsMessage
 {
 	display: none;
@@ -80,4 +80,29 @@
 	font-size: 12px;
 	margin-left: 5px;
 	width: 120px;
+}
+
+#formAuthenticate div.formAuthenticateButtons *
+{
+	float: left;
+	font-size: 12px;
+	padding: 2px;
+	position: relative;
+}
+
+#formAuthenticate div.formAuthenticateButtons a
+{
+	-moz-border-radius: 5px 5px 5px %2px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	background-color: black;
+	color: #c4d92e;
+	margin: 0px;
+	text-decoration: none;
+	transition: all 0.3s ease-in-out;
+}
+
+#formAuthenticate div.formAuthenticateButtons div.divButtonAdjacentText
+{
+	margin-top: 2px;
 }

@@ -10,6 +10,7 @@ window.Zapto.Authentication = (function (Authentication) {
 			Authentication.Elements.formAuthenticate.on('submit', function () {
 				Zapto.logIn(Base64.encode(Authentication.Elements.txtUsername.val()), Base64.encode(Authentication.Elements.txtPassword.val()));
 					Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+					Authentication.Elements.txtPassword.val('');
 			});
 			
 			Zapto.Authentication.Elements.divAuthenticationButton.on('click', function (e) {
@@ -23,6 +24,16 @@ window.Zapto.Authentication = (function (Authentication) {
 				e.stopPropagation();
 			});
 			
+			Zapto.Authentication.Elements.divSubmitAuthenticationButton.on('click', function (e) {
+				Zapto.Authentication.Elements.formAuthenticate.trigger('submit');
+			});
+			
+			Zapto.Authentication.Elements.divSignUpButton.on('click', function (e) {
+				alert('SignUp is not available at this time');
+				
+				Zapto.createUser(26, 'SomeDescription', 'danielhedenius@hotmail.com', 'Male', 'Daniel Hedenius', Base64.encode('SomePasswordFromForm'), 'SomePictureUrl');
+			});
+			
 			$(document).on('click', function (e) {
 				if (Zapto.Authentication.Elements.formAuthenticate.is(':visible') && !Zapto.Authentication.Elements.divAuthenticationPlaceHolder.is(e.target) && 0 === Zapto.Authentication.Elements.divAuthenticationPlaceHolder.has(e.target).length) {
 					Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
@@ -30,9 +41,12 @@ window.Zapto.Authentication = (function (Authentication) {
 			});
 			
 			$(document).on('keyup', function (e) {
-				if (27 === e.keyCode) {
-					if (0 < Zapto.Authentication.Elements.divAuthenticationContainer.has($(document.activeElement)).length) {
+				if (0 < Zapto.Authentication.Elements.divAuthenticationContainer.has($(document.activeElement)).length) {
+					if (27 === e.keyCode) {
 						Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+					}
+					else if (13 === e.keyCode) {
+						Zapto.Authentication.Elements.formAuthenticate.trigger('submit');
 					}
 				}
 			});
@@ -45,7 +59,7 @@ window.Zapto.Authentication = (function (Authentication) {
 		Zapto.Utils.delay.call(this, function () {
 			Authentication.Elements.initialize();
 			
-			Zapto.callServer('../authentication.html', '', 'GET', 'html', Authentication.UI.insertAuthenticationFormOnPage, Zapto.handleError);
+			Zapto.callServer('../data/authentication.html', '', 'GET', 'html', Authentication.UI.insertAuthenticationFormOnPage, Zapto.handleError);
 			
 			Authentication.updateButtonLabel();
 		}, 'obj => false === Zapto.Utils.notNullOrEmpty($(\'#menuAuthentication\')[0])', null, 1);
@@ -67,6 +81,8 @@ window.Zapto.Authentication = (function (Authentication) {
 		Elements.divAuthenticationContainer = null;
 		Elements.divAuthenticationPlaceHolder = null;
 		Elements.divCredentialsMessage = null;
+		Elements.divSubmitAuthenticationButton = null;
+		Elements.divSignUpButton = null;
 		Elements.formAuthenticate = null;
 		Elements.txtPassword = null;
 		Elements.txtUsername = null;
@@ -77,6 +93,8 @@ window.Zapto.Authentication = (function (Authentication) {
 			Elements.divAuthenticationContainer = $('#divAuthenticationContainer');
 			Elements.divAuthenticationPlaceHolder = $('#divAuthenticationPlaceHolder');
 			Elements.divCredentialsMessage = $('#divCredentialsMessage');
+			Elements.divSubmitAuthenticationButton = $('#divSubmitAuthenticationButton');
+			Elements.divSignUpButton = $('#divSignUpButton');
 			Elements.formAuthenticate = $('#formAuthenticate');
 			Elements.txtPassword = $('#txtPassword');
 			Elements.txtUsername = $('#txtUsername');

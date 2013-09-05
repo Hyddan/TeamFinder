@@ -25,7 +25,7 @@ window.Zapto.Tips = (function (Tips) {
 	};
 	
 	Tips.initialize = function () {
-		Zapto.callServer('../tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, Zapto.handleError);
+		Zapto.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, Zapto.handleError);
 	};
 	
 	Tips.loadDependencies();
