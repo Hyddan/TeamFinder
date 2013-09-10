@@ -24,7 +24,7 @@
 			}
 			
 			//If no filter, return ""
-			if(($loc == null || $loc === "") && ($lf == null || $lf === "") && ($s == null || $s === "")){
+			if(empty($loc) && empty($lf) && empty($s)){
 				return "";
 			}
 			
@@ -32,18 +32,18 @@
 			$filter = " WHERE";
 			$initialFilterLength = strlen($filter);
 			
-			if($locations[$loc] != null) {
-				$filter = $filter . "  LocationId` = '" . $locations[$loc] . "'";
+			if(!empty($loc) && $locations[$loc] != null) {
+				$filter = $filter . "  `LocationId` = '" . $locations[$loc] . "'";
 			}
 			
-			if($lookingFor[$lf] != null) {
+			if(!empty($lf) && $lookingFor[$lf] != null) {
 				if(strlen($filter) > $initialFilterLength) {
 					$filter = $filter . " AND";
 				}
 				$filter = $filter . " `LookingForId` = '" . $lookingFor[$lf] . "'";
 			}
 			
-			if($sports[$s] != null) {
+			if(!empty($s) && $sports[$s] != null) {
 				if(strlen($filter) > $initialFilterLength) {
 					$filter = $filter . " AND";
 				}

@@ -85,8 +85,8 @@ ENGINE = InnoDB;
 
 -- Fill "static" tables
 INSERT INTO `TeamFinder`.`Locations` (`Description`, `Name`) VALUES ('Stockholm', 'Stockholm');
-INSERT INTO `TeamFinder`.`Locations` (`Description`, `Name`) VALUES ('Uppsala', 'Uppsala');
 INSERT INTO `TeamFinder`.`Locations` (`Description`, `Name`) VALUES ('Sundsvall', 'Sundsvall');
+INSERT INTO `TeamFinder`.`Locations` (`Description`, `Name`) VALUES ('Uppsala', 'Uppsala');
 INSERT INTO `TeamFinder`.`Locations` (`Description`, `Name`) VALUES ('Linköping', 'Linköping');
 
 INSERT INTO `TeamFinder`.`LookingFor` (`Description`, `Name`) VALUES ('Player', 'Player');

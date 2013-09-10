@@ -83,7 +83,6 @@
 	-webkit-border-radius: 10px 10px 10px 10px;
 	background-color: #dadada;
 	filter: alpha(opacity=80);
-	height: 150px;
 	opacity: 0.8;
 	padding: 10px;
 	position: absolute;
@@ -104,7 +103,6 @@
 	-webkit-border-radius: 10px 10px 10px 10px;
 	background-color: #dadada;
 	filter: alpha(opacity=80);
-	height: 270px;
 	opacity: 0.8;
 	padding: 10px;
 	position: absolute;

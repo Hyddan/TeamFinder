@@ -1,6 +1,16 @@
 ﻿window.Zapto = (function (Zapto) {
 	var _loggedInUser = null;
 	
+	Zapto.Environment = (function (Environment) {
+		Environment.Device = Environment.Device || {};
+		Environment.detect = function () {
+			Environment.Device.isIPhone = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(iPhone)/gi));
+			Environment.Device.isMobile = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(android|iPad|iPhone|iPod)/gi));
+		};
+		
+		return Environment;
+	}(Zapto.Environment || {}));
+	
 	Zapto.Callbacks = (function (Callbacks) {
 		Callbacks.createUser = function (user) {
 			if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {

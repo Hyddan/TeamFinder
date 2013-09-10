@@ -51,6 +51,19 @@ body p
 	margin: 0px 0px 10px 0px;
 }
 
+form td
+{
+	vertical-align: top;
+}
+
+label.error
+{
+	color: red;
+	font-size: 12px;
+	margin-left: 5px;
+	display: block;
+}
+
 #divPageContainer
 {
 	background-image: url('../images/bg-shade.png');
@@ -115,7 +128,7 @@ body p
 {
     float: left;
     height: 180px;
-    width: 400px;
+    width: 600px;
 }
 
 .aButton

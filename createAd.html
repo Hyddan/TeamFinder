@@ -19,17 +19,17 @@
 					<form action="#" id="formCreateAd" method="post" enctype="multipart/form-data" onsubmit="return false;">
 						<p>
 							<label for="txtHeadline">Headline</label><br />
-							<input type="text" id="txtHeadline" autofocus="autofocus" />
+							<input id="txtHeadline" name="txtHeadline" type="text" />
 						</p>
 						<p>
 							<label for="txtDescription">Ad description</label><br />
-							<textarea id="txtDescription" rows="7" placeholder="Enter your addescription here!"></textarea>
+							<textarea id="txtDescription" name="txtDescription" rows="7" placeholder="Enter your addescription here!"></textarea>
 						</p>
 						<table>
 							<tr>
-								<td><select id="selectLocation"></select></td>
-								<td><select id="selectSport"></select></td>
-								<td><select id="selectLookingFor" name="selectLookingFor"></select></td>
+								<td><select id="selectLocation" name="selectLocation"></select><input id="txtSelectLocation" name="txtSelectLocation" type="hidden" /></td>
+								<td><select id="selectSport" name="selectSport"></select><input id="txtSelectSport" name="txtSelectSport" type="hidden" /></td>
+								<td><select id="selectLookingFor" name="selectLookingFor"></select><input id="txtSelectLookingFor" name="txtSelectLookingFor" type="hidden" /></td>
 							</tr>
 						</table>
 						<p>

@@ -26,26 +26,120 @@ window.Zapto.CreateAd = (function (CreateAd) {
 		Zapto.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
 		Zapto.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 		
+		CreateAd.Elements.txtHeadline.focus()
+		
 		//Hook up events
-		CreateAd.Elements.formCreateAd.on('submit', function () {
-			var data = CreateAd.Elements.formCreateAd.serialize();
-			var json_data = CreateAd.Elements.formCreateAd.serializeArray();
+		CreateAd.Elements.selectSport.on('change', function () {
+			CreateAd.Elements.txtSelectSport.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport));
+			CreateAd.Elements.txtSelectSport.valid();
+		});
+		
+		CreateAd.Elements.selectLocation.on('change', function () {
+			CreateAd.Elements.txtSelectLocation.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation));
+			CreateAd.Elements.txtSelectLocation.valid();
+		});
+		
+		CreateAd.Elements.selectLookingFor.on('change', function () {
+			CreateAd.Elements.txtSelectLookingFor.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor));
+			CreateAd.Elements.txtSelectLookingFor.valid();
+		});
+		
+		Zapto.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
+			//Fix issues in jQuery Validation plugin
+			$.validator.prototype.elements = function () {
+				var validator = this,
+					rulesCache = {};
+				// select all valid inputs inside the form (no submit or reset buttons)
+				// workaround $Query([]).add until http://dev.jquery.com/ticket/2114 is solved
+				return $([]).add(this.currentForm.elements)
+					.filter(':input')
+					.not(':submit, :reset, :image, [disabled]')
+					.not(this.settings.ignore)
+					.filter(function () {
+						var elementIdentification = this.id || this.name;
+
+						if (!elementIdentification && validator.settings.debug && window.console) {
+							console.error("%o has no id nor name assigned", this);
+						}
+						
+						if (elementIdentification in rulesCache || !validator.objectLength($(this).rules())) {
+							return false;
+						}
+
+						return rulesCache[elementIdentification] = true;
+					});
+			};
 			
-			// ToDo: Validate fields (using jquery validate?)
-			var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
-			if (null == user || !Zapto.Utils.notNullOrEmpty(user.Id) || !Zapto.Utils.notNullOrEmpty(user.SessionId)) {
-				alert('You need to be logged in to create an ad');
-				return false;
-			}
+			$.validator.prototype.checkForm = function () {
+				this.prepareForm();
+				var count = 0,
+					elements = null,
+					i = 0;
+					
+				for (elements = (this.currentElements = this.elements()); elements[i]; i++) {
+					if (this.findByName(elements[i].name).length != undefined && this.findByName(elements[i].name).length > 1) {
+						for (count; count < this.findByName(elements[i].name).length; count++) {
+							this.check(this.findByName(elements[i].name)[count]);
+						}
+					}
+					else {
+						this.check(elements[i]);
+					}
+				}
+				return this.valid();
+			};
 			
-			Zapto.callServer('../data/createAd.php', {
-				description: CreateAd.Elements.txtDescription,
-				headline: CreateAd.Elements.txtHeadline,
-				location: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
-				lookingFor: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
-				sport: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
-				userId: user.Id
-			}, 'POST', 'json', CreateAd.UI.createAdCallback, Zapto.handleError);
+			$.validator.addMethod("notValueIs", function (value, element, arg) {
+				return arg != value;
+			}, "This field is required.");
+			
+			(function () { //Hook up validation
+				Zapto.CreateAd.Elements.formCreateAd.validate({
+					ignore: [],
+					rules: {
+						txtDescription: {
+							required: true
+						},
+						txtHeadline: {
+							required: true
+						},
+						txtSelectSport: {
+							onkeyup: false,
+							required: true
+						},
+						txtSelectLocation: {
+							required: true
+						},
+						txtSelectLookingFor: {
+							required: true
+						}
+					},
+					messages: {
+						txtSelectSport: {
+							notValueIs: 'ASDF'
+						}
+					},
+					submitHandler: function () {
+						var data = CreateAd.Elements.formCreateAd.serialize();
+						var json_data = CreateAd.Elements.formCreateAd.serializeArray();
+						
+						var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
+						if (null == user || !Zapto.Utils.notNullOrEmpty(user.Id) || !Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+							alert('You need to be logged in to create an ad');
+							return false;
+						}
+						
+						Zapto.callServer('../data/createAd.php', {
+							description: CreateAd.Elements.txtDescription,
+							headline: CreateAd.Elements.txtHeadline,
+							location: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
+							lookingFor: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
+							sport: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
+							userId: user.Id
+						}, 'POST', 'json', CreateAd.UI.createAdCallback, Zapto.handleError);
+					}
+				});
+			})();
 		});
 	};
 	
@@ -59,6 +153,9 @@ window.Zapto.CreateAd = (function (CreateAd) {
 		Elements.selectSport = null;
 		Elements.txtDescription = null;
 		Elements.txtHeadline = null;
+		Elements.txtSelectSport = null;
+		Elements.txtSelectLocation = null;
+		Elements.txtSelectLookingFor = null;
 		
 		Elements.initialize = function() {
 			Elements.divCreateAdFormContainer = $('#divCreateAdFormContainer');
@@ -70,6 +167,9 @@ window.Zapto.CreateAd = (function (CreateAd) {
 			Elements.selectSport = $('#selectSport');
 			Elements.txtDescription = $('#txtDescription');
 			Elements.txtHeadline = $('#txtHeadline');
+			Elements.txtSelectSport = $('#txtSelectSport');
+			Elements.txtSelectLocation = $('#txtSelectLocation');
+			Elements.txtSelectLookingFor = $('#txtSelectLookingFor');
 		};
 		
 		return Elements;
