@@ -82,8 +82,8 @@
 	-moz-border-radius: 10px 10px 10px 10px;
 	-webkit-border-radius: 10px 10px 10px 10px;
 	background-color: #dadada;
-	filter: alpha(opacity=90);
-	opacity: 0.9;
+	filter: alpha(opacity=97);
+	opacity: 0.97;
 	padding: 10px;
 	position: absolute;
 	right: 80px;
@@ -102,8 +102,8 @@
 	-moz-border-radius: 10px 10px 10px 10px;
 	-webkit-border-radius: 10px 10px 10px 10px;
 	background-color: #dadada;
-	filter: alpha(opacity=90);
-	opacity: 0.9;
+	filter: alpha(opacity=97);
+	opacity: 0.97;
 	padding: 10px;
 	position: absolute;
 	right: 80px;
@@ -137,4 +137,10 @@
 	font-size: 12px;
 	margin: 10px 0px 0px 5px;
 	width: 120px;
+}
+
+#txtSignUpDescription
+{
+	margin-left: 2px;
+	width: 311px;
 }

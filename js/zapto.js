@@ -13,6 +13,7 @@
 				Zapto.Authentication.Elements.divSignUpValidationMessage.hide();
 				
 				Zapto.Events.onSignUp(user);
+				Zapto.Events.onLogIn(user);
 			}
 		};
 		
@@ -327,13 +328,14 @@
 		});
 	};
 	
-	Zapto.createUser = function (age, description, email, gender, name, password, pictureFileName) {
+	Zapto.createUser = function (age, description, email, firstName, gender, lastName, password, pictureFileName) {
 		Zapto.callServer('../data/createUser.php', {
 				age: age,
 				description: description,
 				email: email,
+				firstName: firstName,
 				gender: gender,
-				name: name,
+				lastName: lastName,
 				password: password,
 				pictureFileName: pictureFileName
 			}, 'POST', 'json', Zapto.Callbacks.createUser, Zapto.handleError

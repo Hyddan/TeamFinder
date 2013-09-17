@@ -182,14 +182,14 @@
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$query = "SELECT `Id`,`Age`, `CreatedDate`, `Description`, `Email`, `Gender`, `Name`, `PictureUrl`, `SessionId` FROM `Users`" . $filter . " LIMIT 1;";
+			$query = "SELECT `Id`,`Age`, `CreatedDate`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `PictureUrl`, `SessionId` FROM `Users`" . $filter . " LIMIT 1;";
 			if ($result = mysqli_query($reposConnection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 			
 					mysqli_close($reposConnection);
 					
-					return new User($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8]);
+					return new User($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
 				}
 			}
 			
@@ -240,9 +240,9 @@
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `Gender`, `Name`, `Password`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->Gender . "', '" . $user->Name . "', null, '" . $user->PictureUrl . "', null);";
+			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->FirstName . "', '" . $user->Gender . "', '" . $user->LastName . "', null, '" . $user->PictureUrl . "', null);";
 			if (0 < $user->Id) {
-				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `Gender` = '" . $user->Gender . "', `Name` = '" . $user->Name . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "' WHERE `Id` = " . $user->Id;
+				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `FirstName` = '" . $user->FirstName . "', `Gender` = '" . $user->Gender . "', `LastName` = '" . $user->LastName . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "' WHERE `Id` = " . $user->Id;
 			}
 			
 			if ($result = mysqli_query($reposConnection, $query)) {

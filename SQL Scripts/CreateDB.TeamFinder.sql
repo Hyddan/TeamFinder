@@ -42,8 +42,9 @@ CREATE TABLE IF NOT EXISTS `TeamFinder`.`Users` (
 	`CreatedDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`Description` VARCHAR(5000) NULL,
 	`Email` VARCHAR(500) NOT NULL,
+	`FirstName` VARCHAR(500) NOT NULL,
 	`Gender` VARCHAR(50) NULL,
-	`Name` VARCHAR(500) NOT NULL,
+	`LastName` VARCHAR(500) NOT NULL,
 	`Password` VARCHAR(500) NULL,
 	`PictureUrl` VARCHAR(500) NULL,
 	`Salt` VARCHAR(500) NULL,
@@ -99,8 +100,8 @@ INSERT INTO `TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Basketball', 
 INSERT INTO `TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Hockey', 'Hockey');
 INSERT INTO `TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Squash', 'Squash');
 
-INSERT INTO `TeamFinder`.`Users` (`Age`, `Description`, `Email`, `Gender`, `Name`, `Password`, `PictureUrl`)
-	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Male', 'Daniel Hedenius', 'asdf', null);
+INSERT INTO `TeamFinder`.`Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`)
+	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null);
 
 INSERT INTO `TeamFinder`.`Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`)
 	VALUES ('Some Description', 'Some Headline', 1, 1, 1, 1);

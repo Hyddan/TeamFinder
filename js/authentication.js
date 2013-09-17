@@ -21,7 +21,8 @@ window.Zapto.Authentication = (function (Authentication) {
 		Elements.txtSignUpAge = null;
 		Elements.txtSignUpDescription = null;
 		Elements.txtSignUpEmail = null;
-		Elements.txtSignUpName = null;
+		Elements.txtSignUpFirstName = null;
+		Elements.txtSignUpLastName = null;
 		Elements.txtSignUpPassword = null;
 		
 		Elements.initialize = function () {
@@ -30,6 +31,8 @@ window.Zapto.Authentication = (function (Authentication) {
 					this[key] = $('#' + key);
 				}
 			}
+			
+			Elements.rdoSignUpGender = $('input[name="rdoSignUpGender"]');
 		};
 		
 		return Elements;
@@ -124,7 +127,7 @@ window.Zapto.Authentication = (function (Authentication) {
 				Authentication.Elements.divAuthenticationPlaceHolder.fadeOut('slow');
 				Authentication.Elements.divSignUpPlaceHolder.fadeIn('slow');
 				
-				Authentication.Elements.txtSignUpName.focus();
+				Authentication.Elements.txtSignUpFirstName.focus();
 				
 				//Hook up events
 				Authentication.Elements.divSignUpSignUpButton.on('click', function () {
@@ -132,7 +135,7 @@ window.Zapto.Authentication = (function (Authentication) {
 				});
 				
 				Authentication.Elements.rdoSignUpGender.on('click', function () {
-					Authentication.Elements.rdoSignUpGender = $('input:radio[name=rdoSignUpGender]:checked');
+					Authentication.Elements.rdoSignUpGender = $('input[name="rdoSignUpGender"]:checked');
 				});
 				
 				(function () { //Hook up validation
@@ -152,7 +155,10 @@ window.Zapto.Authentication = (function (Authentication) {
 								email: true,
 								required: true
 							},
-							txtSignUpName: {
+							txtSignUpFirstName: {
+								required: true
+							},
+							txtSignUpLastName: {
 								required: true
 							},
 							txtSignUpPassword: {
@@ -164,8 +170,9 @@ window.Zapto.Authentication = (function (Authentication) {
 							Zapto.createUser(Authentication.Elements.txtSignUpAge.val(),
 												Authentication.Elements.txtSignUpDescription.val(),
 												Authentication.Elements.txtSignUpEmail.val(),
+												Authentication.Elements.txtSignUpFirstName.val(),
 												Authentication.Elements.rdoSignUpGender.val(),
-												Authentication.Elements.txtSignUpName.val(),
+												Authentication.Elements.txtSignUpLastName.val(),
 												Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
 												((Zapto.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
 													&& '(No file)' !== Authentication.Elements.divSignUpPictureNamePlaceholder.text()) ?
@@ -196,9 +203,9 @@ window.Zapto.Authentication = (function (Authentication) {
 				max_file_size: '5mb',
 				multi_selection: false,
 				resize: {
-					height : 240,
-					width : 320,
-					quality : 90
+					height: 240,
+					width: 320,
+					quality: 90
 				},
 				runtimes: 'gears,html5,flash,silverlight,browserplus',
 				silverlight_xap_url: '../lib/plupload/plupload.silverlight.xap',

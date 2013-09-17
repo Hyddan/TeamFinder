@@ -72,20 +72,22 @@
 		var $CreatedDate;
 		var $Description;
 		var $Email;
+		var $FirstName;
 		var $Gender;
-		var $Name;
+		var $LastName;
 		var $PictureUrl;
 		var $SessionId;
 		
-		function __construct($Id, $Age, $CreatedDate, $Description, $Email, $Gender, $Name, $PictureUrl, $SessionId)
+		function __construct($Id, $Age, $CreatedDate, $Description, $Email, $FirstName, $Gender, $LastName, $PictureUrl, $SessionId)
 		{
 			$this->Id = $Id;
 			$this->Age = $Age;
 			$this->CreatedDate = $CreatedDate;
 			$this->Description = $Description;
 			$this->Email = $Email;
+			$this->FirstName = $FirstName;
 			$this->Gender = $Gender;
-			$this->Name = $Name;
+			$this->LastName = $LastName;
 			$this->PictureUrl = $PictureUrl;
 			$this->SessionId = $SessionId;
 		}

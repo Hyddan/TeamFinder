@@ -7,22 +7,24 @@
 	$age				=	isset($_POST["age"]) ? (int) $_POST["age"] : null;
 	$description		=	isset($_POST["description"]) ? $_POST["description"] : null;
 	$email				=	isset($_POST["email"]) ? $_POST["email"] : null;
+	$firstName			=	isset($_POST["firstName"]) ? $_POST["firstName"] : null;
 	$gender				=	isset($_POST["gender"]) ? $_POST["gender"] : null;
-	$name				=	isset($_POST["name"]) ? $_POST["name"] : null;
+	$lastName			=	isset($_POST["lastName"]) ? $_POST["lastName"] : null;
 	$password			=	isset($_POST["password"]) ? $_POST["password"] : null;
-	$pictureFileName	=	isset($_POST["pictureFileName"]) ? $_POST["pictureFileName"] : null;
+	$pictureFileName	=	isset($_POST["pictureFileName"]) ? "../images/users/" . $_POST["pictureFileName"] : null;
 	$user				= 	null;
 	
-	if (null != $age && null != $description && null != $email && null != $gender && null != $name && null != $password)
+	if (null != $age && null != $description && null != $email && null != $firstName && null != $gender && null != $lastName && null != $password)
 	{
 		$user = UserRepository::Save(new User(-1,
 												$age,
 												null,
 												$description,
 												$email,
+												$firstName,
 												$gender,
-												$name,
-												"../images/users/" . $pictureFileName,
+												$lastName,
+												$pictureFileName,
 												null));
 		
 		if (null != $user) {
