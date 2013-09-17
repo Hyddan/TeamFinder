@@ -3,8 +3,8 @@
 		<tr>
 			<td>
 				<p>
-					<label for="txtSignUpAge">Age</label><br />
-					<input id="txtSignUpAge" name="txtSignUpAge" type="text" />
+					<label for="txtSignUpName">Name</label><br />
+					<input id="txtSignUpName" name="txtSignUpName" type="text" />
 				</p>
 			</td>
 			<td>
@@ -17,44 +17,50 @@
 		<tr>
 			<td>
 				<p>
-					<label for="txtSignUpEmail">Email</label><br />
-					<input id="txtSignUpEmail" name="txtSignUpEmail" type="text" />
+					<label for="txtSignUpAge">Age</label><br />
+					<input id="txtSignUpAge" name="txtSignUpAge" type="text" />
 				</p>
 			</td>
 			<td>
 				<p>
 					<label for="txtSignUpGender">Gender</label><br />
-					<input id="txtSignUpGender" name="txtSignUpGender" type="text" />
+					<input id="txtSignUpGenderMale" name="rdoSignUpGender" type="radio" value="Male">Male</input>
+					<input id="txtSignUpGenderFemale" name="rdoSignUpGender" type="radio" value="Female">Female</input>
+					<label class="error" for="rdoSignUpGender" style="display: none;">This field is required.</label>
 				</p>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<p>
-					<label for="txtSignUpName">Name</label><br />
-					<input id="txtSignUpName" name="txtSignUpName" type="text" />
+					<label for="txtSignUpEmail">Email (Username)</label><br />
+					<input id="txtSignUpEmail" name="txtSignUpEmail" type="text" />
 				</p>
 			</td>
 			<td>
 				<p>
 					<label for="txtSignUpPassword">Password</label><br />
-					<input id="txtSignUpPassword" name="txtSignUpPassword" />
+					<input id="txtSignUpPassword" name="txtSignUpPassword" type="password" />
 				</p>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<p>
-					<label for="txtSignUpPictureUrl">PictureUrl</label><br />
-					<input id="txtSignUpPictureUrl" name="txtSignUpPictureUrl" type="text" />
+					<label for="btnSignUpPicture">Picture (Optional)</label><br />
+					<div id="divSignUpUploaderContainer"></div>
+					<div class="formAuthenticateButtons" id="divSignUpPictureButtonContainer">
+						<div class="divButton" id="divSignUpPictureButton"><a class="aButton" id="aSignUpPicture">Browse</a></div>
+					</div>
+					<div id="divSignUpPictureNamePlaceholder">(No file)</div>
 				</p>
 			</td>
 			<td>
 			</td>
 		</tr>
 	</table>
-	<div class="formAuthenticateButtons">
-		<div id="divSignUpSignUpButton" class="divButton"><a class="aButton">Sign up</a></div>
+	<div class="formAuthenticateButtons" id="divSignUpSignUpButtonContainer">
+		<div class="divButton" id="divSignUpSignUpButton"><a class="aButton">Sign up</a></div>
 	</div>
 	<div id="divSignUpValidationMessage"></div>
 </form>

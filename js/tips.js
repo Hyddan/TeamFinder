@@ -18,14 +18,14 @@ window.Zapto.Tips = (function (Tips) {
 		return UI;
 	}(Tips.UI || {}));
 	
+	Tips.initialize = function () {
+		Zapto.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, Zapto.handleError);
+	};
+	
 	Tips.loadDependencies = function () {
 		Zapto.loadStyle('../css/jquery.navigateR.css', null);
 		
 		Zapto.loadScript('../js/jquery.navigateR.js', null);
-	};
-	
-	Tips.initialize = function () {
-		Zapto.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, Zapto.handleError);
 	};
 	
 	Tips.loadDependencies();

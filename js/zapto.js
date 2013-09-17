@@ -1,16 +1,6 @@
 ﻿window.Zapto = (function (Zapto) {
 	var _loggedInUser = null;
 	
-	Zapto.Environment = (function (Environment) {
-		Environment.Device = Environment.Device || {};
-		Environment.detect = function () {
-			Environment.Device.isIPhone = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(iPhone)/gi));
-			Environment.Device.isMobile = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(android|iPad|iPhone|iPod)/gi));
-		};
-		
-		return Environment;
-	}(Zapto.Environment || {}));
-	
 	Zapto.Callbacks = (function (Callbacks) {
 		Callbacks.createUser = function (user) {
 			if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
@@ -21,6 +11,8 @@
 				Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
 				Zapto.Authentication.Elements.divSignUpValidationMessage.text('');
 				Zapto.Authentication.Elements.divSignUpValidationMessage.hide();
+				
+				Zapto.Events.onSignUp(user);
 			}
 		};
 		
@@ -32,6 +24,8 @@
 				Zapto.Authentication.Elements.formAuthenticate[0].reset();
 				Zapto.Authentication.Elements.divAuthenticateValidationMessage.text('');
 				Zapto.Authentication.Elements.divAuthenticateValidationMessage.hide();
+				
+				Zapto.Events.onLogIn(user);
 			}
 			else {
 				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
@@ -44,10 +38,35 @@
 			Zapto.Utils.deleteCookie('tfUser');
 			_loggedInUser = null;
 			Zapto.Authentication.updateButtonLabel();
+				
+			Zapto.Events.onLogOut(user);
 		};
 		
 		return Callbacks;
 	}(Zapto.Callbacks || {}));
+		
+	Zapto.Environment = (function (Environment) {
+		Environment.Device = Environment.Device || {};
+		Environment.detect = function () {
+			Environment.Device.isIPhone = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(iPhone)/gi));
+			Environment.Device.isMobile = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(android|iPad|iPhone|iPod)/gi));
+		};
+		
+		return Environment;
+	}(Zapto.Environment || {}));
+	
+	Zapto.Events = (function (Events) {
+		Events.onLogIn = function (user) {
+		};
+		
+		Events.onLogOut = function (user) {
+		};
+		
+		Events.onSignUp = function (user) {
+		};
+		
+		return Events;
+	}(Zapto.Events || {}));
 	
 	Zapto.UI = (function (UI) {
 		UI.adFilterData = {
@@ -308,7 +327,7 @@
 		});
 	};
 	
-	Zapto.createUser = function (age, description, email, gender, name, password, pictureUrl) {
+	Zapto.createUser = function (age, description, email, gender, name, password, pictureFileName) {
 		Zapto.callServer('../data/createUser.php', {
 				age: age,
 				description: description,
@@ -316,7 +335,7 @@
 				gender: gender,
 				name: name,
 				password: password,
-				pictureUrl: pictureUrl
+				pictureFileName: pictureFileName
 			}, 'POST', 'json', Zapto.Callbacks.createUser, Zapto.handleError
 		);
 	}

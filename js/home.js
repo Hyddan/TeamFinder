@@ -47,10 +47,11 @@ window.Zapto.Home = (function(Home) {
 		Elements.selectSport = null;
 		
 		Elements.initialize = function() {
-			Elements.formQuickSearch = $('#formQuickSearch');
-			Elements.selectLocation = $('#selectLocation');
-			Elements.selectLookingFor = $('#selectLookingFor');
-			Elements.selectSport = $('#selectSport');
+			for (var key in this) {
+				if ('function' !== typeof this[key]) {
+					this[key] = $('#' + key);
+				}
+			}
 		};
 		
 		return Elements;

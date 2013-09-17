@@ -10,6 +10,7 @@
 	$lookingForId	=	isset($lookingFor[$_POST["lookingFor"]]) ? (int) $lookingFor[$_POST["lookingFor"]] : null;
 	$sportId		=	isset($sports[$_POST["sport"]]) ? (int) $sports[$_POST["sport"]] : null;
 	$userId			=	isset($_POST["userId"]) ? (int) $_POST["userId"] : null;
+	$ad				=	null;
 	
 	if (null != $locationId && null != $lookingForId && null != $sportId && null != $userId)
 	{

@@ -64,6 +64,7 @@ label.error
 	display: block;
 }
 
+/*** Basic page structure ***/
 #divPageContainer
 {
 	background-image: url('../images/bg-shade.png');
@@ -98,6 +99,17 @@ label.error
 	text-align: center;
 	width: 900px;
 }
+/*** /Basic page structure ***/
+
+#btnSubmit
+{
+	float: right;
+}
+
+#divCreateAdFormContainer h1, #divNotLoggedInContainer p
+{
+	margin: 10px 0px 10px 0px;
+}
 
 #divImageSlider
 {
@@ -129,6 +141,16 @@ label.error
     float: left;
     height: 180px;
     width: 600px;
+}
+
+#formCreateAd
+{
+	width: 680px;
+}
+
+#txtDescription
+{
+	width: 672px;
 }
 
 .aButton

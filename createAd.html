@@ -14,10 +14,14 @@
 		<div id="divPageContainer">
 			<div id="divMenuPlaceHolder"></div>
 			<div id="divUpperContent">
-				<div id='divCreateAdFormContainer'>
+				<div id="divNotLoggedInContainer">
+					<p><b>You need to be logged in to create an ad. <a href="#" id ="aLogIn">Click here to log in.</a></b></p>
+				</div>
+				<div id="divCreateAdFormContainer">
 					<h1>Create an ad</h1>
-					<form action="#" id="formCreateAd" method="post" enctype="multipart/form-data" onsubmit="return false;">
+					<form action="#" id="formCreateAd" method="post" enctype="multipart/form-data" onsubmit="return false">
 						<p>
+							<input id="btnSubmit" type="submit" value="Create" />
 							<label for="txtHeadline">Headline</label><br />
 							<input id="txtHeadline" name="txtHeadline" type="text" />
 						</p>
@@ -32,9 +36,6 @@
 								<td><select id="selectLookingFor" name="selectLookingFor"></select><input id="txtSelectLookingFor" name="txtSelectLookingFor" type="hidden" /></td>
 							</tr>
 						</table>
-						<p>
-							<input id="btnSubmit" type="submit" value="Create" />
-						</p>
 					</form>
 				</div>
 				<div id="divSuccess">

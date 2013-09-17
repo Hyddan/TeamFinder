@@ -20,6 +20,13 @@ window.Zapto.CreateAd = (function (CreateAd) {
 		CreateAd.Elements.initialize();
 		CreateAd.Elements.divResult.hide();
 		CreateAd.Elements.divSuccess.hide();
+		CreateAd.Elements.divCreateAdFormContainer.hide();
+		CreateAd.Elements.divNotLoggedInContainer.show();
+		
+		if (Zapto.isLoggedIn()) {
+			CreateAd.Elements.divNotLoggedInContainer.hide();
+			CreateAd.Elements.divCreateAdFormContainer.show();
+		}
 		
 		//Create UI elements
 		Zapto.UI.createDropDown(CreateAd.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
@@ -43,6 +50,23 @@ window.Zapto.CreateAd = (function (CreateAd) {
 			CreateAd.Elements.txtSelectLookingFor.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor));
 			CreateAd.Elements.txtSelectLookingFor.valid();
 		});
+		
+		CreateAd.Elements.aLogIn.on('click', function (e) {
+			Zapto.Authentication.Elements.divAuthenticationButton.trigger('click');
+			e.preventDefault();
+			e.stopPropagation();
+		});
+		
+		//Subscribe to events
+		Zapto.Events.onLogIn = function (user) {
+			CreateAd.Elements.divNotLoggedInContainer.hide();
+			CreateAd.Elements.divCreateAdFormContainer.fadeIn();
+		};
+		
+		Zapto.Events.onLogOut = function (user) {
+			CreateAd.Elements.divCreateAdFormContainer.hide();
+			CreateAd.Elements.divNotLoggedInContainer.fadeIn();
+		};
 		
 		Zapto.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
 			//Fix issues in jQuery Validation plugin
@@ -89,10 +113,6 @@ window.Zapto.CreateAd = (function (CreateAd) {
 				return this.valid();
 			};
 			
-			$.validator.addMethod("notValueIs", function (value, element, arg) {
-				return arg != value;
-			}, "This field is required.");
-			
 			(function () { //Hook up validation
 				Zapto.CreateAd.Elements.formCreateAd.validate({
 					ignore: [],
@@ -114,11 +134,6 @@ window.Zapto.CreateAd = (function (CreateAd) {
 							required: true
 						}
 					},
-					messages: {
-						txtSelectSport: {
-							notValueIs: 'ASDF'
-						}
-					},
 					submitHandler: function () {
 						var data = CreateAd.Elements.formCreateAd.serialize();
 						var json_data = CreateAd.Elements.formCreateAd.serializeArray();
@@ -130,8 +145,8 @@ window.Zapto.CreateAd = (function (CreateAd) {
 						}
 						
 						Zapto.callServer('../data/createAd.php', {
-							description: CreateAd.Elements.txtDescription,
-							headline: CreateAd.Elements.txtHeadline,
+							description: CreateAd.Elements.txtDescription.val(),
+							headline: CreateAd.Elements.txtHeadline.val(),
 							location: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
 							lookingFor: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
 							sport: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
@@ -144,7 +159,9 @@ window.Zapto.CreateAd = (function (CreateAd) {
 	};
 	
 	CreateAd.Elements = (function (Elements) {
+		Elements.aLogIn = null;
 		Elements.divCreateAdFormContainer = null;
+		Elements.divNotLoggedInContainer = null;
 		Elements.divResult = null;
 		Elements.divSuccess = null;
 		Elements.formCreateAd = null;
@@ -158,18 +175,11 @@ window.Zapto.CreateAd = (function (CreateAd) {
 		Elements.txtSelectLookingFor = null;
 		
 		Elements.initialize = function() {
-			Elements.divCreateAdFormContainer = $('#divCreateAdFormContainer');
-			Elements.divResult = $('#divResult');
-			Elements.divSuccess = $('#divSuccess');
-			Elements.formCreateAd = $('#formCreateAd');
-			Elements.selectLocation = $('#selectLocation');
-			Elements.selectLookingFor = $('#selectLookingFor');
-			Elements.selectSport = $('#selectSport');
-			Elements.txtDescription = $('#txtDescription');
-			Elements.txtHeadline = $('#txtHeadline');
-			Elements.txtSelectSport = $('#txtSelectSport');
-			Elements.txtSelectLocation = $('#txtSelectLocation');
-			Elements.txtSelectLookingFor = $('#txtSelectLookingFor');
+			for (var key in this) {
+				if ('function' !== typeof this[key]) {
+					this[key] = $('#' + key);
+				}
+			}
 		};
 		
 		return Elements;

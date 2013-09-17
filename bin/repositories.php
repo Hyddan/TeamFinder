@@ -49,13 +49,13 @@
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$query = "INSERT INTO `Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`) VALUES('" . $ad->Description . "', '" . $ad->Headline . "', " . $ad->Location->Id . ", " . $ad->LookingFor->Id . ", " . $ad->Sport->Id . ", " . $ad->User-Id . ");";
+			$query = "INSERT INTO `Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`) VALUES('" . $ad->Description . "', '" . $ad->Headline . "', " . $ad->Location->Id . ", " . $ad->LookingFor->Id . ", " . $ad->Sport->Id . ", " . $ad->User->Id . ");";
 			if (0 < $ad->Id) {
 				$query = "UPDATE `Ads` SET `Description` = '" . $ad->Description . "', `Headline` = '" . $ad->Headline . "', `LocationId` = " . $ad->Location->Id . ", `LookingForId` = " . $ad->LookingFor->Id . ", `SportId` = " . $ad->Sport->Id . ", `UserId` = " . $ad->User->Id . " WHERE `Id` = " . $ad->Id;
 			}
 			
 			if ($result = mysqli_query($reposConnection, $query)) {
-				if (0 < $ad-Id) {
+				if (0 < $ad->Id) {
 					$ad = AdRepository::GetById(mysqli_insert_id($reposConnection));
 				}
 			}

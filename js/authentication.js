@@ -1,6 +1,40 @@
 window.Zapto.Authentication = (function (Authentication) {
 	var _activeForm = null;
 	
+	Authentication.Elements = (function (Elements) {
+		Elements.aAuthenticationButton = null;
+		Elements.divAuthenticationButton = null;
+		Elements.divAuthenticationContainer = null;
+		Elements.divAuthenticationPlaceHolder = null;
+		Elements.divAuthenticateValidationMessage = null;
+		Elements.divAuthenticateSubmitAuthenticationButton = null;
+		Elements.divAuthenticateSignUpButton = null;
+		Elements.divSignUpPictureNamePlaceholder = null;
+		Elements.divSignUpPlaceHolder = null;
+		Elements.divSignUpSignUpButton = null;
+		Elements.divSignUpValidationMessage = null;
+		Elements.formAuthenticate = null;
+		Elements.formSignUp = null;
+		Elements.rdoSignUpGender = null;
+		Elements.txtAuthenticatePassword = null;
+		Elements.txtAuthenticateUsername = null;
+		Elements.txtSignUpAge = null;
+		Elements.txtSignUpDescription = null;
+		Elements.txtSignUpEmail = null;
+		Elements.txtSignUpName = null;
+		Elements.txtSignUpPassword = null;
+		
+		Elements.initialize = function () {
+			for (var key in this) {
+				if ('function' !== typeof this[key]) {
+					this[key] = $('#' + key);
+				}
+			}
+		};
+		
+		return Elements;
+	}(Authentication.Elements || {}));
+	
 	Authentication.UI = (function (UI) {
 		UI.Callbacks = (function (Callbacks) {
 			Callbacks.authentication = function(data) {
@@ -17,52 +51,52 @@ window.Zapto.Authentication = (function (Authentication) {
 						return;
 					}
 					
-					if (Zapto.Authentication.Elements.formSignUp.is(':visible')) {
-						Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
+					if (Authentication.Elements.formSignUp.is(':visible')) {
+						Authentication.Elements.divSignUpPlaceHolder.slideUp();
 					}
 					else {
-						Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideToggle();
-						Zapto.Authentication.Elements.txtAuthenticateUsername.focus();
+						Authentication.Elements.divAuthenticationPlaceHolder.slideToggle();
+						Authentication.Elements.txtAuthenticateUsername.focus();
 						e.stopPropagation();
 					}
 				});
 				
-				Zapto.Authentication.Elements.divAuthenticateSubmitAuthenticationButton.on('click', function (e) {
-					Zapto.Authentication.Elements.formAuthenticate.trigger('submit');
+				Authentication.Elements.divAuthenticateSubmitAuthenticationButton.on('click', function (e) {
+					Authentication.Elements.formAuthenticate.trigger('submit');
 				});
 				
-				Zapto.Authentication.Elements.divAuthenticateSignUpButton.on('click', function (e) {
+				Authentication.Elements.divAuthenticateSignUpButton.on('click', function (e) {
 					Zapto.callServer('../data/signUp.html', '', 'GET', 'html', UI.Callbacks.signUp, Zapto.handleError);
 				});
 				
 				$(document).on('click', function (e) {
-					if ((Zapto.Authentication.Elements.formAuthenticate.is(':visible') || Zapto.Authentication.Elements.formSignUp.is(':visible'))
-							&& (!UI.isClicked(Zapto.Authentication.Elements.divAuthenticationPlaceHolder, e.target)
-								&& !UI.isClicked(Zapto.Authentication.Elements.divSignUpPlaceHolder, e.target))) {
-						Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
-						Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
+					if ((Authentication.Elements.formAuthenticate.is(':visible') || Authentication.Elements.formSignUp.is(':visible'))
+							&& (!UI.isClicked(Authentication.Elements.divAuthenticationPlaceHolder, e.target)
+								&& !UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target))) {
+						Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+						Authentication.Elements.divSignUpPlaceHolder.slideUp();
 					}
 				});
 				
 				$(document).on('keyup', function (e) {
-					if (UI.isActive(Zapto.Authentication.Elements.divAuthenticationContainer)) {
+					if (UI.isActive(Authentication.Elements.divAuthenticationContainer)) {
 						if (27 === e.keyCode) { //ESC
-							Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
-							Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
+							Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+							Authentication.Elements.divSignUpPlaceHolder.slideUp();
 						}
 						else if (13 === e.keyCode) { //Enter
-							if (Zapto.Authentication.Elements.formAuthenticate.is(':visible')) {
-								Zapto.Authentication.Elements.divAuthenticateSubmitAuthenticationButton.trigger('click');
+							if (Authentication.Elements.formAuthenticate.is(':visible')) {
+								Authentication.Elements.divAuthenticateSubmitAuthenticationButton.trigger('click');
 							}
-							else if (Zapto.Authentication.Elements.formSignUp.is(':visible')) {
-								Zapto.Authentication.Elements.divSignUpSignUpButton.trigger('click');
+							else if (Authentication.Elements.formSignUp.is(':visible')) {
+								Authentication.Elements.divSignUpSignUpButton.trigger('click');
 							}
 						}
 					}
 				});
 				
 				(function () { //Hook up validation
-					Zapto.Authentication.Elements.formAuthenticate.validate({
+					Authentication.Elements.formAuthenticate.validate({
 						rules: {
 							txtAuthenticateUsername: {
 								email: true,
@@ -74,7 +108,7 @@ window.Zapto.Authentication = (function (Authentication) {
 						},
 						submitHandler: function () {
 							Zapto.logIn(Base64.encode(Authentication.Elements.txtAuthenticateUsername.val()), Base64.encode(Authentication.Elements.txtAuthenticatePassword.val()));
-							Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+							Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
 							Authentication.Elements.txtAuthenticatePassword.val('');
 						}
 					});
@@ -87,19 +121,26 @@ window.Zapto.Authentication = (function (Authentication) {
 				
 				Authentication.Elements.initialize();
 				
-				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.fadeOut('slow');
-				Zapto.Authentication.Elements.divSignUpPlaceHolder.fadeIn('slow');
+				Authentication.Elements.divAuthenticationPlaceHolder.fadeOut('slow');
+				Authentication.Elements.divSignUpPlaceHolder.fadeIn('slow');
 				
-				Zapto.Authentication.Elements.txtSignUpAge.focus();
+				Authentication.Elements.txtSignUpName.focus();
 				
 				//Hook up events
 				Authentication.Elements.divSignUpSignUpButton.on('click', function () {
-					Zapto.Authentication.Elements.formSignUp.trigger('submit');
+					Authentication.Elements.formSignUp.trigger('submit');
+				});
+				
+				Authentication.Elements.rdoSignUpGender.on('click', function () {
+					Authentication.Elements.rdoSignUpGender = $('input:radio[name=rdoSignUpGender]:checked');
 				});
 				
 				(function () { //Hook up validation
-					Zapto.Authentication.Elements.formSignUp.validate({
+					Authentication.Elements.formSignUp.validate({
 						rules: {
+							rdoSignUpGender: {
+								required: true
+							},
 							txtSignUpAge: {
 								min: 10,
 								required: true
@@ -111,37 +152,87 @@ window.Zapto.Authentication = (function (Authentication) {
 								email: true,
 								required: true
 							},
-							txtSignUpGender: {
-								required: true
-							},
 							txtSignUpName: {
 								required: true
 							},
 							txtSignUpPassword: {
+								minlength: 8,
 								required: true
-							},
-							txtSignUpPictureUrl: {
-								required: true,
-								url: true
 							}
 						},
 						submitHandler: function () {
 							Zapto.createUser(Authentication.Elements.txtSignUpAge.val(),
 												Authentication.Elements.txtSignUpDescription.val(),
 												Authentication.Elements.txtSignUpEmail.val(),
-												Authentication.Elements.txtSignUpGender.val(),
+												Authentication.Elements.rdoSignUpGender.val(),
 												Authentication.Elements.txtSignUpName.val(),
 												Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
-												Authentication.Elements.txtSignUpPictureUrl.val());
-							Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
+												((Zapto.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
+													&& '(No file)' !== Authentication.Elements.divSignUpPictureNamePlaceholder.text()) ?
+														Authentication.Elements.divSignUpPictureNamePlaceholder.text() :
+														null)
+							);
+							Authentication.Elements.divSignUpPlaceHolder.slideUp();
 							Authentication.Elements.txtSignUpPassword.val('');
 						}
 					});
 				})();
+				
+				UI.initUploader();
 			};
 			
 			return Callbacks;
 		}(UI.Callbacks || {}));
+		
+		UI.initUploader = function () {
+			var _plUploader = new plupload.Uploader({
+				browse_button: 'aSignUpPicture',
+				chunk_size: '1mb',
+				container : 'divSignUpUploaderContainer',
+				filters: [
+					{title : 'Image files', extensions : 'jpg,gif,png'}
+				],
+				flash_swf_url: '../lib/plupload/plupload.flash.swf',
+				max_file_size: '5mb',
+				multi_selection: false,
+				resize: {
+					height : 240,
+					width : 320,
+					quality : 90
+				},
+				runtimes: 'gears,html5,flash,silverlight,browserplus',
+				silverlight_xap_url: '../lib/plupload/plupload.silverlight.xap',
+				unique_names: true,
+				url: '../handlers/plUploaderHandler.php'
+			});
+			
+			//Syntax "fix"
+			plupload.Uploader.prototype.on = _plUploader.bind;
+			
+			_plUploader.on('BeforeUpload', function (uploader) { });
+
+			_plUploader.on('Error', function(uploader, error) {
+				Zapto.handleError(error);
+			});
+
+			_plUploader.on('QueueChanged', function(uploader, files) {
+				if (1 === uploader.files.length) {
+					uploader.start();
+				}
+			});
+
+			_plUploader.on('FileUploaded', function (uploader, file) {
+				uploader.removeFile(file);
+				Authentication.Elements.divSignUpPictureNamePlaceholder.fadeOut(function () {
+					Authentication.Elements.divSignUpPictureNamePlaceholder.text(file.target_name);
+					Authentication.Elements.divSignUpPictureNamePlaceholder.fadeIn();
+				});
+			});
+
+			_plUploader.init();
+			
+			window.uploader = _plUploader;
+		};
 		
 		UI.isActive = function (jqElement) {
 			return 0 < jqElement.has($(document.activeElement)).length;
@@ -210,6 +301,10 @@ window.Zapto.Authentication = (function (Authentication) {
 		});
 	};
 	
+	Authentication.loadDependencies = function () {
+		Zapto.loadScript('../lib/plupload/plupload.full.js', null);
+	};
+	
 	Authentication.updateButtonLabel = function () {
 		var _label = 'Log in';
 		
@@ -220,55 +315,7 @@ window.Zapto.Authentication = (function (Authentication) {
 		Authentication.Elements.aAuthenticationButton.text(_label);
 	};
 	
-	Authentication.Elements = (function (Elements) {
-		Elements.aAuthenticationButton = null;
-		Elements.divAuthenticationButton = null;
-		Elements.divAuthenticationContainer = null;
-		Elements.divAuthenticationPlaceHolder = null;
-		Elements.divAuthenticateValidationMessage = null;
-		Elements.divAuthenticateSubmitAuthenticationButton = null;
-		Elements.divAuthenticateSignUpButton = null;
-		Elements.divSignUpPlaceHolder = null;
-		Elements.divSignUpValidationMessage = null;
-		Elements.divSignUpSignUpButton = null;
-		Elements.formAuthenticate = null;
-		Elements.formSignUp = null;
-		Elements.txtAuthenticatePassword = null;
-		Elements.txtAuthenticateUsername = null;
-		Elements.txtSignUpAge = null;
-		Elements.txtSignUpDescription = null;
-		Elements.txtSignUpEmail = null;
-		Elements.txtSignUpGender = null;
-		Elements.txtSignUpName = null;
-		Elements.txtSignUpPassword = null;
-		Elements.txtSignUpPictureUrl = null;
-		
-		Elements.initialize = function () {
-			Elements.aAuthenticationButton = $('#aAuthenticationButton');
-			Elements.divAuthenticationButton = $('#divAuthenticationButton');
-			Elements.divAuthenticationContainer = $('#divAuthenticationContainer');
-			Elements.divAuthenticationPlaceHolder = $('#divAuthenticationPlaceHolder');
-			Elements.divAuthenticateValidationMessage = $('#divAuthenticateValidationMessage');
-			Elements.divAuthenticateSubmitAuthenticationButton = $('#divAuthenticateSubmitAuthenticationButton');
-			Elements.divAuthenticateSignUpButton = $('#divAuthenticateSignUpButton');
-			Elements.divSignUpPlaceHolder = $('#divSignUpPlaceHolder');
-			Elements.divSignUpValidationMessage = $('#divSignUpValidationMessage');
-			Elements.divSignUpSignUpButton = $('#divSignUpSignUpButton');
-			Elements.formAuthenticate = $('#formAuthenticate');
-			Elements.formSignUp = $('#formSignUp');
-			Elements.txtAuthenticatePassword = $('#txtAuthenticatePassword');
-			Elements.txtAuthenticateUsername = $('#txtAuthenticateUsername');
-			Elements.txtSignUpAge = $('#txtSignUpAge');
-			Elements.txtSignUpDescription = $('#txtSignUpDescription');
-			Elements.txtSignUpEmail = $('#txtSignUpEmail');
-			Elements.txtSignUpGender = $('#txtSignUpGender');
-			Elements.txtSignUpName = $('#txtSignUpName');
-			Elements.txtSignUpPassword = $('#txtSignUpPassword');
-			Elements.txtSignUpPictureUrl = $('#txtSignUpPictureUrl');
-		};
-		
-		return Elements;
-	}(Authentication.Elements || {}));
+	Authentication.loadDependencies();
 	
 	return Authentication;
 }(window.Zapto.Authentication || {}));

@@ -249,15 +249,11 @@
 		Elements.selectSport = null;
 		
 		Elements.initialize = function () {
-			Elements.divAdContainer = $('#divAdContainer');
-			Elements.divFilter = $('#divFilter');
-			Elements.divFilterButton = $('#divFilterButton');
-			Elements.divApplyFilterButton = $('#divApplyFilterButton');
-			Elements.divClearFilterButton = $('#divClearFilterButton');
-			Elements.divPagination = $('#divPagination');
-			Elements.selectLocation = $('#selectLocation');
-			Elements.selectLookingFor = $('#selectLookingFor');
-			Elements.selectSport = $('#selectSport');
+			for (var key in this) {
+				if ('function' !== typeof this[key]) {
+					this[key] = $('#' + key);
+				}
+			}
 		};
 		
 		return Elements;
