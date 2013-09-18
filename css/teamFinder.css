@@ -111,10 +111,23 @@ label.error
 	margin: 10px 0px 10px 0px;
 }
 
+#divCreateAdFormContainer h1
+{
+	line-height: 30px;
+}
+
 #divImageSlider
 {
+	float: left;
 	height: 250px;
 	width: 450px;
+}
+
+#divQuickSearchFormContainer
+{
+	float: right;
+	height: 200px;
+	width: 230px;
 }
 
 #divSlideshow
@@ -139,12 +152,13 @@ label.error
 #divWelcomeMessage
 {
     float: left;
-    height: 180px;
+    height: 200px;
     width: 600px;
 }
 
 #formCreateAd
 {
+	float: right;
 	width: 900px;
 }
 
