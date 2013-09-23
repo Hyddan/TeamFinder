@@ -34,6 +34,7 @@ body a:hover
 
 body h2
 {
+	color: #c4d92e;
 	font-size: 27px;
 	font-weight: normal;
 	margin-top: 0px;
@@ -69,7 +70,7 @@ label.error
 {
 	background-image: url('../images/bg-shade.png');
 	background-repeat: repeat;
-	margin: 0 auto 0 auto;
+	margin: 0px auto 0px auto;
 	position: relative;
 	width: 900px;
 }
@@ -77,14 +78,13 @@ label.error
 #divUpperContent
 {
 	color: white;
-	margin: 0 auto;
+	margin: 0px auto;
 	width: 900px;
 }
 
 #divLowerContent
 {
 	color: white;
-	height: 150px;
 	margin-top: 40px;
 	width: 900px;
 }
@@ -116,13 +116,6 @@ label.error
 	line-height: 30px;
 }
 
-#divImageSlider
-{
-	float: left;
-	height: 250px;
-	width: 450px;
-}
-
 #divQuickSearchFormContainer
 {
 	float: right;
@@ -133,6 +126,7 @@ label.error
 #divSlideshow
 {
 	box-shadow: 0 0 20px rgba(0,0,0,0.4);
+	float: left;
 	height: 250px;
 	margin: 0px;
 	position: relative;
@@ -141,12 +135,10 @@ label.error
 
 #divSlideshow > div
 {
-	bottom: 10px;
 	color: white;
-	left: 10px;
+	cursor: pointer;
+	margin: 0px;
 	position: absolute;
-	right: 10px;
-	top: 10px;
 }
 
 #divWelcomeMessage

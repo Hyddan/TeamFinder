@@ -108,9 +108,6 @@
 			return Callbacks;
 		}(UI.Callbacks || {}));
 		
-		UI.adFilterDataCallback = function (data) {
-		};
-		
 		UI.center = function (element) {
 			element.css("left", ($(window).width() - element.width()) / 2 + $(window).scrollLeft() + "px");
 		};
@@ -212,6 +209,16 @@
 				
 				if (0 === _cookie.indexOf(name)) {
 					return decodeURIComponent(_cookie.substring(1 + name.length, _cookie.length));
+				}
+			}
+			
+			return null;
+		};
+		
+		Utils.getFilterValue = function(filterType, filterKey) {
+			for(var key in Zapto.UI.adFilterMapping[filterType]) {
+				if(key ===  filterKey) {
+					return Zapto.UI.adFilterMapping[filterType][key];
 				}
 			}
 			
@@ -451,9 +458,9 @@
 		Zapto.loadDependencies();
 	};
 	
-	Zapto.ready = $(document).ready;
-	
 	Zapto.initialize();
+	
+	Zapto.ready = $(document).ready;
 	
 	return Zapto;
 }(window.Zapto || {}));

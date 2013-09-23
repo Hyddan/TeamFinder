@@ -1,16 +1,47 @@
 window.Zapto.CreateAd = (function (CreateAd) {
-	CreateAd.UI = (function (UI) {
-		UI.createAdCallback = function (data) {
-			CreateAd.Elements.divSuccess.show();
-			CreateAd.Elements.divCreateAdFormContainer.hide();
-			
-			//Display results using data (data === Ad-object)
-			
-			CreateAd.Elements.divSuccess.delay(2000).fadeOut('fast', function() {
-				CreateAd.Elements.divResult.show();
-				CreateAd.Elements.divSuccess.hide();
-			});
+	CreateAd.Elements = (function (Elements) {
+		Elements.aLogIn = null;
+		Elements.divCreateAdFormContainer = null;
+		Elements.divNotLoggedInContainer = null;
+		Elements.divResult = null;
+		Elements.divSuccess = null;
+		Elements.formCreateAd = null;
+		Elements.selectLocation = null;
+		Elements.selectLookingFor = null;
+		Elements.selectSport = null;
+		Elements.txtDescription = null;
+		Elements.txtHeadline = null;
+		Elements.txtSelectSport = null;
+		Elements.txtSelectLocation = null;
+		Elements.txtSelectLookingFor = null;
+		
+		Elements.initialize = function() {
+			for (var key in this) {
+				if ('function' !== typeof this[key]) {
+					this[key] = $('#' + key);
+				}
+			}
 		};
+		
+		return Elements;
+	}(CreateAd.Elements || {}));
+	
+	CreateAd.UI = (function (UI) {
+		UI.Callbacks = (function (Callbacks) {
+			Callbacks.createAd = function (data) {
+				CreateAd.Elements.divSuccess.show();
+				CreateAd.Elements.divCreateAdFormContainer.hide();
+				
+				//Display results using data (data === Ad-object)
+				
+				CreateAd.Elements.divSuccess.delay(2000).fadeOut('fast', function() {
+					CreateAd.Elements.divResult.show();
+					CreateAd.Elements.divSuccess.hide();
+				});
+			};
+			
+			return Callbacks;
+		}(UI.Callbacks || {}));
 		
 		return UI;
 	}(CreateAd.UI || {}));
@@ -151,39 +182,12 @@ window.Zapto.CreateAd = (function (CreateAd) {
 							lookingFor: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
 							sport: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
 							userId: user.Id
-						}, 'POST', 'json', CreateAd.UI.createAdCallback, Zapto.handleError);
+						}, 'POST', 'json', UI.Callbacks.createAd, Zapto.handleError);
 					}
 				});
 			})();
 		});
 	};
-	
-	CreateAd.Elements = (function (Elements) {
-		Elements.aLogIn = null;
-		Elements.divCreateAdFormContainer = null;
-		Elements.divNotLoggedInContainer = null;
-		Elements.divResult = null;
-		Elements.divSuccess = null;
-		Elements.formCreateAd = null;
-		Elements.selectLocation = null;
-		Elements.selectLookingFor = null;
-		Elements.selectSport = null;
-		Elements.txtDescription = null;
-		Elements.txtHeadline = null;
-		Elements.txtSelectSport = null;
-		Elements.txtSelectLocation = null;
-		Elements.txtSelectLookingFor = null;
-		
-		Elements.initialize = function() {
-			for (var key in this) {
-				if ('function' !== typeof this[key]) {
-					this[key] = $('#' + key);
-				}
-			}
-		};
-		
-		return Elements;
-	}(CreateAd.Elements || {}));
 	
 	return CreateAd;
 }(window.Zapto.CreateAd || {}));
