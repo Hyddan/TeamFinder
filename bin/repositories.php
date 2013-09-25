@@ -1,7 +1,7 @@
 <?php
 	//Includes
 	require_once '../bin/entities.php';
-	require_once '../bin/zapto.php';
+	require_once '../bin/teamFinder.php';
 	
 	//Set parameters
 	$GLOBALS["reposHost"] = "83.168.227.176";
@@ -281,7 +281,7 @@
 			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
 				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
 			
-			$salt = Zapto::GenerateGuid();
+			$salt = TeamFinder::GenerateGuid();
 			$query = "UPDATE `Users` SET `Salt` ='" . $salt . "' WHERE `Id` = " . $userId;
 			
 			if ($result = mysqli_query($reposConnection, $query)) {
@@ -297,7 +297,7 @@
 		
 		static function StartSession($user)
 		{
-			$user->SessionId = Zapto::GenerateGuid();
+			$user->SessionId = TeamFinder::GenerateGuid();
 			
 			return UserRepository::Save($user);
 		}

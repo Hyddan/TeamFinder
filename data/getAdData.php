@@ -1,7 +1,7 @@
 ﻿<?php
 	//Includes
 	require_once '../bin/setupDataConnection.php';
-	require_once '../bin/zapto.php';
+	require_once '../bin/teamFinder.php';
 	require_once '../bin/entities.php';
 	require_once '../bin/repositories.php';
 	
@@ -15,7 +15,7 @@
 	$lf 		=	isset($_GET["lf"]) ? $_GET["lf"] : null;
 	$s			=	isset($_GET["s"]) ? $_GET["s"] : null;
 	$i			=	isset($_GET["i"]) ? (int) $_GET["i"] : null;
-	$filter 	=	Zapto::getFilter($loc, $lf, $s);
+	$filter 	=	TeamFinder::getFilter($loc, $lf, $s);
 	
 	if(("count" != $q && "data" != $q && "specific" != $q) || null === $filter)
 	{

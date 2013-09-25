@@ -1,9 +1,9 @@
-window.Zapto.Menu = (function (Menu) {
+window.TeamFinder.Menu = (function (Menu) {
 	Menu.UI = (function (UI) {
 		UI.insertMenuOnPage = function (data) {
 			$('#divMenuPlaceHolder').html(data);
-			if(Zapto.Utils.notNullOrEmpty(Zapto.selectedMenuItem)) {
-				$('#' + Zapto.selectedMenuItem).addClass('menuSelectedItem');
+			if(TeamFinder.Utils.notNullOrEmpty(TeamFinder.selectedMenuItem)) {
+				$('#' + TeamFinder.selectedMenuItem).addClass('menuSelectedItem');
 			}
 		};	
 		
@@ -11,10 +11,10 @@ window.Zapto.Menu = (function (Menu) {
 	}(Menu.UI || {}));
 	
 	Menu.initialize = function () {
-		Zapto.callServer('../data/menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, Zapto.handleError);
+		TeamFinder.callServer('../data/menu.html', '', 'GET', 'html', Menu.UI.insertMenuOnPage, TeamFinder.handleError);
 	};
 	
 	return Menu;
-}(window.Zapto.Menu || {}));
+}(window.TeamFinder.Menu || {}));
 
-Zapto.ready(Zapto.Menu.initialize);
+TeamFinder.ready(TeamFinder.Menu.initialize);

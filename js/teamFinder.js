@@ -1,62 +1,62 @@
-﻿window.Zapto = (function (Zapto) {
+﻿window.TeamFinder = (function (TeamFinder) {
 	var _loggedInUser = null;
 	
-	Zapto.Callbacks = (function (Callbacks) {
+	TeamFinder.Callbacks = (function (Callbacks) {
 		Callbacks.createUser = function (user) {
-			if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
-				Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
+			if (TeamFinder.Utils.notNullOrEmpty(user) && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
+				TeamFinder.Utils.setCookie('tfUser', JSON.stringify(user));
 				_loggedInUser = user;
-				Zapto.Authentication.updateButtonLabel();
-				Zapto.Authentication.Elements.formSignUp[0].reset();
-				Zapto.Authentication.Elements.divSignUpPlaceHolder.slideUp();
-				Zapto.Authentication.Elements.divSignUpValidationMessage.text('');
-				Zapto.Authentication.Elements.divSignUpValidationMessage.hide();
+				TeamFinder.Authentication.updateButtonLabel();
+				TeamFinder.Authentication.Elements.formSignUp[0].reset();
+				TeamFinder.Authentication.Elements.divSignUpPlaceHolder.slideUp();
+				TeamFinder.Authentication.Elements.divSignUpValidationMessage.text('');
+				TeamFinder.Authentication.Elements.divSignUpValidationMessage.hide();
 				
-				Zapto.Events.onSignUp(user);
-				Zapto.Events.onLogIn(user);
+				TeamFinder.Events.onSignUp(user);
+				TeamFinder.Events.onLogIn(user);
 			}
 		};
 		
 		Callbacks.logIn = function (user) {
-			if (Zapto.Utils.notNullOrEmpty(user) && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
-				Zapto.Utils.setCookie('tfUser', JSON.stringify(user));
+			if (TeamFinder.Utils.notNullOrEmpty(user) && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
+				TeamFinder.Utils.setCookie('tfUser', JSON.stringify(user));
 				_loggedInUser = user;
-				Zapto.Authentication.updateButtonLabel();
-				Zapto.Authentication.Elements.formAuthenticate[0].reset();
-				Zapto.Authentication.Elements.divAuthenticateValidationMessage.text('');
-				Zapto.Authentication.Elements.divAuthenticateValidationMessage.hide();
+				TeamFinder.Authentication.updateButtonLabel();
+				TeamFinder.Authentication.Elements.formAuthenticate[0].reset();
+				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.text('');
+				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.hide();
 				
-				Zapto.Events.onLogIn(user);
+				TeamFinder.Events.onLogIn(user);
 			}
 			else {
-				Zapto.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
-				Zapto.Authentication.Elements.divAuthenticateValidationMessage.text('Invalid credentials');
-				Zapto.Authentication.Elements.divAuthenticateValidationMessage.show();
+				TeamFinder.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
+				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.text('Invalid credentials');
+				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.show();
 			}
 		};
 		
 		Callbacks.logOut = function (user) {
-			Zapto.Utils.deleteCookie('tfUser');
+			TeamFinder.Utils.deleteCookie('tfUser');
 			_loggedInUser = null;
-			Zapto.Authentication.updateButtonLabel();
+			TeamFinder.Authentication.updateButtonLabel();
 				
-			Zapto.Events.onLogOut(user);
+			TeamFinder.Events.onLogOut(user);
 		};
 		
 		return Callbacks;
-	}(Zapto.Callbacks || {}));
+	}(TeamFinder.Callbacks || {}));
 		
-	Zapto.Environment = (function (Environment) {
+	TeamFinder.Environment = (function (Environment) {
 		Environment.Device = Environment.Device || {};
 		Environment.detect = function () {
-			Environment.Device.isIPhone = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(iPhone)/gi));
-			Environment.Device.isMobile = Zapto.Utils.notNullOrEmpty(navigator.userAgent.match(/(android|iPad|iPhone|iPod)/gi));
+			Environment.Device.isIPhone = TeamFinder.Utils.notNullOrEmpty(navigator.userAgent.match(/(iPhone)/gi));
+			Environment.Device.isMobile = TeamFinder.Utils.notNullOrEmpty(navigator.userAgent.match(/(android|iPad|iPhone|iPod)/gi));
 		};
 		
 		return Environment;
-	}(Zapto.Environment || {}));
+	}(TeamFinder.Environment || {}));
 	
-	Zapto.Events = (function (Events) {
+	TeamFinder.Events = (function (Events) {
 		Events.onLogIn = function (user) {
 		};
 		
@@ -67,9 +67,9 @@
 		};
 		
 		return Events;
-	}(Zapto.Events || {}));
+	}(TeamFinder.Events || {}));
 	
-	Zapto.UI = (function (UI) {
+	TeamFinder.UI = (function (UI) {
 		UI.adFilterData = {
 			locations: null,
 			lookingFor: null,
@@ -126,12 +126,12 @@
 					jqSelectElement.append(option);
 				});
 		
-				Zapto.Utils.delay.call(this, function () {
+				TeamFinder.Utils.delay.call(this, function () {
 					jqSelectElement.selectBoxIt({ theme: 'jqueryui' });
-				}, 'obj => !Zapto.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', jqSelectElement, 1);
+				}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', jqSelectElement, 1);
 			}
 			else {
-				Zapto.callServer(url, {q: params.q}, 'GET', 'json', UI.Callbacks.adFilterData, Zapto.handleError);
+				TeamFinder.callServer(url, {q: params.q}, 'GET', 'json', UI.Callbacks.adFilterData, TeamFinder.handleError);
 				setTimeout(function () { UI.createDropDown(jqSelectElement, url, params); }, 500);
 			}
 				
@@ -139,9 +139,9 @@
 		};
 		
 		return UI;
-	}(Zapto.UI || {}));
+	}(TeamFinder.UI || {}));
 	
-	Zapto.Utils = (function (Utils) {
+	TeamFinder.Utils = (function (Utils) {
 		Utils.emailValidationRegex = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
 		
 		Utils.createFunctionFromLambda = (function () {
@@ -195,7 +195,7 @@
         };
 		
 		Utils.deleteCookie = function (name) {
-			Zapto.Utils.setCookie(name, '', -1);
+			TeamFinder.Utils.setCookie(name, '', -1);
 		};
 		
 		Utils.exists = function (obj) {
@@ -216,9 +216,9 @@
 		};
 		
 		Utils.getFilterValue = function(filterType, filterKey) {
-			for(var key in Zapto.UI.adFilterMapping[filterType]) {
+			for(var key in TeamFinder.UI.adFilterMapping[filterType]) {
 				if(key ===  filterKey) {
-					return Zapto.UI.adFilterMapping[filterType][key];
+					return TeamFinder.UI.adFilterMapping[filterType][key];
 				}
 			}
 			
@@ -274,8 +274,8 @@
         };
 		
 		Utils.sanitizeFilter = function(filterType, filterValue) {
-			for(var key in Zapto.UI.adFilterMapping[filterType]) {
-				if(Zapto.UI.adFilterMapping[filterType][key] ===  filterValue) {
+			for(var key in TeamFinder.UI.adFilterMapping[filterType]) {
+				if(TeamFinder.UI.adFilterMapping[filterType][key] ===  filterValue) {
 					return filterValue;
 				}
 			}
@@ -308,10 +308,10 @@
 		};
 		
         return Utils;
-    }(Zapto.Utils || {}));
+    }(TeamFinder.Utils || {}));
 	
-	Zapto.callServer = function (url, data, requestMethod, dataType, success, error) {
-		var utils = Zapto.Utils;
+	TeamFinder.callServer = function (url, data, requestMethod, dataType, success, error) {
+		var utils = TeamFinder.Utils;
 		$.ajax({
 			url: url,
 			type: requestMethod,
@@ -335,8 +335,8 @@
 		});
 	};
 	
-	Zapto.createUser = function (age, description, email, firstName, gender, lastName, password, pictureFileName) {
-		Zapto.callServer('../data/createUser.php', {
+	TeamFinder.createUser = function (age, description, email, firstName, gender, lastName, password, pictureFileName) {
+		TeamFinder.callServer('../data/createUser.php', {
 				age: age,
 				description: description,
 				email: email,
@@ -345,19 +345,19 @@
 				lastName: lastName,
 				password: password,
 				pictureFileName: pictureFileName
-			}, 'POST', 'json', Zapto.Callbacks.createUser, Zapto.handleError
+			}, 'POST', 'json', TeamFinder.Callbacks.createUser, TeamFinder.handleError
 		);
 	}
 	
-	Zapto.handleError = function (error) {
+	TeamFinder.handleError = function (error) {
 		console.log(error);
 	};
 	
-	Zapto.isLoggedIn = function () {
+	TeamFinder.isLoggedIn = function () {
 		if (null == _loggedInUser) {
-			var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
+			var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
 		
-			if (null != user && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+			if (null != user && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
 				_loggedInUser = user;
 			}
 		}
@@ -365,25 +365,25 @@
 		return null != _loggedInUser;
 	};
 	
-	Zapto.loadDependencies = function () {
-		Zapto.loadStyle('../lib/jquery-ui.base-1.10.0.css', null);
-		Zapto.loadStyle('../lib/jquery.selectBoxIt-2.9.0.css', null);
-		Zapto.loadStyle('../css/teamFinder.css', null);
-		Zapto.loadStyle('../css/oldStyles.css', null);
-		Zapto.loadStyle('../css/menu.css', null);
-		Zapto.loadStyle('../css/head.css', null);
+	TeamFinder.loadDependencies = function () {
+		TeamFinder.loadStyle('../lib/jquery-ui.base-1.10.0.css', null);
+		TeamFinder.loadStyle('../lib/jquery.selectBoxIt-2.9.0.css', null);
+		TeamFinder.loadStyle('../css/teamFinder.css', null);
+		TeamFinder.loadStyle('../css/oldStyles.css', null);
+		TeamFinder.loadStyle('../css/menu.css', null);
+		TeamFinder.loadStyle('../css/head.css', null);
 		
-		Zapto.loadScript('../lib/jquery-ui-1.10.3.min.js', function() {
-			Zapto.loadScript('../lib/jquery.selectBoxIt-2.9.0.min.js', null);
+		TeamFinder.loadScript('../lib/jquery-ui-1.10.3.min.js', function() {
+			TeamFinder.loadScript('../lib/jquery.selectBoxIt-2.9.0.min.js', null);
 		});
 		
-		Zapto.loadScript('../js/title.js', null);
-		Zapto.loadScript('../js/menu.js', null);
-		Zapto.loadScript('../js/authentication.js', null);
-		Zapto.loadScript('../lib/webtoolkit.base64.js', null);
+		TeamFinder.loadScript('../js/title.js', null);
+		TeamFinder.loadScript('../js/menu.js', null);
+		TeamFinder.loadScript('../js/authentication.js', null);
+		TeamFinder.loadScript('../lib/webtoolkit.base64.js', null);
 	};
 	
-	Zapto.loadScript = function (url, onLoad) {
+	TeamFinder.loadScript = function (url, onLoad) {
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
 		script.src = url;
@@ -408,7 +408,7 @@
 		document.getElementsByTagName('head')[0].appendChild(script);
 	};
 	
-	Zapto.loadStyle = function (url, onLoad) {
+	TeamFinder.loadStyle = function (url, onLoad) {
 		var link = document.createElement('link');
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
@@ -434,33 +434,33 @@
 		document.getElementsByTagName('head')[0].appendChild(link);
 	};
 	
-	Zapto.logIn = function (username, password) {
-		Zapto.callServer('../data/authentication.php', {
+	TeamFinder.logIn = function (username, password) {
+		TeamFinder.callServer('../data/authentication.php', {
 				ajaxAction: 'logIn',
 				username: username,
 				password: password
-			}, 'POST', 'json', Zapto.Callbacks.logIn, Zapto.handleError
+			}, 'POST', 'json', TeamFinder.Callbacks.logIn, TeamFinder.handleError
 		);
 	};
 	
-	Zapto.logOut = function () {
-		var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
-		if (null != user && Zapto.Utils.notNullOrEmpty(user.SessionId)) {
-			Zapto.callServer('../data/authentication.php', {
+	TeamFinder.logOut = function () {
+		var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
+		if (null != user && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
+			TeamFinder.callServer('../data/authentication.php', {
 					ajaxAction: 'logOut',
 					sessionId: user.SessionId
-				}, 'POST', 'json', Zapto.Callbacks.logOut, Zapto.handleError
+				}, 'POST', 'json', TeamFinder.Callbacks.logOut, TeamFinder.handleError
 			);
 		}
 	};
 	
-	Zapto.initialize = function () {
-		Zapto.loadDependencies();
+	TeamFinder.initialize = function () {
+		TeamFinder.loadDependencies();
 	};
 	
-	Zapto.initialize();
+	TeamFinder.initialize();
 	
-	Zapto.ready = $(document).ready;
+	TeamFinder.ready = $(document).ready;
 	
-	return Zapto;
-}(window.Zapto || {}));
+	return TeamFinder;
+}(window.TeamFinder || {}));

@@ -2,7 +2,7 @@
 	//Includes
 	require_once '../bin/mappings.php';
 	
-	class Zapto
+	class TeamFinder
 	{
 		static function GenerateGuid()
 		{

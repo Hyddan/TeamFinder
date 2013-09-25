@@ -1,4 +1,4 @@
-window.Zapto.Title = (function (Title) {
+window.TeamFinder.Title = (function (Title) {
 	Title.UI = (function (UI) {
 		UI.insertTitleOnPage = function (data) {
 			$('#h1HeadContainer').html(data);
@@ -8,10 +8,10 @@ window.Zapto.Title = (function (Title) {
 	}(Title.UI || {}));
 	
 	Title.initialize = function () {
-		Zapto.callServer('../data/title.html', '', 'GET', 'html', Title.UI.insertTitleOnPage, Zapto.handleError);
+		TeamFinder.callServer('../data/title.html', '', 'GET', 'html', Title.UI.insertTitleOnPage, TeamFinder.handleError);
 	};
 	
 	return Title;
-}(window.Zapto.Title || {}));
+}(window.TeamFinder.Title || {}));
 
-Zapto.ready(Zapto.Title.initialize);
+TeamFinder.ready(TeamFinder.Title.initialize);

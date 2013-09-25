@@ -1,9 +1,9 @@
-window.Zapto.Tips = (function (Tips) {
+window.TeamFinder.Tips = (function (Tips) {
 	Tips.UI = (function (UI) {
 		UI.createNavigation = function (data) {
 			$('#divNavigationPlaceHolder').html(data);
 			
-			Zapto.Utils.delay.call(this, function () {
+			TeamFinder.Utils.delay.call(this, function () {
 				$('.navigateRMenu').navigateR();
 				$('.navigateRSubMenu').navigateR();
 				
@@ -12,26 +12,26 @@ window.Zapto.Tips = (function (Tips) {
 						$(this).parent().children('.navigateRSubMenu').slideToggle();
 					});
 				});
-			}, 'obj => !Zapto.Utils.notNullOrUndefinedFunction(obj.navigateR)', $('.navigateRMenu'), 1);
+			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.navigateR)', $('.navigateRMenu'), 1);
 		};
 		
 		return UI;
 	}(Tips.UI || {}));
 	
 	Tips.initialize = function () {
-		Zapto.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, Zapto.handleError);
+		TeamFinder.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, TeamFinder.handleError);
 	};
 	
 	Tips.loadDependencies = function () {
-		Zapto.loadStyle('../css/jquery.navigateR.css', null);
+		TeamFinder.loadStyle('../css/jquery.navigateR.css', null);
 		
-		Zapto.loadScript('../js/jquery.navigateR.js', null);
+		TeamFinder.loadScript('../js/jquery.navigateR.js', null);
 	};
 	
 	Tips.loadDependencies();
 	
 	return Tips;
-}(window.Zapto.Tips || {}));
+}(window.TeamFinder.Tips || {}));
 
-Zapto.selectedMenuItem = 'menuTips';
-Zapto.ready(Zapto.Tips.initialize);
+TeamFinder.selectedMenuItem = 'menuTips';
+TeamFinder.ready(TeamFinder.Tips.initialize);

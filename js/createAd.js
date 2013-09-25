@@ -1,4 +1,4 @@
-window.Zapto.CreateAd = (function (CreateAd) {
+window.TeamFinder.CreateAd = (function (CreateAd) {
 	CreateAd.Elements = (function (Elements) {
 		Elements.aLogIn = null;
 		Elements.divCreateAdFormContainer = null;
@@ -54,52 +54,52 @@ window.Zapto.CreateAd = (function (CreateAd) {
 		CreateAd.Elements.divCreateAdFormContainer.hide();
 		CreateAd.Elements.divNotLoggedInContainer.show();
 		
-		if (Zapto.isLoggedIn()) {
+		if (TeamFinder.isLoggedIn()) {
 			CreateAd.Elements.divNotLoggedInContainer.hide();
 			CreateAd.Elements.divCreateAdFormContainer.show();
 		}
 		
 		//Create UI elements
-		Zapto.UI.createDropDown(CreateAd.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
-		Zapto.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
-		Zapto.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
+		TeamFinder.UI.createDropDown(CreateAd.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
+		TeamFinder.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
+		TeamFinder.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 		
 		CreateAd.Elements.txtHeadline.focus()
 		
 		//Hook up events
 		CreateAd.Elements.selectSport.on('change', function () {
-			CreateAd.Elements.txtSelectSport.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport));
+			CreateAd.Elements.txtSelectSport.val(TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport));
 			CreateAd.Elements.txtSelectSport.valid();
 		});
 		
 		CreateAd.Elements.selectLocation.on('change', function () {
-			CreateAd.Elements.txtSelectLocation.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation));
+			CreateAd.Elements.txtSelectLocation.val(TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation));
 			CreateAd.Elements.txtSelectLocation.valid();
 		});
 		
 		CreateAd.Elements.selectLookingFor.on('change', function () {
-			CreateAd.Elements.txtSelectLookingFor.val(Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor));
+			CreateAd.Elements.txtSelectLookingFor.val(TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor));
 			CreateAd.Elements.txtSelectLookingFor.valid();
 		});
 		
 		CreateAd.Elements.aLogIn.on('click', function (e) {
-			Zapto.Authentication.Elements.divAuthenticationButton.trigger('click');
+			TeamFinder.Authentication.Elements.divAuthenticationButton.trigger('click');
 			e.preventDefault();
 			e.stopPropagation();
 		});
 		
 		//Subscribe to events
-		Zapto.Events.onLogIn = function (user) {
+		TeamFinder.Events.onLogIn = function (user) {
 			CreateAd.Elements.divNotLoggedInContainer.hide();
 			CreateAd.Elements.divCreateAdFormContainer.fadeIn();
 		};
 		
-		Zapto.Events.onLogOut = function (user) {
+		TeamFinder.Events.onLogOut = function (user) {
 			CreateAd.Elements.divCreateAdFormContainer.hide();
 			CreateAd.Elements.divNotLoggedInContainer.fadeIn();
 		};
 		
-		Zapto.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
+		TeamFinder.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
 			//Fix issues in jQuery Validation plugin
 			$.validator.prototype.elements = function () {
 				var validator = this,
@@ -145,7 +145,7 @@ window.Zapto.CreateAd = (function (CreateAd) {
 			};
 			
 			(function () { //Hook up validation
-				Zapto.CreateAd.Elements.formCreateAd.validate({
+				TeamFinder.CreateAd.Elements.formCreateAd.validate({
 					ignore: [],
 					rules: {
 						txtDescription: {
@@ -169,20 +169,20 @@ window.Zapto.CreateAd = (function (CreateAd) {
 						var data = CreateAd.Elements.formCreateAd.serialize();
 						var json_data = CreateAd.Elements.formCreateAd.serializeArray();
 						
-						var user = JSON.parse(Zapto.Utils.getCookie('tfUser'));
-						if (null == user || !Zapto.Utils.notNullOrEmpty(user.Id) || !Zapto.Utils.notNullOrEmpty(user.SessionId)) {
+						var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
+						if (null == user || !TeamFinder.Utils.notNullOrEmpty(user.Id) || !TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
 							alert('You need to be logged in to create an ad');
 							return false;
 						}
 						
-						Zapto.callServer('../data/createAd.php', {
+						TeamFinder.callServer('../data/createAd.php', {
 							description: CreateAd.Elements.txtDescription.val(),
 							headline: CreateAd.Elements.txtHeadline.val(),
-							location: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
-							lookingFor: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
-							sport: Zapto.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
+							location: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
+							lookingFor: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
+							sport: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
 							userId: user.Id
-						}, 'POST', 'json', UI.Callbacks.createAd, Zapto.handleError);
+						}, 'POST', 'json', UI.Callbacks.createAd, TeamFinder.handleError);
 					}
 				});
 			})();
@@ -190,7 +190,7 @@ window.Zapto.CreateAd = (function (CreateAd) {
 	};
 	
 	return CreateAd;
-}(window.Zapto.CreateAd || {}));
+}(window.TeamFinder.CreateAd || {}));
 
-Zapto.selectedMenuItem = 'menuCreate';
-Zapto.ready(Zapto.CreateAd.initialize);
+TeamFinder.selectedMenuItem = 'menuCreate';
+TeamFinder.ready(TeamFinder.CreateAd.initialize);

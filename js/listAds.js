@@ -1,4 +1,4 @@
-﻿window.Zapto.ListAds = (function (ListAds) {
+﻿window.TeamFinder.ListAds = (function (ListAds) {
 	ListAds.adCount = null;
 	ListAds.adFilter = {
 		loc: null,
@@ -35,14 +35,14 @@
 		Events.onPageChanged = function (page) {
 			ListAds.pageIndex = page || ListAds.pageIndex;
 			
-			Zapto.callServer('../data/getAdData.php', {
+			TeamFinder.callServer('../data/getAdData.php', {
 					loc: ListAds.adFilter.loc,
 					lf: ListAds.adFilter.lf,
 					s: ListAds.adFilter.s,
 					pageIndex: ListAds.pageIndex - 1,
 					pageSize: ListAds.pageSize,
 					q: 'data'
-				}, 'GET', 'json', ListAds.UI.Callbacks.adData, Zapto.handleError
+				}, 'GET', 'json', ListAds.UI.Callbacks.adData, TeamFinder.handleError
 			);
 		};
 		
@@ -76,7 +76,7 @@
 					ListAds.Elements.divAdContainer.append(UI.createAdContent(this));
 				});
 				
-				Zapto.Utils.delay.call(this, function () {
+				TeamFinder.Utils.delay.call(this, function () {
 					ListAds.Elements.divAdContainer.accordion({
 						active: false,
 						autoHeight: false,
@@ -85,7 +85,7 @@
 						header: 'h3',
 						heightStyle: 'content'
 					});
-				}, 'obj => !Zapto.Utils.notNullOrUndefinedFunction(obj.accordion)', ListAds.Elements.divAdContainer, 1);
+				}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.accordion)', ListAds.Elements.divAdContainer, 1);
 			};
 			
 			return Callbacks;
@@ -100,23 +100,23 @@
 			adContentWrapper.append(adContent);
 			
 			var adContentName = $(document.createElement('div'));
-			adContentName.html('Name: ' + (Zapto.Utils.notNullOrEmpty(data.User.Name) ? data.User.Name : '[Unspecified]'));
+			adContentName.html('Name: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.Name) ? data.User.Name : '[Unspecified]'));
 			adContent.append(adContentName);
 			
 			var adContentAge = $(document.createElement('div'));
-			adContentAge.html('Age: ' + (Zapto.Utils.notNullOrEmpty(data.User.Age) ? data.User.Age : '[Unspecified]'));
+			adContentAge.html('Age: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.Age) ? data.User.Age : '[Unspecified]'));
 			adContent.append(adContentAge);
 			
 			var adContentGender = $(document.createElement('div'));
-			adContentGender.html('Gender: ' + (Zapto.Utils.notNullOrEmpty(data.User.Gender) ? data.User.Gender : '[Unspecified]'));
+			adContentGender.html('Gender: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.Gender) ? data.User.Gender : '[Unspecified]'));
 			adContent.append(adContentGender);
 			
 			var adContentLookingFor = $(document.createElement('div'));
-			adContentLookingFor.html('Looking for: ' + (Zapto.Utils.notNullOrEmpty(data.LookingFor.Name) ? data.LookingFor.Name : '[Unspecified]'));
+			adContentLookingFor.html('Looking for: ' + (TeamFinder.Utils.notNullOrEmpty(data.LookingFor.Name) ? data.LookingFor.Name : '[Unspecified]'));
 			adContent.append(adContentLookingFor);
 			
 			var adContentDescription = $(document.createElement('div'));
-			adContentDescription.html('Description: ' + (Zapto.Utils.notNullOrEmpty(data.Description) ? data.Description : '[No description]'));
+			adContentDescription.html('Description: ' + (TeamFinder.Utils.notNullOrEmpty(data.Description) ? data.Description : '[No description]'));
 			adContent.append(adContentDescription);
 			
 			return adContentWrapper;
@@ -124,12 +124,12 @@
 			
 		UI.createHeadline = function (data) {
 			var headline = $(document.createElement('h3'));
-			headline.html(Zapto.Utils.notNullOrEmpty(data.Headline) ? data.Headline : '[No subject]');
+			headline.html(TeamFinder.Utils.notNullOrEmpty(data.Headline) ? data.Headline : '[No subject]');
 			headline.addClass('adHeadline');
 			
 			var headlineInfo = $(document.createElement('span'));
-			headlineInfo.html((Zapto.Utils.notNullOrEmpty(data.Sport.Name) ? data.Sport.Name : '[unspecified sport]')+ ' - ' +
-								(Zapto.Utils.notNullOrEmpty(data.Location.Name) ? data.Location.Name : '[Unspecified location]'));
+			headlineInfo.html((TeamFinder.Utils.notNullOrEmpty(data.Sport.Name) ? data.Sport.Name : '[unspecified sport]')+ ' - ' +
+								(TeamFinder.Utils.notNullOrEmpty(data.Location.Name) ? data.Location.Name : '[Unspecified location]'));
 			headline.append(headlineInfo);
 			
 			return headline;
@@ -160,12 +160,12 @@
 				});
 			}
 			else {
-				Zapto.callServer('../data/getAdData.php', {
+				TeamFinder.callServer('../data/getAdData.php', {
 						loc: ListAds.adFilter.loc,
 						lf: ListAds.adFilter.lf,
 						s: ListAds.adFilter.s,
 						q: 'count'
-					}, 'GET', 'json', UI.Callbacks.adCount, Zapto.handleError
+					}, 'GET', 'json', UI.Callbacks.adCount, TeamFinder.handleError
 				);
 				setTimeout(UI.paginate, 500);
 			}
@@ -176,9 +176,9 @@
 	
 	ListAds.applyFilter = function () {
 		ListAds.adFilter = {
-			loc: Zapto.Utils.getSelectedDropDownValue(ListAds.Elements.selectLocation),
-			lf: Zapto.Utils.getSelectedDropDownValue(ListAds.Elements.selectLookingFor),
-			s: Zapto.Utils.getSelectedDropDownValue(ListAds.Elements.selectSport),
+			loc: TeamFinder.Utils.getSelectedDropDownValue(ListAds.Elements.selectLocation),
+			lf: TeamFinder.Utils.getSelectedDropDownValue(ListAds.Elements.selectLookingFor),
+			s: TeamFinder.Utils.getSelectedDropDownValue(ListAds.Elements.selectSport),
 		}
 		ListAds.adCount = null;
 		ListAds.UI.paginate(1);
@@ -209,39 +209,39 @@
 	};
 	
 	ListAds.loadDependencies = function () {
-		Zapto.loadStyle('../lib/jquery.paginate.styles.css', null);
-		Zapto.loadStyle('../css/ListAds.css', null);
+		TeamFinder.loadStyle('../lib/jquery.paginate.styles.css', null);
+		TeamFinder.loadStyle('../css/ListAds.css', null);
 	};
 	
 	ListAds.initialize = function () {
-		Zapto.loadScript('../lib/jquery.paginate.js', function () {
+		TeamFinder.loadScript('../lib/jquery.paginate.js', function () {
 			//Set initial values
 			ListAds.pageSize = 5;
 			ListAds.Elements.initialize();
 			
 			ListAds.adFilter = {
-				loc: Zapto.Utils.sanitizeFilter('locations', Zapto.Utils.getQueryStringParameter('loc')),
-				lf: Zapto.Utils.sanitizeFilter('lookingFor', Zapto.Utils.getQueryStringParameter('lf')),
-				s: Zapto.Utils.sanitizeFilter('sports', Zapto.Utils.getQueryStringParameter('s'))
+				loc: TeamFinder.Utils.sanitizeFilter('locations', TeamFinder.Utils.getQueryStringParameter('loc')),
+				lf: TeamFinder.Utils.sanitizeFilter('lookingFor', TeamFinder.Utils.getQueryStringParameter('lf')),
+				s: TeamFinder.Utils.sanitizeFilter('sports', TeamFinder.Utils.getQueryStringParameter('s'))
 			};
 			
 			//Create UI elements
 			ListAds.UI.paginate(1);
 			ListAds.Events.onPageChanged();
 			
-			ListAds.Elements.selectLocation = Zapto.UI.createDropDown(ListAds.Elements.selectLocation, '../data/getAdFilterData.php', {
+			ListAds.Elements.selectLocation = TeamFinder.UI.createDropDown(ListAds.Elements.selectLocation, '../data/getAdFilterData.php', {
 					q: 'locations',
 					defaultText: '--Location--',
 					selected: ListAds.adFilter.loc
 				}
 			);
-			ListAds.Elements.selectLookingFor = Zapto.UI.createDropDown(ListAds.Elements.selectLookingFor, '../data/getAdFilterData.php', {
+			ListAds.Elements.selectLookingFor = TeamFinder.UI.createDropDown(ListAds.Elements.selectLookingFor, '../data/getAdFilterData.php', {
 					q: 'lookingFor',
 					defaultText: '--Looking For--',
 					selected: ListAds.adFilter.lf
 				}
 			);
-			ListAds.Elements.selectSport = Zapto.UI.createDropDown(ListAds.Elements.selectSport,'../data/getAdFilterData.php', {
+			ListAds.Elements.selectSport = TeamFinder.UI.createDropDown(ListAds.Elements.selectSport,'../data/getAdFilterData.php', {
 					q: 'sports',
 					defaultText: '--Sport--',
 					selected: ListAds.adFilter.s
@@ -258,15 +258,15 @@
 			ListAds.Elements.divClearFilterButton.on('click', ListAds.clearFilter);
 			
 			ListAds.Elements.selectLocation.on('change', function () {
-				ListAds.adFilter.loc = Zapto.Utils.getSelectedDropDownValue($(this));
+				ListAds.adFilter.loc = TeamFinder.Utils.getSelectedDropDownValue($(this));
 			});
 			
 			ListAds.Elements.selectLookingFor.on('change', function () {
-				ListAds.adFilter.lf = Zapto.Utils.getSelectedDropDownValue($(this));
+				ListAds.adFilter.lf = TeamFinder.Utils.getSelectedDropDownValue($(this));
 			});
 			
 			ListAds.Elements.selectSport.on('change', function () {
-				ListAds.adFilter.s = Zapto.Utils.getSelectedDropDownValue($(this));
+				ListAds.adFilter.s = TeamFinder.Utils.getSelectedDropDownValue($(this));
 			});
 		});
 	};
@@ -274,7 +274,7 @@
 	ListAds.loadDependencies();
 	
 	return ListAds;
-}(window.Zapto.ListAds || {}));
+}(window.TeamFinder.ListAds || {}));
 
-Zapto.selectedMenuItem = 'menuListAds';
-Zapto.ready(Zapto.ListAds.initialize);
+TeamFinder.selectedMenuItem = 'menuListAds';
+TeamFinder.ready(TeamFinder.ListAds.initialize);

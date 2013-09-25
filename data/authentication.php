@@ -1,9 +1,9 @@
 <?php
 	//Includes
 	require_once '../bin/repositories.php';
-	require_once '../bin/zapto.php';
+	require_once '../bin/teamFinder.php';
 	
-	//Zapto::requireSSL();
+	//TeamFinder::requireSSL();
 	
 	if ("POST" === $_SERVER["REQUEST_METHOD"])
 	{
@@ -16,7 +16,7 @@
 			
 			if (null != $username && null != $password)
 			{
-				$user = Zapto::logIn(base64_decode($username), base64_decode($password));
+				$user = TeamFinder::logIn(base64_decode($username), base64_decode($password));
 				
 				echo null != $user ? json_encode($user) : "{}";
 				exit();
@@ -25,7 +25,7 @@
 		else if ("logOut" === $ajaxAction)
 		{
 			$sessionId = isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
-			$user = Zapto::logOut($sessionId);
+			$user = TeamFinder::logOut($sessionId);
 			
 			echo null != $user ? json_encode($user) : "{}";
 			exit();

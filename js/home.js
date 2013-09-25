@@ -1,4 +1,4 @@
-window.Zapto.Home = (function(Home) {
+window.TeamFinder.Home = (function(Home) {
 	Home.Elements = (function (Elements) {
 		Elements.divSlideshow = null;
 		Elements.formQuickSearch = null;
@@ -41,9 +41,9 @@ window.Zapto.Home = (function(Home) {
 					_spanAdContent.html('Looking for ' + this.Sport.Name + ' ' + this.LookingFor.Name + ' in ' + this.Location.Name);
 					
 					_divAdContainer.on('click', function () {
-						Home.Elements.selectLocation.selectBoxIt('selectOption', Zapto.Utils.getFilterValue('locations', $(this).data('teamFinder-location')));
-						Home.Elements.selectLookingFor.selectBoxIt('selectOption', Zapto.Utils.getFilterValue('lookingFor', $(this).data('teamFinder-lookingFor')));
-						Home.Elements.selectSport.selectBoxIt('selectOption', Zapto.Utils.getFilterValue('sports', $(this).data('teamFinder-sport')));
+						Home.Elements.selectLocation.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('locations', $(this).data('teamFinder-location')));
+						Home.Elements.selectLookingFor.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('lookingFor', $(this).data('teamFinder-lookingFor')));
+						Home.Elements.selectSport.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('sports', $(this).data('teamFinder-sport')));
 						
 						Home.quickSearch();
 					});
@@ -78,11 +78,11 @@ window.Zapto.Home = (function(Home) {
 		Home.Elements.initialize();
 		
 		//Create UI elements
-		Zapto.callServer('../data/getAdData.php', { pageIndex: 0, pageSize: 3, q: 'data' }, 'GET', 'json', Home.UI.Callbacks.slideshowData, Zapto.handleError);
+		TeamFinder.callServer('../data/getAdData.php', { pageIndex: 0, pageSize: 3, q: 'data' }, 'GET', 'json', Home.UI.Callbacks.slideshowData, TeamFinder.handleError);
 		
-		Zapto.UI.createDropDown(Home.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
-		Zapto.UI.createDropDown(Home.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
-		Zapto.UI.createDropDown(Home.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
+		TeamFinder.UI.createDropDown(Home.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
+		TeamFinder.UI.createDropDown(Home.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
+		TeamFinder.UI.createDropDown(Home.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 	};
 	
 	Home.quickSearch = function () {
@@ -90,7 +90,7 @@ window.Zapto.Home = (function(Home) {
 	};
 	
 	return Home;
-}(window.Zapto.Home || {}));
+}(window.TeamFinder.Home || {}));
 
-Zapto.selectedMenuItem = 'menuHome';
-Zapto.ready(Zapto.Home.initialize);
+TeamFinder.selectedMenuItem = 'menuHome';
+TeamFinder.ready(TeamFinder.Home.initialize);

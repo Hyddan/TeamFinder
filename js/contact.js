@@ -1,4 +1,4 @@
-window.Zapto.Contact = (function(Contact) {
+window.TeamFinder.Contact = (function(Contact) {
 	Contact.Elements = (function (Elements) {
 		Elements.divFAQContainer = null;
 		
@@ -28,7 +28,7 @@ window.Zapto.Contact = (function(Contact) {
 				Contact.Elements.divFAQContainer.accordion('destroy');
 			}
 			
-			Zapto.Utils.delay.call(this, function () {
+			TeamFinder.Utils.delay.call(this, function () {
 				Contact.Elements.divFAQContainer.accordion({
 					active: false,
 					autoHeight: false,
@@ -37,7 +37,7 @@ window.Zapto.Contact = (function(Contact) {
 					header: 'h3',
 					heightStyle: 'content'
 				});
-			}, 'obj => !Zapto.Utils.notNullOrUndefinedFunction(obj.accordion)', Contact.Elements.divFAQContainer, 1);
+			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.accordion)', Contact.Elements.divFAQContainer, 1);
 		};
 		
 		return UI;
@@ -50,13 +50,13 @@ window.Zapto.Contact = (function(Contact) {
 	};
 	
 	Contact.loadDependencies = function () {
-		Zapto.loadStyle('../css/Contact.css', null);
+		TeamFinder.loadStyle('../css/Contact.css', null);
 	};
 	
 	Contact.loadDependencies();
 	
 	return Contact;
-}(window.Zapto.Contact || {}));
+}(window.TeamFinder.Contact || {}));
 
-Zapto.selectedMenuItem = 'menuContact';
-Zapto.ready(Zapto.Contact.initialize);
+TeamFinder.selectedMenuItem = 'menuContact';
+TeamFinder.ready(TeamFinder.Contact.initialize);

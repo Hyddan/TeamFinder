@@ -1,4 +1,4 @@
-window.Zapto.Authentication = (function (Authentication) {
+window.TeamFinder.Authentication = (function (Authentication) {
 	var _activeForm = null;
 	
 	Authentication.Elements = (function (Elements) {
@@ -48,9 +48,9 @@ window.Zapto.Authentication = (function (Authentication) {
 				Authentication.Elements.initialize();
 				
 				//Hook up events
-				Zapto.Authentication.Elements.divAuthenticationButton.on('click', function (e) {
-					if (Zapto.isLoggedIn()) {
-						Zapto.logOut();
+				TeamFinder.Authentication.Elements.divAuthenticationButton.on('click', function (e) {
+					if (TeamFinder.isLoggedIn()) {
+						TeamFinder.logOut();
 						return;
 					}
 					
@@ -69,7 +69,7 @@ window.Zapto.Authentication = (function (Authentication) {
 				});
 				
 				Authentication.Elements.divAuthenticateSignUpButton.on('click', function (e) {
-					Zapto.callServer('../data/signUp.html', '', 'GET', 'html', UI.Callbacks.signUp, Zapto.handleError);
+					TeamFinder.callServer('../data/signUp.html', '', 'GET', 'html', UI.Callbacks.signUp, TeamFinder.handleError);
 				});
 				
 				$(document).on('click', function (e) {
@@ -110,7 +110,7 @@ window.Zapto.Authentication = (function (Authentication) {
 							}
 						},
 						submitHandler: function () {
-							Zapto.logIn(Base64.encode(Authentication.Elements.txtAuthenticateUsername.val()), Base64.encode(Authentication.Elements.txtAuthenticatePassword.val()));
+							TeamFinder.logIn(Base64.encode(Authentication.Elements.txtAuthenticateUsername.val()), Base64.encode(Authentication.Elements.txtAuthenticatePassword.val()));
 							Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
 							Authentication.Elements.txtAuthenticatePassword.val('');
 						}
@@ -167,14 +167,14 @@ window.Zapto.Authentication = (function (Authentication) {
 							}
 						},
 						submitHandler: function () {
-							Zapto.createUser(Authentication.Elements.txtSignUpAge.val(),
+							TeamFinder.createUser(Authentication.Elements.txtSignUpAge.val(),
 												Authentication.Elements.txtSignUpDescription.val(),
 												Authentication.Elements.txtSignUpEmail.val(),
 												Authentication.Elements.txtSignUpFirstName.val(),
 												Authentication.Elements.rdoSignUpGender.val(),
 												Authentication.Elements.txtSignUpLastName.val(),
 												Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
-												((Zapto.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
+												((TeamFinder.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
 													&& '(No file)' !== Authentication.Elements.divSignUpPictureNamePlaceholder.text()) ?
 														Authentication.Elements.divSignUpPictureNamePlaceholder.text() :
 														null)
@@ -219,7 +219,7 @@ window.Zapto.Authentication = (function (Authentication) {
 			_plUploader.on('BeforeUpload', function (uploader) { });
 
 			_plUploader.on('Error', function(uploader, error) {
-				Zapto.handleError(error);
+				TeamFinder.handleError(error);
 			});
 
 			_plUploader.on('QueueChanged', function(uploader, files) {
@@ -253,7 +253,7 @@ window.Zapto.Authentication = (function (Authentication) {
 	}(Authentication.UI || {}));
 	
 	Authentication.initialize = function () {
-		Zapto.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
+		TeamFinder.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
 			//Fix issues in jQuery Validation plugin
 			$.validator.prototype.elements = function () {
 				var validator = this,
@@ -298,24 +298,24 @@ window.Zapto.Authentication = (function (Authentication) {
 				return this.valid();
 			};
 			
-			Zapto.Utils.delay.call(this, function () {
+			TeamFinder.Utils.delay.call(this, function () {
 				Authentication.Elements.initialize();
 				
-				Zapto.callServer('../data/authentication.html', '', 'GET', 'html', Authentication.UI.Callbacks.authentication, Zapto.handleError);
+				TeamFinder.callServer('../data/authentication.html', '', 'GET', 'html', Authentication.UI.Callbacks.authentication, TeamFinder.handleError);
 				
 				Authentication.updateButtonLabel();
-			}, 'obj => false === Zapto.Utils.notNullOrEmpty($(\'#menuAuthentication\')[0])', null, 1);
+			}, 'obj => false === TeamFinder.Utils.notNullOrEmpty($(\'#menuAuthentication\')[0])', null, 1);
 		});
 	};
 	
 	Authentication.loadDependencies = function () {
-		Zapto.loadScript('../lib/plupload/plupload.full.js', null);
+		TeamFinder.loadScript('../lib/plupload/plupload.full.js', null);
 	};
 	
 	Authentication.updateButtonLabel = function () {
 		var _label = 'Log in';
 		
-		if (Zapto.isLoggedIn()) {
+		if (TeamFinder.isLoggedIn()) {
 			_label = 'Log out';
 		}
 		
@@ -325,6 +325,6 @@ window.Zapto.Authentication = (function (Authentication) {
 	Authentication.loadDependencies();
 	
 	return Authentication;
-}(window.Zapto.Authentication || {}));
+}(window.TeamFinder.Authentication || {}));
 
-Zapto.ready(Zapto.Authentication.initialize);
+TeamFinder.ready(TeamFinder.Authentication.initialize);
