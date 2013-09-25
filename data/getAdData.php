@@ -1,9 +1,9 @@
 ﻿<?php
 	//Includes
-	require_once '/../bin/setupDataConnection.php';
-	require_once '/../bin/zapto.php';
-	require_once '/../bin/entities.php';
-	require_once '/../bin/repositories.php';
+	require_once '../bin/setupDataConnection.php';
+	require_once '../bin/zapto.php';
+	require_once '../bin/entities.php';
+	require_once '../bin/repositories.php';
 	
 	//Set parameters
 	$tableName = '`Ads`';

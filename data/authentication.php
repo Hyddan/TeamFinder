@@ -1,7 +1,7 @@
 <?php
 	//Includes
-	require_once '/../bin/repositories.php';
-	require_once '/../bin/zapto.php';
+	require_once '../bin/repositories.php';
+	require_once '../bin/zapto.php';
 	
 	//Zapto::requireSSL();
 	

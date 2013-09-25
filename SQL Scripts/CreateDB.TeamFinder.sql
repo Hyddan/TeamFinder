@@ -3,8 +3,8 @@ CREATE DATABASE IF NOT EXISTS `db1179530_TeamFinder` CHARACTER SET utf8 COLLATE 
 
 /*
 -- Create user and priviliges
-CREATE USER 'u1179530_tf'@'localhost' IDENTIFIED BY 'teamfinder';
-GRANT ALL PRIVILEGES ON u1179530_tf.* TO 'teamfinder'@'localhost';
+CREATE USER 'u1179530_tf'@'83.168.227.109' IDENTIFIED BY 'teamfinder';
+GRANT ALL PRIVILEGES ON `db1179530_TeamFinder`.* TO 'u1179530_tf'@'83.168.227.109';
 FLUSH PRIVILEGES;
 */
 

@@ -1,7 +1,7 @@
 ﻿<?php
 	//Includes
-	require_once '/../bin/mappings.php';
-	require_once '/../bin/repositories.php';
+	require_once '../bin/mappings.php';
+	require_once '../bin/repositories.php';
 	
 	//Set parameters
 	$headline		=	isset($_POST["headline"]) ? $_POST["headline"] : null;

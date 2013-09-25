@@ -1,7 +1,7 @@
 ﻿<?php
 	//Includes
-	require_once '/../bin/setupDataConnection.php';
-	require_once '/../bin/entities.php';
+	require_once '../bin/setupDataConnection.php';
+	require_once '../bin/entities.php';
 	
 	//Set parameters
 	$q		=	isset($_GET["q"]) ? $_GET["q"] : null;

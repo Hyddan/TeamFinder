@@ -1,13 +1,13 @@
 <?php
 	//Includes
-	require_once '/../bin/entities.php';
-	require_once '/../bin/zapto.php';
+	require_once '../bin/entities.php';
+	require_once '../bin/zapto.php';
 	
 	//Set parameters
-	$GLOBALS["reposHost"] = "localhost";
-	$GLOBALS["reposUser"] = "teamfinder";
+	$GLOBALS["reposHost"] = "83.168.227.176";
+	$GLOBALS["reposUser"] = "u1179530_tf";
 	$GLOBALS["reposPass"] = "teamfinder";
-	$GLOBALS["reposDatabaseName"] = "teamfinder";
+	$GLOBALS["reposDatabaseName"] = "db1179530_TeamFinder";
 	
 	class AdRepository
 	{
