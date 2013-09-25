@@ -36,6 +36,6 @@
 	}
 	else
 	{
-		http_response_code(405);
+		TeamFinder::returnHttpStatusCode(405);
 	}
 ?>

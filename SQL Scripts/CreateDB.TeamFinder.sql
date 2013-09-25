@@ -100,8 +100,8 @@ INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Bas
 INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Hockey', 'Hockey');
 INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Squash', 'Squash');
 
-INSERT INTO `db1179530_TeamFinder`.`Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`)
-	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null);
+INSERT INTO `db1179530_TeamFinder`.`Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `Salt`, `SessionId`)
+	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null, 'asdf', null);
 
 INSERT INTO `db1179530_TeamFinder`.`Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`)
 	VALUES ('Some Description', 'Some Headline', 1, 1, 1, 1);
