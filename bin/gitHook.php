@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	try
 	{
 	  $payload = json_decode($_REQUEST['payload']);

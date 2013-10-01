@@ -31,13 +31,6 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 			Callbacks.createAd = function (data) {
 				CreateAd.Elements.divSuccess.show();
 				CreateAd.Elements.divCreateAdFormContainer.hide();
-				
-				//Display results using data (data === Ad-object)
-				
-				CreateAd.Elements.divSuccess.delay(2000).fadeOut('fast', function() {
-					CreateAd.Elements.divResult.show();
-					CreateAd.Elements.divSuccess.hide();
-				});
 			};
 			
 			return Callbacks;
@@ -155,7 +148,6 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 							required: true
 						},
 						txtSelectSport: {
-							onkeyup: false,
 							required: true
 						},
 						txtSelectLocation: {
@@ -182,7 +174,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 							lookingFor: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
 							sport: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
 							userId: user.Id
-						}, 'POST', 'json', UI.Callbacks.createAd, TeamFinder.handleError);
+						}, 'POST', 'json', CreateAd.UI.Callbacks.createAd, TeamFinder.handleError);
 					}
 				});
 			})();

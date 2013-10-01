@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 wget -q https://github.com/Hyddan/TeamFinder/archive/master.zip -O /tmp/teamFinder.zip
 
 if [ -f /tmp/teamFinder.zip ]; then

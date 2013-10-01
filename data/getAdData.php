@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	//Includes
 	require_once '../bin/setupDataConnection.php';
 	require_once '../bin/teamFinder.php';
@@ -17,6 +17,7 @@
 	$i			=	isset($_GET["i"]) ? (int) $_GET["i"] : null;
 	$filter 	=	TeamFinder::getFilter($loc, $lf, $s);
 	
+	header("Content-Type: application/json; charset=utf-8", true);
 	if(("count" != $q && "data" != $q && "specific" != $q) || null === $filter)
 	{
 		echo "{}";
@@ -63,11 +64,10 @@
 			
 			mysqli_free_result($result);
 		}
-			
+		
 		//Close DB Connection
 		mysqli_close($connection);
 		
-		header("Content-Type: application/json; charset=utf-8", true);
 		echo json_encode($data);
 		
 		/*

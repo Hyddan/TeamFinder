@@ -2,7 +2,7 @@
 	$locations = array(		"st"	=>	"1",	//"Stockholm"
 							"su"	=>	"2",	//"Sundsvall"
 							"u"		=>	"3",	//"Uppsala"
-							"l"		=>	"4");	//"Linköping"
+							"l"		=>	"4");	//"LinkÃ¶ping"
 	
 	$sports = array(		"f"		=>	"1",	//"Floorball"
 							"s"		=>	"2",	//"Soccer"

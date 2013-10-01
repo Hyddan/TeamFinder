@@ -25,7 +25,12 @@
     width: 600px;
 }
 
-.adContent
+.adContentWrapper
+{
+	padding: 0px !important;
+}
+
+.adContentWrapper > div
 {
 	font-size: 14px;
 	padding-top: 1em;
@@ -33,14 +38,23 @@
 	padding-left: 2.8em;
 	padding-right: 2.2em;
 }
-
-.adContentWrapper
-{
-	padding: 0px !important;
-}
-
 .adHeadline > span
 {
 	float: right;
 	font-size: 14px;
+}
+
+.adContent
+{
+	float: left;
+}
+
+.adContent a
+{
+	color: #c4d92e;
+}
+
+.adContent a:hover
+{
+	color: black;
 }

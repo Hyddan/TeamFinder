@@ -1,4 +1,4 @@
-﻿window.TeamFinder.ListAds = (function (ListAds) {
+window.TeamFinder.ListAds = (function (ListAds) {
 	ListAds.adCount = null;
 	ListAds.adFilter = {
 		loc: null,
@@ -100,8 +100,16 @@
 			adContentWrapper.append(adContent);
 			
 			var adContentName = $(document.createElement('div'));
-			adContentName.html('Name: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.Name) ? data.User.Name : '[Unspecified]'));
+			adContentName.html('Name: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.FirstName) || TeamFinder.Utils.notNullOrEmpty(data.User.LastName) ? data.User.FirstName + ' ' + data.User.LastName : '[Unspecified]'));
 			adContent.append(adContentName);
+			
+			var adContentEmail = $(document.createElement('div')),
+				adContentEmailAnchor = $(document.createElement('a'));
+			adContentEmail.html('Email: ');
+			adContentEmailAnchor.html((TeamFinder.Utils.notNullOrEmpty(data.User.Email) ? data.User.Email : '[Unspecified]'));
+			adContentEmailAnchor.attr('href', 'mailto:' + (TeamFinder.Utils.notNullOrEmpty(data.User.Email) ? data.User.Email : '[Unspecified]'));
+			adContentEmail.append(adContentEmailAnchor);
+			adContent.append(adContentEmail);
 			
 			var adContentAge = $(document.createElement('div'));
 			adContentAge.html('Age: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.Age) ? data.User.Age : '[Unspecified]'));
@@ -226,8 +234,14 @@
 			};
 			
 			//Create UI elements
-			ListAds.UI.paginate(1);
-			ListAds.Events.onPageChanged();
+			if (!isNaN(parseInt(TeamFinder.Utils.getQueryStringParameter('i'), 10))) {
+				ListAds.adCount = 1;
+				//Call and get specific ad
+			}
+			else {
+				ListAds.UI.paginate(1);
+				ListAds.Events.onPageChanged();
+			}
 			
 			ListAds.Elements.selectLocation = TeamFinder.UI.createDropDown(ListAds.Elements.selectLocation, '../data/getAdFilterData.php', {
 					q: 'locations',

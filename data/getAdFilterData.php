@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	//Includes
 	require_once '../bin/setupDataConnection.php';
 	require_once '../bin/entities.php';

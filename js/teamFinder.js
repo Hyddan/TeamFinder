@@ -99,8 +99,8 @@
 		
 		UI.Callbacks = (function (Callbacks) {
 			Callbacks.adFilterData = function (data) {
+				UI.adFilterData[data.type] = [];
 				$.each(data.items, function (index) {
-					UI.adFilterData[data.type] = UI.adFilterData[data.type] || [];
 					UI.adFilterData[data.type].push(this.Name);
 				});
 			};
@@ -372,6 +372,7 @@
 		TeamFinder.loadStyle('../css/oldStyles.css', null);
 		TeamFinder.loadStyle('../css/menu.css', null);
 		TeamFinder.loadStyle('../css/head.css', null);
+		TeamFinder.loadStyle('../css/authentication.css', null);
 		
 		TeamFinder.loadScript('../lib/jquery-ui-1.10.3.min.js', function() {
 			TeamFinder.loadScript('../lib/jquery.selectBoxIt-2.9.0.min.js', null);

@@ -15,6 +15,7 @@ body
 	background-position: center top;
 	background-repeat: no-repeat;
 	font-family: Arial, Helvetica, sans-serif;
+	overflow: hidden;
 }
 
 body a
@@ -79,6 +80,7 @@ label.error
 {
 	color: white;
 	margin: 0px auto;
+	min-height: 400px;
 	width: 900px;
 }
 

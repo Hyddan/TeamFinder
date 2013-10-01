@@ -24,5 +24,6 @@
 									UserRepository::GetById($userId)));
 	}
 	
+	header("Content-Type: application/json; charset=utf-8", true);
 	echo null != $ad ? json_encode($ad) : "{}";
 ?>

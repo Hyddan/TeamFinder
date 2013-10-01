@@ -1,27 +1,24 @@
 <?php
 	//Includes
+	require_once '../bin/bootstrap.php';
 	require_once '../bin/entities.php';
 	require_once '../bin/teamFinder.php';
-	
-	//Set parameters
-	$GLOBALS["reposHost"] = "83.168.227.176";
-	$GLOBALS["reposUser"] = "u1179530_tf";
-	$GLOBALS["reposPass"] = "teamfinder";
-	$GLOBALS["reposDatabaseName"] = "db1179530_TeamFinder";
 	
 	class AdRepository
 	{
 		static function GetByFilter($filter)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT * FROM `Ads`" . $filter . " LIMIT 1;";
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 					
-					mysqli_close($reposConnection);
+					mysqli_close($connection);
 					
 					return new Ad($row[0],
 									$row[1],
@@ -34,7 +31,7 @@
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
@@ -46,21 +43,23 @@
 		
 		static function Save($ad)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "INSERT INTO `Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`) VALUES('" . $ad->Description . "', '" . $ad->Headline . "', " . $ad->Location->Id . ", " . $ad->LookingFor->Id . ", " . $ad->Sport->Id . ", " . $ad->User->Id . ");";
 			if (0 < $ad->Id) {
 				$query = "UPDATE `Ads` SET `Description` = '" . $ad->Description . "', `Headline` = '" . $ad->Headline . "', `LocationId` = " . $ad->Location->Id . ", `LookingForId` = " . $ad->LookingFor->Id . ", `SportId` = " . $ad->Sport->Id . ", `UserId` = " . $ad->User->Id . " WHERE `Id` = " . $ad->Id;
 			}
 			
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if (0 < $ad->Id) {
-					$ad = AdRepository::GetById(mysqli_insert_id($reposConnection));
+					$ad = AdRepository::GetById(mysqli_insert_id($connection));
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return $ad;
 		}
@@ -70,21 +69,23 @@
 	{
 		static function GetByFilter($filter)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT * FROM `Locations`" . $filter . " LIMIT 1;";
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 			
-					mysqli_close($reposConnection);
+					mysqli_close($connection);
 					
 					return new Location($row[0], $row[1], $row[2]);
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
@@ -104,21 +105,23 @@
 	{
 		static function GetByFilter($filter)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT * FROM `LookingFor`" . $filter . " LIMIT 1;";
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 			
-					mysqli_close($reposConnection);
+					mysqli_close($connection);
 					
 					return new LookingFor($row[0], $row[1], $row[2]);
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
@@ -138,21 +141,23 @@
 	{
 		static function GetByFilter($filter)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT * FROM `Sports`" . $filter . " LIMIT 1;";
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 			
-					mysqli_close($reposConnection);
+					mysqli_close($connection);
 					
 					return new Sport($row[0], $row[1], $row[2]);
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
@@ -179,21 +184,23 @@
 		
 		static function GetByFilter($filter)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT `Id`,`Age`, `CreatedDate`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `PictureUrl`, `SessionId` FROM `Users`" . $filter . " LIMIT 1;";
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 			
-					mysqli_close($reposConnection);
+					mysqli_close($connection);
 					
 					return new User($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
@@ -215,82 +222,87 @@
 		
 		static function GetSalt($userId)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT `Salt` FROM `Users` WHERE `Id` = " . $userId;
-			
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 			
-					mysqli_close($reposConnection);
+					mysqli_close($connection);
 					
 					return $row[0];
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
 		
 		static function Save($user)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->FirstName . "', '" . $user->Gender . "', '" . $user->LastName . "', null, '" . $user->PictureUrl . "', null);";
 			if (0 < $user->Id) {
 				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `FirstName` = '" . $user->FirstName . "', `Gender` = '" . $user->Gender . "', `LastName` = '" . $user->LastName . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "' WHERE `Id` = " . $user->Id;
 			}
 			
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if (0 >= $user->Id) {
-					$user = UserRepository::GetById(mysqli_insert_id($reposConnection));
+					$user = UserRepository::GetById(mysqli_insert_id($connection));
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return $user;
 		}
 		
 		static function SetPassword($userId, $password)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$salt = UserRepository::SetSalt($userId);
 			
 			$query = "UPDATE `Users` SET `Password` = '" . hash("sha256", (null != $salt ? $salt : "") . $password) . "' WHERE `Id` = " . $userId;
-			
-			if ($result = mysqli_query($reposConnection, $query)) {
-				mysqli_close($reposConnection);
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
+				mysqli_close($connection);
 				
 				return true;
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return false;
 		}
 		
 		static function SetSalt($userId)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$salt = TeamFinder::GenerateGuid();
 			$query = "UPDATE `Users` SET `Salt` ='" . $salt . "' WHERE `Id` = " . $userId;
-			
-			if ($result = mysqli_query($reposConnection, $query)) {
-				mysqli_close($reposConnection);
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
+				mysqli_close($connection);
 				
 				return $salt;
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return null;
 		}
@@ -304,12 +316,13 @@
 		
 		static function ValidatePassword($userId, $password)
 		{
-			$reposConnection = mysqli_connect($GLOBALS["reposHost"], $GLOBALS["reposUser"], $GLOBALS["reposPass"], $GLOBALS["reposDatabaseName"])
-				or die("Could not connect to database: " . $GLOBALS["reposDatabaseName"] . "@" . $GLOBALS["reposHost"]);
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$query = "SELECT `Password` FROM `Users` WHERE `Id` = " . $userId;
-			
-			if ($result = mysqli_query($reposConnection, $query)) {
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
 				if ($row = mysqli_fetch_row($result)) {
 					mysqli_free_result($result);
 					
@@ -317,7 +330,7 @@
 				}
 			}
 			
-			mysqli_close($reposConnection);
+			mysqli_close($connection);
 			
 			return false;
 		}

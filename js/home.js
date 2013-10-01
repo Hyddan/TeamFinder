@@ -62,7 +62,7 @@ window.TeamFinder.Home = (function(Home) {
 			
 			window.setInterval(function() { 
 				Home.Elements.divSlideshow.find('div:first')
-					.fadeOut(1000)
+					.fadeOut(100)
 					.next()
 					.fadeIn(1000)
 					.end()

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	//Includes
 	require_once '../bin/mappings.php';
 	require_once '../bin/repositories.php';
