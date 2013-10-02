@@ -41,11 +41,7 @@ window.TeamFinder.Home = (function(Home) {
 					_spanAdContent.html('Looking for ' + this.Sport.Name + ' ' + this.LookingFor.Name + ' in ' + this.Location.Name);
 					
 					_divAdContainer.on('click', function () {
-						Home.Elements.selectLocation.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('locations', $(this).data('teamFinder-location')));
-						Home.Elements.selectLookingFor.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('lookingFor', $(this).data('teamFinder-lookingFor')));
-						Home.Elements.selectSport.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('sports', $(this).data('teamFinder-sport')));
-						
-						Home.quickSearch();
+						Home.deepLink($(this).data('teamFinder-id'));
 					});
 					
 					_divAdContainer.append(_spanAdContent).appendTo(Home.Elements.divSlideshow);
@@ -72,6 +68,10 @@ window.TeamFinder.Home = (function(Home) {
 		
 		return UI;
 	}(Home.UI || {}));
+	
+	Home.deepLink = function (index) {
+		$(window.location).attr('href', '../listAds.html?i=' + index);
+	};
 	
 	Home.initialize = function() {
 		//Set initial values

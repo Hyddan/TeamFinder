@@ -71,10 +71,16 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				}
 				
 				ListAds.Elements.divAdContainer.html('').css('position', 'relative');
-				$.each(ListAds.pageData, function (index) {
-					ListAds.Elements.divAdContainer.append(UI.createHeadline(this));
-					ListAds.Elements.divAdContainer.append(UI.createAdContent(this));
-				});
+				if (ListAds.pageData instanceof Array) {
+					$.each(ListAds.pageData, function (index) {
+						ListAds.Elements.divAdContainer.append(UI.createHeadline(this));
+						ListAds.Elements.divAdContainer.append(UI.createAdContent(this));
+					});
+				}
+				else {
+					ListAds.Elements.divAdContainer.append(UI.createHeadline(ListAds.pageData));
+					ListAds.Elements.divAdContainer.append(UI.createAdContent(ListAds.pageData));
+				}
 				
 				TeamFinder.Utils.delay.call(this, function () {
 					ListAds.Elements.divAdContainer.accordion({
@@ -236,7 +242,20 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			//Create UI elements
 			if (!isNaN(parseInt(TeamFinder.Utils.getQueryStringParameter('i'), 10))) {
 				ListAds.adCount = 1;
+				
 				//Call and get specific ad
+				TeamFinder.callServer('../data/getAdData.php', {
+						i: TeamFinder.Utils.getQueryStringParameter('i'),
+						q: 'specific'
+					}, 'GET', 'json', ListAds.UI.Callbacks.adData, TeamFinder.handleError
+				);
+				
+				ListAds.UI.paginate(1);
+				
+				//Trigger click on ad when ready
+				TeamFinder.Utils.delay.call(this, function () {
+					$(ListAds.Elements.divAdContainer.children()[0]).trigger('click');
+				}, 'obj => 1 > obj.children().length', ListAds.Elements.divAdContainer, 1);
 			}
 			else {
 				ListAds.UI.paginate(1);
@@ -255,7 +274,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 					selected: ListAds.adFilter.lf
 				}
 			);
-			ListAds.Elements.selectSport = TeamFinder.UI.createDropDown(ListAds.Elements.selectSport,'../data/getAdFilterData.php', {
+			ListAds.Elements.selectSport = TeamFinder.UI.createDropDown(ListAds.Elements.selectSport, '../data/getAdFilterData.php', {
 					q: 'sports',
 					defaultText: '--Sport--',
 					selected: ListAds.adFilter.s
