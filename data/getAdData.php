@@ -1,13 +1,10 @@
 <?php
 	//Includes
-	require_once '../bin/setupDataConnection.php';
-	require_once '../bin/teamFinder.php';
-	require_once '../bin/entities.php';
-	require_once '../bin/repositories.php';
+	require_once "../bin/teamFinder.php";
+	require_once "../bin/entities.php";
+	require_once "../bin/repositories.php";
 	
 	//Set parameters
-	$tableName = '`Ads`';
-	
 	$pageIndex	=	isset($_GET["pageIndex"]) ? (int) $_GET["pageIndex"] : null;
 	$pageSize	=	isset($_GET["pageSize"]) ? (int) $_GET["pageSize"] : null;
 	$q 			=	isset($_GET["q"]) ? $_GET["q"] : null;
@@ -18,7 +15,7 @@
 	$filter 	=	TeamFinder::getFilter($loc, $lf, $s);
 	
 	header("Content-Type: application/json; charset=utf-8", true);
-	if(("count" != $q && "data" != $q && "specific" != $q) || null === $filter)
+	if (("count" != $q && "data" != $q && "specific" != $q) || null === $filter)
 	{
 		echo "{}";
 	}
@@ -30,70 +27,22 @@
 	}
 	else
 	{
-		if(!is_int($pageIndex))
+		if (!is_int($pageSize))
 		{
-			$pageIndex = 0;
-		}
-		
-		if(!is_int($pageSize))
-		{
-			$pageSize = 20;
-		}
-		
-		$query = "SELECT COUNT(*) AS `AdCount` FROM " . $tableName . $filter . " LIMIT 1;";
-		
-		if($q == "data")
-		{
-			$query = "SELECT * FROM " . $tableName . $filter ." ORDER BY `CreatedDate` DESC LIMIT " . ($pageIndex * $pageSize) . "," . $pageSize;
+			$pageSize = 50;
 		}
 		
 		$data = array();
-		mysqli_query($connection, "SET CHARACTER SET 'utf8'");
-		if($result = mysqli_query($connection, $query)) {
-			$i = 0;
-			while($row = mysqli_fetch_assoc($result)) {
-				 $data["" . $i++] = "count" == $q ? $row : new Ad($row["Id"],
-											$row["CreatedDate"],
-											$row["Description"],
-											$row["Headline"],
-											LocationRepository::GetById($row["LocationId"]),
-											LookingForRepository::GetById($row["LookingForId"]),
-											SportRepository::GetById($row["SportId"]),
-											UserRepository::GetById($row["UserId"]));
-			}
-			
-			mysqli_free_result($result);
+		if ("count" == $q)
+		{
+			$data[0] = new stdClass();
+			$data[0]->AdCount = AdRepository::GetCount($filter);
+		}		
+		else if ("data" == $q)
+		{
+			$data = AdRepository::Find($filter, $pageIndex, $pageSize);
 		}
 		
-		//Close DB Connection
-		mysqli_close($connection);
-		
-		echo json_encode($data);
-		
-		/*
-			{
-				"Id": 1,
-				"headline": "SomeTitle",
-				"description": "SomeDescription",
-				"location": {
-					"Id": 1,
-					"name": "Stockholm"
-				},
-				"lookingFor": {
-					"Id": 1,
-					"name": "player"
-				},
-				"sport": {
-					"Id": 1,
-					"name": "Floorball"
-				},
-				"user": {
-					"Id": 1,
-					"name": "Stockholm"
-					"age": 25
-					"gender": "Male"
-				}
-			}
-		*/
+		echo null != $data ? json_encode($data) : "{}";
 	}
 ?>

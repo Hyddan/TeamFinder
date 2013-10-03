@@ -1,11 +1,58 @@
 <?php
 	//Includes
-	require_once '../bin/bootstrap.php';
-	require_once '../bin/entities.php';
-	require_once '../bin/teamFinder.php';
+	require_once "../bin/bootstrap.php";
+	require_once "../bin/entities.php";
+	require_once "../bin/teamFinder.php";
 	
 	class AdRepository
 	{
+		static function Find($filter, $pageIndex, $pageSize)
+		{
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
+			
+			if (null == $filter)
+			{
+				$filter = "";
+			}
+			
+			if (!is_int($pageIndex))
+			{
+				$pageIndex = 0;
+			}
+			
+			if (!is_int($pageSize))
+			{
+				$pageSize = 2147483647;
+			}
+			
+			$data = array();
+			$query = "SELECT * FROM `Ads`" . $filter . " ORDER BY `CreatedDate` DESC LIMIT " . ($pageIndex * $pageSize) . "," . $pageSize;
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
+				while ($row = mysqli_fetch_row($result)) {
+					$data[] = new Ad($row[0],
+									$row[1],
+									$row[2],
+									$row[3],
+									LocationRepository::GetById($row[4]),
+									LookingForRepository::GetById($row[5]),
+									SportRepository::GetById($row[6]),
+									UserRepository::GetById($row[7]));
+				}
+			}
+			
+			mysqli_close($connection);
+			
+			return $data;
+		}
+		
+		static function GetAll()
+		{
+			return AdRepository::Find(null, null, null);
+		}
+		
 		static function GetByFilter($filter)
 		{
 			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
@@ -39,6 +86,33 @@
 		static function GetById($id)
 		{
 			return AdRepository::GetByFilter(" WHERE `Id` = " . $id);
+		}
+		
+		static function GetCount($filter)
+		{
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
+			
+			if (null == $filter)
+			{
+				$filter = "";
+			}
+			
+			$count = 0;
+			$query = "SELECT COUNT(*) FROM `Ads`" . $filter . " LIMIT 1;";
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query)) {
+				while ($row = mysqli_fetch_row($result)) {
+					mysqli_free_result($result);
+					
+					$count = $row[0];
+				}
+			}
+			
+			mysqli_close($connection);
+			
+			return $count;
 		}
 		
 		static function Save($ad)

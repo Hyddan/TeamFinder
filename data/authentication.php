@@ -1,7 +1,7 @@
 <?php
 	//Includes
-	require_once '../bin/repositories.php';
-	require_once '../bin/teamFinder.php';
+	require_once "../bin/repositories.php";
+	require_once "../bin/teamFinder.php";
 	
 	//TeamFinder::requireSSL();
 	

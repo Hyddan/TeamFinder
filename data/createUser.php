@@ -1,7 +1,7 @@
 <?php
 	//Includes
-	require_once '../bin/mappings.php';
-	require_once '../bin/repositories.php';
+	require_once "../bin/mappings.php";
+	require_once "../bin/repositories.php";
 	
 	//Set parameters
 	$age				=	isset($_POST["age"]) ? (int) $_POST["age"] : null;

@@ -31,20 +31,21 @@ window.TeamFinder.Home = (function(Home) {
 				
 				$.each(UI.adData['slideshow'], function (index) {
 					var _divAdContainer = $(document.createElement('div')),
-						_spanAdContent = $(document.createElement('span'));
+						_spanAdContent = $(document.createElement('span')),
+						_spanAdHeader = $(document.createElement('span')),
+						_spanAdLookingFor = $(document.createElement('span'));
 					
 					_divAdContainer.data('teamFinder-id', this.Id);
-					_divAdContainer.data('teamFinder-location', this.Location.Name);
-					_divAdContainer.data('teamFinder-lookingFor', this.LookingFor.Name);
-					_divAdContainer.data('teamFinder-sport', this.Sport.Name);
 					
-					_spanAdContent.html('Looking for ' + this.Sport.Name + ' ' + this.LookingFor.Name + ' in ' + this.Location.Name);
+					_spanAdHeader.html('Headline: ' + this.Headline + '<br />');
+					_spanAdContent.html('Description: ' + this.Description + '<br />');
+					_spanAdLookingFor.html('Looking for ' + this.Sport.Name + ' ' + this.LookingFor.Name + ' in ' + this.Location.Name);
 					
 					_divAdContainer.on('click', function () {
 						Home.deepLink($(this).data('teamFinder-id'));
 					});
 					
-					_divAdContainer.append(_spanAdContent).appendTo(Home.Elements.divSlideshow);
+					_divAdContainer.append(_spanAdHeader).append(_spanAdContent).append(_spanAdLookingFor).appendTo(Home.Elements.divSlideshow);
 				});
 				
 				UI.initSlideshow();
