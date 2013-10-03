@@ -25,7 +25,7 @@
 		$adItem->addElement("lookingFor", $ad->LookingFor->Name);
 		$adItem->addElement("sport", $ad->Sport->Name);
 		
-		$rssFeed->addItem($newItem);
+		$rssFeed->addItem($adItem);
 	}
 
 	$rssFeed->genarateFeed();
