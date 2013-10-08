@@ -10,6 +10,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 	ListAds.pageData = null;
 	
 	ListAds.Elements = (function (Elements) {
+		Elements.deleteButtons = null;
 		Elements.divAdContainer = null;
 		Elements.divFilter = null;
 		Elements.divFilterButton = null;
@@ -26,12 +27,25 @@ window.TeamFinder.ListAds = (function (ListAds) {
 					this[key] = $('#' + key);
 				}
 			}
+			
+			Elements.deleteButtons = $('.deleteButton');
 		};
 		
 		return Elements;
 	}(ListAds.Elements || {}));
 	
 	ListAds.Events = (function (Events) {
+		Events.onAdDeleted = function () {
+			ListAds.adFilter = {
+				loc: TeamFinder.Utils.getSelectedDropDownValue(ListAds.Elements.selectLocation),
+				lf: TeamFinder.Utils.getSelectedDropDownValue(ListAds.Elements.selectLookingFor),
+				s: TeamFinder.Utils.getSelectedDropDownValue(ListAds.Elements.selectSport),
+			}
+			ListAds.adCount = null;
+			ListAds.UI.paginate(ListAds.pageIndex);
+			ListAds.Events.onPageChanged();
+		};
+		
 		Events.onPageChanged = function (page) {
 			ListAds.pageIndex = page || ListAds.pageIndex;
 			
@@ -94,12 +108,41 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.accordion)', ListAds.Elements.divAdContainer, 1);
 			};
 			
+			Callbacks.adDeleted = function (data) {
+				if (true === data.deleted) {
+					ListAds.Events.onAdDeleted();
+					return;
+				}
+				
+				alert('Your ad couldn\'t be deleted at this time. Please reload the page and try again');
+			};
+			
 			return Callbacks;
 		}(UI.Callbacks || {}));
 		
 		UI.createAdContent = function (data) {
 			var adContentWrapper = $(document.createElement('div'));
 			adContentWrapper.addClass('adContentWrapper');
+			
+			var deleteButton = $(document.createElement('div')),
+				deleteButtonAnchor = $(document.createElement('a'));
+			deleteButton.addClass('deleteButton');
+			deleteButtonAnchor.html('Delete');
+			deleteButton.data('teamFinder-id', data.Id);
+			deleteButton.data('teamFinder-userId', data.User.Id);
+			deleteButton.data('teamFinder-headline', data.Headline);
+			deleteButton.append(deleteButtonAnchor);
+			adContentWrapper.append(deleteButton);
+			
+			deleteButton.on('click', function () {
+				if (confirm(TeamFinder.Utils.stringFormat('Are you sure you want to delete the ad with headline: {0}', $(this).data('teamFinder-headline')))) {
+					ListAds.deleteAd($(this).data('teamFinder-id'), TeamFinder.loggedInUser.sessionId);
+				}
+			});
+			
+			if (!TeamFinder.isLoggedIn() || TeamFinder.loggedInUser.id !== data.User.Id) {
+				deleteButton.hide();
+			}
 			
 			var adContent = $(document.createElement('div'));
 			adContent.addClass('adContent');
@@ -217,7 +260,15 @@ window.TeamFinder.ListAds = (function (ListAds) {
 		
 		ListAds.Elements.divFilter.slideToggle();
 	};
-		
+	
+	ListAds.deleteAd = function (id, sessionId) {
+		TeamFinder.callServer('../data/deleteAd.php', {
+				i: id,
+				sessionId: sessionId
+			}, 'POST', 'json', ListAds.UI.Callbacks.adDeleted, TeamFinder.handleError
+		);
+	};
+	
 	ListAds.hasFilter = function () {
 		return (ListAds.adFilter.loc != null || ListAds.adFilter.lf != null || ListAds.adFilter.s != null);
 	};
@@ -301,6 +352,24 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			ListAds.Elements.selectSport.on('change', function () {
 				ListAds.adFilter.s = TeamFinder.Utils.getSelectedDropDownValue($(this));
 			});
+		
+			//Subscribe to events
+			TeamFinder.Events.onLogIn = function (user) {
+				ListAds.Elements.initialize();
+				ListAds.Elements.deleteButtons.each(function () {
+					if (TeamFinder.loggedInUser.id === $(this).data('teamFinder-userId'))
+					{
+						$(this).show();
+					}
+				});
+			};
+			
+			TeamFinder.Events.onLogOut = function (user) {
+				ListAds.Elements.initialize();
+				ListAds.Elements.deleteButtons.each(function () {
+					$(this).hide();
+				});
+			};
 		});
 	};
 	

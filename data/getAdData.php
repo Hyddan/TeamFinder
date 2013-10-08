@@ -19,7 +19,7 @@
 	{
 		echo "{}";
 	}
-	else if ("specific" == $q && is_int($i))
+	else if ("specific" == $q && is_numeric($i))
 	{
 		$ad = AdRepository::GetById($i);
 		
@@ -27,7 +27,7 @@
 	}
 	else
 	{
-		if (!is_int($pageSize))
+		if (!is_numeric($pageSize))
 		{
 			$pageSize = 50;
 		}

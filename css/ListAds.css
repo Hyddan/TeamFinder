@@ -30,6 +30,16 @@
 	padding: 0px !important;
 }
 
+.adContentWrapper a
+{
+	color: #c4d92e;
+}
+
+.adContentWrapper a:hover
+{
+	color: black;
+}
+
 .adContentWrapper > div
 {
 	font-size: 14px;
@@ -38,6 +48,13 @@
 	padding-left: 2.8em;
 	padding-right: 2.2em;
 }
+
+.adContentWrapper .deleteButton
+{
+	cursor: pointer;
+	float: right;
+}
+
 .adHeadline > span
 {
 	float: right;
@@ -47,14 +64,4 @@
 .adContent
 {
 	float: left;
-}
-
-.adContent a
-{
-	color: #c4d92e;
-}
-
-.adContent a:hover
-{
-	color: black;
 }

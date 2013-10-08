@@ -435,6 +435,21 @@
 		document.getElementsByTagName('head')[0].appendChild(link);
 	};
 	
+	TeamFinder.loggedInUser = (function () {
+		if (null == _loggedInUser) {
+			var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
+		
+			if (null != user && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
+				_loggedInUser = user;
+			}
+		}
+		
+		return {
+			id: TeamFinder.isLoggedIn() ? _loggedInUser.Id : null,
+			sessionId: TeamFinder.isLoggedIn() ? _loggedInUser.SessionId : null
+		};
+	})();
+	
 	TeamFinder.logIn = function (username, password) {
 		TeamFinder.callServer('../data/authentication.php', {
 				ajaxAction: 'logIn',
