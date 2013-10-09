@@ -6,7 +6,7 @@
 #divAuthenticationContainer
 {
 	float: right;
-	width: 60px;
+	width: 80px;
 }
 
 #divAuthenticationContainer div.formAuthenticateButtons *
@@ -43,9 +43,13 @@
 	opacity: 0.97;
 	padding: 10px;
 	position: absolute;
-	right: 80px;
+	right: 20px;
 	top: 40px;
-	width: 160px;
+	z-index: 999;
+}
+
+#divAuthenticationPlaceHolder *
+{
 	z-index: 999;
 }
 
@@ -63,9 +67,14 @@
 	opacity: 0.97;
 	padding: 10px;
 	position: absolute;
-	right: 80px;
+	right: 20px;
 	top: 40px;
 	width: 325px;
+	z-index: 999;
+}
+
+#divSignUpPlaceHolder *
+{
 	z-index: 999;
 }
 
