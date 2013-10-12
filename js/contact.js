@@ -50,7 +50,7 @@ window.TeamFinder.Contact = (function(Contact) {
 	};
 	
 	Contact.loadDependencies = function () {
-		TeamFinder.loadStyle('../css/Contact.css', null);
+		TeamFinder.loadStyle('../css/contact.css', null);
 	};
 	
 	Contact.loadDependencies();

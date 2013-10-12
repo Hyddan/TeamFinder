@@ -275,7 +275,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 	
 	ListAds.loadDependencies = function () {
 		TeamFinder.loadStyle('../lib/jquery.paginate.styles.css', null);
-		TeamFinder.loadStyle('../css/ListAds.css', null);
+		TeamFinder.loadStyle('../css/listAds.css', null);
 	};
 	
 	ListAds.initialize = function () {
