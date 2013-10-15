@@ -65,3 +65,13 @@
 {
 	float: left;
 }
+
+.aRSS
+{
+	background: url('../images/feed-icon-14x14.png') no-repeat 0 50%;
+	float: right;
+	font-size: small;
+	line-height: 23px;
+	margin-right: 50px;
+	padding-left: 20px;
+}
