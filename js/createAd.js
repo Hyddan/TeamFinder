@@ -1,14 +1,18 @@
 window.TeamFinder.CreateAd = (function (CreateAd) {
+	CreateAd.editMode = false;
+	
 	CreateAd.Elements = (function (Elements) {
 		Elements.aLogIn = null;
 		Elements.divCreateAdFormContainer = null;
 		Elements.divNotLoggedInContainer = null;
 		Elements.divResult = null;
 		Elements.divSuccess = null;
+		Elements.h1AdFormHeadline = null;
 		Elements.formCreateAd = null;
 		Elements.selectLocation = null;
 		Elements.selectLookingFor = null;
 		Elements.selectSport = null;
+		Elements.txtAdId = null;
 		Elements.txtDescription = null;
 		Elements.txtHeadline = null;
 		Elements.txtSelectSport = null;
@@ -31,6 +35,37 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 			Callbacks.createAd = function (data) {
 				CreateAd.Elements.divSuccess.show();
 				CreateAd.Elements.divCreateAdFormContainer.hide();
+				
+				setTimeout(function () {
+					$(window.location).attr('href', '../createAd.html');
+				}, 5000);
+			};
+			
+			Callbacks.adData = function (data) {
+				CreateAd.editMode = TeamFinder.isLoggedIn()
+										&& TeamFinder.Utils.notNullOrEmpty(data)
+										&& TeamFinder.Utils.notNullOrEmpty(data.User)
+										&& TeamFinder.Utils.notNullOrEmpty(data.User.Id)
+										&& TeamFinder.loggedInUser.id === data.User.Id;
+				
+				if (CreateAd.editMode) {
+					CreateAd.Elements.h1AdFormHeadline.html('Edit ad');
+					CreateAd.Elements.txtAdId.val(data.Id);
+					CreateAd.Elements.txtHeadline.val(data.Headline);
+					CreateAd.Elements.txtDescription.val(data.Description);
+					
+					TeamFinder.Utils.delay.call(this, function () {
+						CreateAd.Elements.selectLocation.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('locations', data.Location.Name));
+					}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLocation, 1);
+					
+					TeamFinder.Utils.delay.call(this, function () {
+						CreateAd.Elements.selectLookingFor.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('lookingFor', data.LookingFor.Name));
+					}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLookingFor, 1);
+					
+					TeamFinder.Utils.delay.call(this, function () {
+						CreateAd.Elements.selectSport.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('sports', data.Sport.Name));
+					}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectSport, 1);
+				}
 			};
 			
 			return Callbacks;
@@ -57,7 +92,17 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		TeamFinder.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
 		TeamFinder.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 		
-		CreateAd.Elements.txtHeadline.focus()
+		CreateAd.Elements.h1AdFormHeadline.html('Create an ad');
+		CreateAd.Elements.txtHeadline.focus();
+		
+		if (!isNaN(parseInt(TeamFinder.Utils.getQueryStringParameter('i'), 10))) {
+			//Call and get specific ad
+			TeamFinder.callServer('../data/getAdData.php', {
+					i: TeamFinder.Utils.getQueryStringParameter('i'),
+					q: 'specific'
+				}, 'GET', 'json', CreateAd.UI.Callbacks.adData, TeamFinder.handleError
+			);
+		}
 		
 		//Hook up events
 		CreateAd.Elements.selectSport.on('change', function () {
@@ -158,13 +203,24 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 						}
 					},
 					submitHandler: function () {
-						var data = CreateAd.Elements.formCreateAd.serialize();
-						var json_data = CreateAd.Elements.formCreateAd.serializeArray();
-						
 						var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
 						if (null == user || !TeamFinder.Utils.notNullOrEmpty(user.Id) || !TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
 							alert('You need to be logged in to create an ad');
 							return false;
+						}
+						
+						if (CreateAd.editMode) {
+							TeamFinder.callServer('../data/updateAd.php', {
+								id: CreateAd.Elements.txtAdId.val(),
+								description: CreateAd.Elements.txtDescription.val(),
+								headline: CreateAd.Elements.txtHeadline.val(),
+								location: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLocation),
+								lookingFor: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
+								sport: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
+								sessionId: user.SessionId
+							}, 'POST', 'json', CreateAd.UI.Callbacks.createAd, TeamFinder.handleError);
+							
+							return;
 						}
 						
 						TeamFinder.callServer('../data/createAd.php', {

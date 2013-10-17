@@ -10,7 +10,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 	ListAds.pageData = null;
 	
 	ListAds.Elements = (function (Elements) {
-		Elements.deleteButtons = null;
+		Elements.adButtons = null;
 		Elements.divAdContainer = null;
 		Elements.divFilter = null;
 		Elements.divFilterButton = null;
@@ -28,7 +28,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				}
 			}
 			
-			Elements.deleteButtons = $('.deleteButton');
+			Elements.adButtons = $('.adButton');
 		};
 		
 		return Elements;
@@ -124,24 +124,39 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			var adContentWrapper = $(document.createElement('div'));
 			adContentWrapper.addClass('adContentWrapper');
 			
-			var deleteButton = $(document.createElement('div')),
-				deleteButtonAnchor = $(document.createElement('a'));
-			deleteButton.addClass('deleteButton');
-			deleteButtonAnchor.html('Delete');
-			deleteButton.data('teamFinder-id', data.Id);
-			deleteButton.data('teamFinder-userId', data.User.Id);
-			deleteButton.data('teamFinder-headline', data.Headline);
-			deleteButton.append(deleteButtonAnchor);
-			adContentWrapper.append(deleteButton);
-			
-			deleteButton.on('click', function () {
-				if (confirm(TeamFinder.Utils.stringFormat('Are you sure you want to delete the ad with headline: {0}', $(this).data('teamFinder-headline')))) {
-					ListAds.deleteAd($(this).data('teamFinder-id'), TeamFinder.loggedInUser.sessionId);
+			var _buttons = {
+				deleteButton: {
+					label: 'Delete',
+					onClick: function () {
+						if (confirm(TeamFinder.Utils.stringFormat('Are you sure you want to delete the ad with headline: {0}', $(this).data('teamFinder-headline')))) {
+							ListAds.deleteAd($(this).data('teamFinder-id'), TeamFinder.loggedInUser.sessionId);
+						}
+					}
+				},
+				editButton: {
+					label: 'Edit',
+					onClick: function () {
+						$(window.location).attr('href', '../createAd.html?i=' + $(this).data('teamFinder-id'));
+					}
 				}
-			});
+			};
 			
-			if (!TeamFinder.isLoggedIn() || TeamFinder.loggedInUser.id !== data.User.Id) {
-				deleteButton.hide();
+			for (var key in _buttons) {
+				var button = $(document.createElement('div')),
+					buttonAnchor = $(document.createElement('a'));
+				button.addClass('adButton');
+				buttonAnchor.html(_buttons[key].label);
+				button.data('teamFinder-id', data.Id);
+				button.data('teamFinder-userId', data.User.Id);
+				button.data('teamFinder-headline', data.Headline);
+				button.append(buttonAnchor);
+				button.on('click', _buttons[key].onClick);
+				
+				if (!TeamFinder.isLoggedIn() || TeamFinder.loggedInUser.id !== data.User.Id) {
+					button.hide();
+				}
+				
+				adContentWrapper.append(button);
 			}
 			
 			var adContent = $(document.createElement('div'));
@@ -356,7 +371,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			//Subscribe to events
 			TeamFinder.Events.onLogIn = function (user) {
 				ListAds.Elements.initialize();
-				ListAds.Elements.deleteButtons.each(function () {
+				ListAds.Elements.adButtons.each(function () {
 					if (TeamFinder.loggedInUser.id === $(this).data('teamFinder-userId'))
 					{
 						$(this).show();
@@ -366,7 +381,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			
 			TeamFinder.Events.onLogOut = function (user) {
 				ListAds.Elements.initialize();
-				ListAds.Elements.deleteButtons.each(function () {
+				ListAds.Elements.adButtons.each(function () {
 					$(this).hide();
 				});
 			};

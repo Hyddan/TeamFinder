@@ -18,10 +18,11 @@
 					<p><b>You need to be logged in to create an ad. <a href="#" id ="aLogIn">Click here to log in.</a></b></p>
 				</div>
 				<div id="divCreateAdFormContainer">
-					<h1>Create an ad</h1>
+					<h1 id="h1AdFormHeadline">Create an ad</h1>
 					<form action="#" id="formCreateAd" method="post" enctype="multipart/form-data" onsubmit="return false">
 						<p>
-							<input id="btnSubmit" type="submit" value="Create" />
+							<input id="txtAdId" name="txtAdId" type="hidden" />
+							<input id="btnSubmit" type="submit" value="Save" />
 							<label for="txtHeadline">Headline</label><br />
 							<input id="txtHeadline" name="txtHeadline" type="text" />
 						</p>
@@ -39,7 +40,7 @@
 					</form>
 				</div>
 				<div id="divSuccess">
-					<p><b>We have received your request to create an ad, provided you didn't put anything stupid in there you can find it under <a href="../listAds.html">List Ads</a>.</b></p>
+					<p><b>We have received your request to save an ad, provided you didn't put anything stupid in there you can find it under <a href="../listAds.html">List Ads</a>.</b></p>
 				</div>
 			</div>
 			<div id="divLowerContent"></div>

@@ -125,7 +125,7 @@
 					}
 					jqSelectElement.append(option);
 				});
-		
+				
 				TeamFinder.Utils.delay.call(this, function () {
 					jqSelectElement.selectBoxIt({ theme: 'jqueryui' });
 				}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', jqSelectElement, 1);

@@ -8,11 +8,11 @@
  */
 
 (function ($){
-	var navigateR = function (elem, options) {
-		this.elem = elem;
-		this.jqElem = $(elem);
+	var navigateR = function (element, options) {
+		this.element = element;
+		this.jqElement = $(element);
 		this.options = options;
-		this.metadata = this.jqElem.data( 'navigateR-options' );
+		this.metadata = this.jqElement.data( 'navigateR-options' );
 	};
 
 	navigateR.prototype = {
@@ -25,27 +25,25 @@
 			padOut 				: 40
 		},
 		init: function () {
-			var timer = 0,
+			var _timer = 0,
 				self = this;
 				
 			self.config = $.extend({}, self.defaults, self.options, self.metadata);
 			
-			self.jqElem.addClass(self.config.containerClass);
-			self.jqElem.children('li').each(function (i)
+			self.jqElement.addClass(self.config.containerClass);
+			self.jqElement.children('li').each(function (i)
 			{
-				$(this).addClass(self.config.itemClass);
-				$(this).css("margin-left","-180px");
-				timer = (timer * self.config.multiplier + self.config.delay);
-				$(this).animate({ marginLeft: "0" }, timer);
-				$(this).animate({ marginLeft: self.config.padIn + "px" }, timer);
-				$(this).animate({ marginLeft: "0" }, timer);
+				_timer = _timer * self.config.multiplier + self.config.delay;
+				
+				$(this).addClass(self.config.itemClass).css("margin-left","-180px");
+				$(this).animate({ marginLeft: "0" }, _timer).animate({ marginLeft: self.config.padIn + "px" }, _timer).animate({ marginLeft: "0" }, _timer);
 			});
 			
-			self.jqElem.children('li').children('div').each(function (i)
+			self.jqElement.children('li').children('div').each(function (i)
 			{
-				$(this).hover(function () {
+				$(this).on('mouseenter', function () {
 					$(this).animate({ paddingLeft: self.config.padOut }, 150);
-				}, function () {
+				}).on('mouseleave', function () {
 					$(this).animate({ paddingLeft: self.config.padIn }, 150);
 				});
 			});

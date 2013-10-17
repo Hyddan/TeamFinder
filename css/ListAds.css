@@ -49,10 +49,11 @@
 	padding-right: 2.2em;
 }
 
-.adContentWrapper .deleteButton
+.adContentWrapper .adButton
 {
 	cursor: pointer;
 	float: right;
+	padding-left: 0em;
 }
 
 .adHeadline > span

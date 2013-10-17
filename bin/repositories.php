@@ -180,7 +180,7 @@
 			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
 			if ($result = mysqli_query($connection, $query))
 			{
-				if (0 < $ad->Id)
+				if (0 >= $ad->Id)
 				{
 					$ad = AdRepository::GetById(mysqli_insert_id($connection));
 				}
