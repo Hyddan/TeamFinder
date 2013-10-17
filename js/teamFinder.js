@@ -12,6 +12,11 @@
 				TeamFinder.Authentication.Elements.divSignUpValidationMessage.text('');
 				TeamFinder.Authentication.Elements.divSignUpValidationMessage.hide();
 				
+				TeamFinder.loggedInUser = {
+					id: user.Id,
+					sessionId: user.SessionId
+				};
+				
 				TeamFinder.Events.onSignUp(user);
 				TeamFinder.Events.onLogIn(user);
 			}
@@ -26,6 +31,11 @@
 				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.text('');
 				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.hide();
 				
+				TeamFinder.loggedInUser = {
+					id: user.Id,
+					sessionId: user.SessionId
+				};
+				
 				TeamFinder.Events.onLogIn(user);
 			}
 			else {
@@ -39,6 +49,11 @@
 			TeamFinder.Utils.deleteCookie('tfUser');
 			_loggedInUser = null;
 			TeamFinder.Authentication.updateButtonLabel();
+				
+			TeamFinder.loggedInUser = {
+				id: null,
+				sessionId: null
+			};
 				
 			TeamFinder.Events.onLogOut(user);
 		};
