@@ -84,6 +84,37 @@
 		return Events;
 	}(TeamFinder.Events || {}));
 	
+	TeamFinder.Plugins = (function (Plugins) {
+		Plugins.Google = (function (Google) {
+			Google.Analytics = (function () {
+				return {
+					initialize: function (trackerId, scriptUrl) {
+						window.GoogleAnalyticsObject = 'ga';
+						window.ga = window.ga || function () {
+							(window.ga.q = window.ga.q || []).push(arguments);
+						},
+						window.ga.l = (new Date()) * 1;
+						
+						var _script = document.createElement('script'),
+							_firstScript = document.getElementsByTagName('script')[0];
+						
+						_script.async = true;
+						_script.src = TeamFinder.Utils.notNullOrEmpty(scriptUrl) ? scriptUrl : '//www.google-analytics.com/analytics.js';
+						
+						_firstScript.parentNode.insertBefore(_script, _firstScript);
+
+						window.ga('create', trackerId, 'teamfinder.se');
+						window.ga('send', 'pageview');
+					}
+				};
+			}());
+			
+			return Google;
+		}(Plugins.Google || {}));
+		
+		return Plugins;
+	}(TeamFinder.Plugins || {}));
+	
 	TeamFinder.UI = (function (UI) {
 		UI.adFilterData = {
 			locations: null,
@@ -487,6 +518,9 @@
 	
 	TeamFinder.initialize = function () {
 		TeamFinder.loadDependencies();
+		TeamFinder.Environment.detect();
+		
+		TeamFinder.Plugins.Google.Analytics.initialize('UA-44948166-1', '//www.google-analytics.com/analytics.js');
 	};
 	
 	TeamFinder.initialize();
