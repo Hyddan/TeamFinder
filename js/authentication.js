@@ -305,6 +305,25 @@ window.TeamFinder.Authentication = (function (Authentication) {
 				
 				Authentication.updateButtonLabel();
 			}, 'obj => false === TeamFinder.Utils.notNullOrEmpty($(\'#menuAuthentication\')[0])', null, 1);
+			
+			//Subscribe to events
+			TeamFinder.Events.on('logIn', function (user) {
+				Authentication.updateButtonLabel();
+				Authentication.Elements.formAuthenticate[0].reset();
+				Authentication.Elements.divAuthenticateValidationMessage.text('');
+				Authentication.Elements.divAuthenticateValidationMessage.hide();
+			}).on('logInFailed', function () {
+				TeamFinder.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
+				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.text('Invalid credentials');
+				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.show();
+			}).on('logOut', function (user) {
+				Authentication.updateButtonLabel();
+			}).on('signUp', function (user) {
+				Authentication.Elements.formSignUp[0].reset();
+				Authentication.Elements.divSignUpPlaceHolder.slideUp();
+				Authentication.Elements.divSignUpValidationMessage.text('');
+				Authentication.Elements.divSignUpValidationMessage.hide();
+			});
 		});
 	};
 	

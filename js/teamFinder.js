@@ -6,19 +6,9 @@
 			if (TeamFinder.Utils.notNullOrEmpty(user) && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
 				TeamFinder.Utils.setCookie('tfUser', JSON.stringify(user));
 				_loggedInUser = user;
-				TeamFinder.Authentication.updateButtonLabel();
-				TeamFinder.Authentication.Elements.formSignUp[0].reset();
-				TeamFinder.Authentication.Elements.divSignUpPlaceHolder.slideUp();
-				TeamFinder.Authentication.Elements.divSignUpValidationMessage.text('');
-				TeamFinder.Authentication.Elements.divSignUpValidationMessage.hide();
 				
-				TeamFinder.loggedInUser = {
-					id: user.Id,
-					sessionId: user.SessionId
-				};
-				
-				TeamFinder.Events.onSignUp(user);
-				TeamFinder.Events.onLogIn(user);
+				TeamFinder.Events.fire('signUp', user);
+				TeamFinder.Events.fire('logIn', user);
 			}
 		};
 		
@@ -26,36 +16,19 @@
 			if (TeamFinder.Utils.notNullOrEmpty(user) && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
 				TeamFinder.Utils.setCookie('tfUser', JSON.stringify(user));
 				_loggedInUser = user;
-				TeamFinder.Authentication.updateButtonLabel();
-				TeamFinder.Authentication.Elements.formAuthenticate[0].reset();
-				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.text('');
-				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.hide();
 				
-				TeamFinder.loggedInUser = {
-					id: user.Id,
-					sessionId: user.SessionId
-				};
-				
-				TeamFinder.Events.onLogIn(user);
+				TeamFinder.Events.fire('logIn', user);
 			}
 			else {
-				TeamFinder.Authentication.Elements.divAuthenticationPlaceHolder.slideDown();
-				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.text('Invalid credentials');
-				TeamFinder.Authentication.Elements.divAuthenticateValidationMessage.show();
+				TeamFinder.Events.fire('logInFailed');
 			}
 		};
 		
 		Callbacks.logOut = function (user) {
 			TeamFinder.Utils.deleteCookie('tfUser');
 			_loggedInUser = null;
-			TeamFinder.Authentication.updateButtonLabel();
 				
-			TeamFinder.loggedInUser = {
-				id: null,
-				sessionId: null
-			};
-				
-			TeamFinder.Events.onLogOut(user);
+			TeamFinder.Events.fire('logOut', user);
 		};
 		
 		return Callbacks;
@@ -72,13 +45,29 @@
 	}(TeamFinder.Environment || {}));
 	
 	TeamFinder.Events = (function (Events) {
-		Events.onLogIn = function (user) {
+		Events.eventHandlers = Events.eventHandlers || {};
+		
+		Events.fire = function (event, data) {
+			if (TeamFinder.Utils.notNullOrEmpty(event) && TeamFinder.Utils.notNullOrEmpty(Events.eventHandlers[event])) {
+				for (var key in Events.eventHandlers[event]) {
+					Events.eventHandlers[event][key].func.apply({}, [data].concat(Events.eventHandlers[event][key].args));
+				}
+			}
 		};
 		
-		Events.onLogOut = function (user) {
-		};
-		
-		Events.onSignUp = function (user) {
+		Events.on = function (event, handler) {
+			var args = [];
+
+			for (var i = 2; i < arguments.length; i++) {
+				args.push(arguments[i]);
+			}
+			
+			if (event && handler) {
+				Events.eventHandlers[event] = Events.eventHandlers[event] || [];
+				Events.eventHandlers[event].push({ args: args, func: handler });
+			}
+			
+			return this;
 		};
 		
 		return Events;
@@ -491,8 +480,12 @@
 		}
 		
 		return {
-			id: TeamFinder.isLoggedIn() ? _loggedInUser.Id : null,
-			sessionId: TeamFinder.isLoggedIn() ? _loggedInUser.SessionId : null
+			id: function () {
+				return TeamFinder.isLoggedIn() ? _loggedInUser.Id : null;
+			},
+			sessionId: function () {
+				return TeamFinder.isLoggedIn() ? _loggedInUser.SessionId : null;
+			}
 		};
 	})();
 	

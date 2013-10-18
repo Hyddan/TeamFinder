@@ -46,7 +46,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 										&& TeamFinder.Utils.notNullOrEmpty(data)
 										&& TeamFinder.Utils.notNullOrEmpty(data.User)
 										&& TeamFinder.Utils.notNullOrEmpty(data.User.Id)
-										&& TeamFinder.loggedInUser.id === data.User.Id;
+										&& TeamFinder.loggedInUser.id() === data.User.Id;
 				
 				if (CreateAd.editMode) {
 					CreateAd.Elements.h1AdFormHeadline.html('Edit ad');
@@ -127,15 +127,13 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		});
 		
 		//Subscribe to events
-		TeamFinder.Events.onLogIn = function (user) {
+		TeamFinder.Events.on('logIn', function (user) {
 			CreateAd.Elements.divNotLoggedInContainer.hide();
 			CreateAd.Elements.divCreateAdFormContainer.fadeIn();
-		};
-		
-		TeamFinder.Events.onLogOut = function (user) {
+		}).on('logOut', function (user) {
 			CreateAd.Elements.divCreateAdFormContainer.hide();
 			CreateAd.Elements.divNotLoggedInContainer.fadeIn();
-		};
+		});
 		
 		TeamFinder.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
 			//Fix issues in jQuery Validation plugin

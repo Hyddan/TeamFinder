@@ -129,7 +129,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 					label: 'Delete',
 					onClick: function () {
 						if (confirm(TeamFinder.Utils.stringFormat('Are you sure you want to delete the ad with headline: {0}', $(this).data('teamFinder-headline')))) {
-							ListAds.deleteAd($(this).data('teamFinder-id'), TeamFinder.loggedInUser.sessionId);
+							ListAds.deleteAd($(this).data('teamFinder-id'), TeamFinder.loggedInUser.sessionId());
 						}
 					}
 				},
@@ -152,7 +152,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				button.append(buttonAnchor);
 				button.on('click', _buttons[key].onClick);
 				
-				if (!TeamFinder.isLoggedIn() || TeamFinder.loggedInUser.id !== data.User.Id) {
+				if (!TeamFinder.isLoggedIn() || TeamFinder.loggedInUser.id() !== data.User.Id) {
 					button.hide();
 				}
 				
@@ -367,24 +367,22 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			ListAds.Elements.selectSport.on('change', function () {
 				ListAds.adFilter.s = TeamFinder.Utils.getSelectedDropDownValue($(this));
 			});
-		
+			
 			//Subscribe to events
-			TeamFinder.Events.onLogIn = function (user) {
+			TeamFinder.Events.on('logIn', function (user) {
 				ListAds.Elements.initialize();
 				ListAds.Elements.adButtons.each(function () {
-					if (TeamFinder.loggedInUser.id === $(this).data('teamFinder-userId'))
+					if (TeamFinder.loggedInUser.id() === $(this).data('teamFinder-userId'))
 					{
 						$(this).show();
 					}
 				});
-			};
-			
-			TeamFinder.Events.onLogOut = function (user) {
+			}).on('logOut', function (user) {
 				ListAds.Elements.initialize();
 				ListAds.Elements.adButtons.each(function () {
 					$(this).hide();
 				});
-			};
+			});
 		});
 	};
 	
