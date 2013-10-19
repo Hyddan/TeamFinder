@@ -1,14 +1,14 @@
 window.TeamFinder.Title = (function (Title) {
-	Title.UI = (function (UI) {
-		UI.insertTitleOnPage = function (data) {
+	Title.Callbacks = (function (Callbacks) {
+		Callbacks.title = function (data) {
 			$('#h1HeadContainer').html(data);
 		};	
 		
-		return UI;
-	}(Title.UI || {}));
+		return Callbacks;
+	}(Title.Callbacks || {}));
 	
 	Title.initialize = function () {
-		TeamFinder.callServer('../data/title.html', '', 'GET', 'html', Title.UI.insertTitleOnPage, TeamFinder.handleError);
+		TeamFinder.callServer('../data/title.html', '', 'GET', 'html', Title.Callbacks.title, TeamFinder.handleError);
 	};
 	
 	return Title;

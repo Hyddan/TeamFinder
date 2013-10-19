@@ -30,49 +30,45 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		return Elements;
 	}(CreateAd.Elements || {}));
 	
-	CreateAd.UI = (function (UI) {
-		UI.Callbacks = (function (Callbacks) {
-			Callbacks.createAd = function (data) {
-				CreateAd.Elements.divSuccess.show();
-				CreateAd.Elements.divCreateAdFormContainer.hide();
-				
-				setTimeout(function () {
-					$(window.location).attr('href', '../createAd.html');
-				}, 5000);
-			};
+	Callbacks = (function (Callbacks) {
+		Callbacks.createAd = function (data) {
+			CreateAd.Elements.divSuccess.show();
+			CreateAd.Elements.divCreateAdFormContainer.hide();
 			
-			Callbacks.adData = function (data) {
-				CreateAd.editMode = TeamFinder.isLoggedIn()
-										&& TeamFinder.Utils.notNullOrEmpty(data)
-										&& TeamFinder.Utils.notNullOrEmpty(data.User)
-										&& TeamFinder.Utils.notNullOrEmpty(data.User.Id)
-										&& TeamFinder.loggedInUser.id() === data.User.Id;
-				
-				if (CreateAd.editMode) {
-					CreateAd.Elements.h1AdFormHeadline.html('Edit ad');
-					CreateAd.Elements.txtAdId.val(data.Id);
-					CreateAd.Elements.txtHeadline.val(data.Headline);
-					CreateAd.Elements.txtDescription.val(data.Description);
-					
-					TeamFinder.Utils.delay.call(this, function () {
-						CreateAd.Elements.selectLocation.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('locations', data.Location.Name));
-					}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLocation, 1);
-					
-					TeamFinder.Utils.delay.call(this, function () {
-						CreateAd.Elements.selectLookingFor.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('lookingFor', data.LookingFor.Name));
-					}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLookingFor, 1);
-					
-					TeamFinder.Utils.delay.call(this, function () {
-						CreateAd.Elements.selectSport.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('sports', data.Sport.Name));
-					}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectSport, 1);
-				}
-			};
-			
-			return Callbacks;
-		}(UI.Callbacks || {}));
+			setTimeout(function () {
+				$(window.location).attr('href', '../createAd.html');
+			}, 5000);
+		};
 		
-		return UI;
-	}(CreateAd.UI || {}));
+		Callbacks.adData = function (data) {
+			CreateAd.editMode = TeamFinder.isLoggedIn()
+									&& TeamFinder.Utils.notNullOrEmpty(data)
+									&& TeamFinder.Utils.notNullOrEmpty(data.User)
+									&& TeamFinder.Utils.notNullOrEmpty(data.User.Id)
+									&& TeamFinder.loggedInUser.id() === data.User.Id;
+			
+			if (CreateAd.editMode) {
+				CreateAd.Elements.h1AdFormHeadline.html('Edit ad');
+				CreateAd.Elements.txtAdId.val(data.Id);
+				CreateAd.Elements.txtHeadline.val(data.Headline);
+				CreateAd.Elements.txtDescription.val(data.Description);
+				
+				TeamFinder.Utils.delay.call(this, function () {
+					CreateAd.Elements.selectLocation.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('locations', data.Location.Name));
+				}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLocation, 1);
+				
+				TeamFinder.Utils.delay.call(this, function () {
+					CreateAd.Elements.selectLookingFor.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('lookingFor', data.LookingFor.Name));
+				}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLookingFor, 1);
+				
+				TeamFinder.Utils.delay.call(this, function () {
+					CreateAd.Elements.selectSport.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('sports', data.Sport.Name));
+				}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectSport, 1);
+			}
+		};
+		
+		return Callbacks;
+	}(CreateAd.Callbacks || {}));
 	
 	CreateAd.initialize = function () {
 		//Set initial values
@@ -100,11 +96,11 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 			TeamFinder.callServer('../data/getAdData.php', {
 					i: TeamFinder.Utils.getQueryStringParameter('i'),
 					q: 'specific'
-				}, 'GET', 'json', CreateAd.UI.Callbacks.adData, TeamFinder.handleError
+				}, 'GET', 'json', CreateAd.Callbacks.adData, TeamFinder.handleError
 			);
 		}
 		
-		//Hook up events
+		//Subscribe to events
 		CreateAd.Elements.selectSport.on('change', function () {
 			CreateAd.Elements.txtSelectSport.val(TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport));
 			CreateAd.Elements.txtSelectSport.valid();
@@ -126,7 +122,6 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 			e.stopPropagation();
 		});
 		
-		//Subscribe to events
 		TeamFinder.Events.on('logIn', function (user) {
 			CreateAd.Elements.divNotLoggedInContainer.hide();
 			CreateAd.Elements.divCreateAdFormContainer.fadeIn();
@@ -216,7 +211,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 								lookingFor: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
 								sport: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
 								sessionId: user.SessionId
-							}, 'POST', 'json', CreateAd.UI.Callbacks.createAd, TeamFinder.handleError);
+							}, 'POST', 'json', CreateAd.Callbacks.createAd, TeamFinder.handleError);
 							
 							return;
 						}
@@ -228,12 +223,18 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 							lookingFor: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectLookingFor),
 							sport: TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport),
 							userId: user.Id
-						}, 'POST', 'json', CreateAd.UI.Callbacks.createAd, TeamFinder.handleError);
+						}, 'POST', 'json', CreateAd.Callbacks.createAd, TeamFinder.handleError);
 					}
 				});
 			})();
 		});
 	};
+	
+	CreateAd.loadDependencies = function () {
+		TeamFinder.loadStyle('../css/createAd.css', null);
+	};
+	
+	CreateAd.loadDependencies();
 	
 	return CreateAd;
 }(window.TeamFinder.CreateAd || {}));

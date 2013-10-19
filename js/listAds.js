@@ -9,6 +9,62 @@ window.TeamFinder.ListAds = (function (ListAds) {
 	ListAds.pageSize = null;
 	ListAds.pageData = null;
 	
+	ListAds.Callbacks = (function (Callbacks) {
+		Callbacks.adCount = function (data) {
+			ListAds.adCount = parseInt(data[0].AdCount, 10) == 0 ? 1 : parseInt(data[0].AdCount, 10);
+		};
+		
+		Callbacks.adData = function (data) {
+			var _isUiAccordion = false;
+			ListAds.pageData = data;
+			
+			try {
+				_isUiAccordion = ListAds.Elements.divAdContainer.is(':ui-accordion');
+			}
+			catch (ex) {
+				_isUiAccordion = false;
+			}
+			
+			if (_isUiAccordion) {
+				ListAds.Elements.divAdContainer.accordion('destroy');
+			}
+			
+			ListAds.Elements.divAdContainer.html('').css('position', 'relative');
+			if (ListAds.pageData instanceof Array) {
+				$.each(ListAds.pageData, function (index) {
+					ListAds.Elements.divAdContainer.append(ListAds.UI.createHeadline(this));
+					ListAds.Elements.divAdContainer.append(ListAds.UI.createAdContent(this));
+				});
+			}
+			else {
+				ListAds.Elements.divAdContainer.append(ListAds.UI.createHeadline(ListAds.pageData));
+				ListAds.Elements.divAdContainer.append(ListAds.UI.createAdContent(ListAds.pageData));
+			}
+			
+			TeamFinder.Utils.delay.call(this, function () {
+				ListAds.Elements.divAdContainer.accordion({
+					active: false,
+					autoHeight: false,
+					collapsible: true,
+					event: 'click',
+					header: 'h3',
+					heightStyle: 'content'
+				});
+			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.accordion)', ListAds.Elements.divAdContainer, 1);
+		};
+		
+		Callbacks.adDeleted = function (data) {
+			if (true === data.deleted) {
+				ListAds.Events.onAdDeleted();
+				return;
+			}
+			
+			alert('Your ad couldn\'t be deleted at this time. Please reload the page and try again');
+		};
+		
+		return Callbacks;
+	}(ListAds.Callbacks || {}));
+	
 	ListAds.Elements = (function (Elements) {
 		Elements.adButtons = null;
 		Elements.divAdContainer = null;
@@ -56,7 +112,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 					pageIndex: ListAds.pageIndex - 1,
 					pageSize: ListAds.pageSize,
 					q: 'data'
-				}, 'GET', 'json', ListAds.UI.Callbacks.adData, TeamFinder.handleError
+				}, 'GET', 'json', ListAds.Callbacks.adData, TeamFinder.handleError
 			);
 		};
 		
@@ -64,62 +120,6 @@ window.TeamFinder.ListAds = (function (ListAds) {
 	}(ListAds.Events || {}));
 	
 	ListAds.UI = (function(UI) {
-		UI.Callbacks = (function (Callbacks) {
-			Callbacks.adCount = function (data) {
-				ListAds.adCount = parseInt(data[0].AdCount, 10) == 0 ? 1 : parseInt(data[0].AdCount, 10);
-			};
-			
-			Callbacks.adData = function (data) {
-				var _isUiAccordion = false;
-				ListAds.pageData = data;
-				
-				try {
-					_isUiAccordion = ListAds.Elements.divAdContainer.is(':ui-accordion');
-				}
-				catch (ex) {
-					_isUiAccordion = false;
-				}
-				
-				if (_isUiAccordion) {
-					ListAds.Elements.divAdContainer.accordion('destroy');
-				}
-				
-				ListAds.Elements.divAdContainer.html('').css('position', 'relative');
-				if (ListAds.pageData instanceof Array) {
-					$.each(ListAds.pageData, function (index) {
-						ListAds.Elements.divAdContainer.append(UI.createHeadline(this));
-						ListAds.Elements.divAdContainer.append(UI.createAdContent(this));
-					});
-				}
-				else {
-					ListAds.Elements.divAdContainer.append(UI.createHeadline(ListAds.pageData));
-					ListAds.Elements.divAdContainer.append(UI.createAdContent(ListAds.pageData));
-				}
-				
-				TeamFinder.Utils.delay.call(this, function () {
-					ListAds.Elements.divAdContainer.accordion({
-						active: false,
-						autoHeight: false,
-						collapsible: true,
-						event: 'click',
-						header: 'h3',
-						heightStyle: 'content'
-					});
-				}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.accordion)', ListAds.Elements.divAdContainer, 1);
-			};
-			
-			Callbacks.adDeleted = function (data) {
-				if (true === data.deleted) {
-					ListAds.Events.onAdDeleted();
-					return;
-				}
-				
-				alert('Your ad couldn\'t be deleted at this time. Please reload the page and try again');
-			};
-			
-			return Callbacks;
-		}(UI.Callbacks || {}));
-		
 		UI.createAdContent = function (data) {
 			var adContentWrapper = $(document.createElement('div'));
 			adContentWrapper.addClass('adContentWrapper');
@@ -237,7 +237,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 						lf: ListAds.adFilter.lf,
 						s: ListAds.adFilter.s,
 						q: 'count'
-					}, 'GET', 'json', UI.Callbacks.adCount, TeamFinder.handleError
+					}, 'GET', 'json', ListAds.Callbacks.adCount, TeamFinder.handleError
 				);
 				setTimeout(UI.paginate, 500);
 			}
@@ -280,7 +280,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 		TeamFinder.callServer('../data/deleteAd.php', {
 				i: id,
 				sessionId: sessionId
-			}, 'POST', 'json', ListAds.UI.Callbacks.adDeleted, TeamFinder.handleError
+			}, 'POST', 'json', ListAds.Callbacks.adDeleted, TeamFinder.handleError
 		);
 	};
 	
@@ -313,7 +313,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				TeamFinder.callServer('../data/getAdData.php', {
 						i: TeamFinder.Utils.getQueryStringParameter('i'),
 						q: 'specific'
-					}, 'GET', 'json', ListAds.UI.Callbacks.adData, TeamFinder.handleError
+					}, 'GET', 'json', ListAds.Callbacks.adData, TeamFinder.handleError
 				);
 				
 				ListAds.UI.paginate(1);
@@ -347,7 +347,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				}
 			);
 			
-			//Hook up events
+			//Subscribe to events
 			ListAds.Elements.divFilterButton.on('click', function () {
 				ListAds.Elements.divFilter.slideToggle();
 			});

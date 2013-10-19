@@ -1,0 +1,25 @@
+#btnSubmit
+{
+	float: right;
+}
+
+#divCreateAdFormContainer h1, #divNotLoggedInContainer p
+{
+	margin: 10px 0px 10px 0px;
+}
+
+#divCreateAdFormContainer h1
+{
+	line-height: 30px;
+}
+
+#formCreateAd
+{
+	float: right;
+	width: 900px;
+}
+
+#txtDescription
+{
+	width: 892px;
+}

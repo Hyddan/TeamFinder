@@ -103,64 +103,6 @@ label.error
 }
 /*** /Basic page structure ***/
 
-#btnSubmit
-{
-	float: right;
-}
-
-#divCreateAdFormContainer h1, #divNotLoggedInContainer p
-{
-	margin: 10px 0px 10px 0px;
-}
-
-#divCreateAdFormContainer h1
-{
-	line-height: 30px;
-}
-
-#divQuickSearchFormContainer
-{
-	float: right;
-	height: 200px;
-	width: 230px;
-}
-
-#divSlideshow
-{
-	box-shadow: 0 0 20px rgba(0,0,0,0.4);
-	float: left;
-	height: 250px;
-	margin: 0px;
-	position: relative;
-	width: 450px;
-}
-
-#divSlideshow > div
-{
-	color: white;
-	cursor: pointer;
-	margin: 0px;
-	position: absolute;
-}
-
-#divWelcomeMessage
-{
-    float: left;
-    height: 200px;
-    width: 600px;
-}
-
-#formCreateAd
-{
-	float: right;
-	width: 900px;
-}
-
-#txtDescription
-{
-	width: 892px;
-}
-
 .aButton
 {
     line-height: 15px;

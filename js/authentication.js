@@ -47,7 +47,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 				
 				Authentication.Elements.initialize();
 				
-				//Hook up events
+				//Subscribe to events
 				TeamFinder.Authentication.Elements.divAuthenticationButton.on('click', function (e) {
 					if (TeamFinder.isLoggedIn()) {
 						TeamFinder.logOut();
@@ -129,7 +129,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 				
 				Authentication.Elements.txtSignUpFirstName.focus();
 				
-				//Hook up events
+				//Subscribe to events
 				Authentication.Elements.divSignUpSignUpButton.on('click', function () {
 					Authentication.Elements.formSignUp.trigger('submit');
 				});

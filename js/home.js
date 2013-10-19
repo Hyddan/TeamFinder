@@ -86,9 +86,15 @@ window.TeamFinder.Home = (function(Home) {
 		TeamFinder.UI.createDropDown(Home.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 	};
 	
+	Home.loadDependencies = function () {
+		TeamFinder.loadStyle('../css/home.css', null);
+	};
+	
 	Home.quickSearch = function () {
 		$(window.location).attr('href', '../listAds.html?' + Home.Elements.formQuickSearch.serialize());
 	};
+	
+	Home.loadDependencies();
 	
 	return Home;
 }(window.TeamFinder.Home || {}));

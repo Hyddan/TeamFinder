@@ -41,3 +41,25 @@
 {
 	color: white;
 }
+
+#menuAuthentication
+{
+	float: right;
+}
+
+#menuAuthentication .divButtonBackground
+{
+	padding: 0em;
+}
+
+#menuAuthentication #aAuthenticationButton
+{
+	line-height: 23px;
+	padding-right: 0em;
+}
+
+#menuSettings
+{
+	display: none;
+	float: right;
+}

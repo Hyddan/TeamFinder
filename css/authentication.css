@@ -1,12 +1,6 @@
 #divAuthenticationButton
 {
-	min-width: 120px;
-}
-
-#divAuthenticationContainer
-{
-	float: right;
-	width: 90px;
+	position: relative;
 }
 
 #divAuthenticationContainer div.formAuthenticateButtons *

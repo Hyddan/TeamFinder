@@ -1,6 +1,6 @@
 window.TeamFinder.Tips = (function (Tips) {
-	Tips.UI = (function (UI) {
-		UI.createNavigation = function (data) {
+	Tips.Callbacks = (function (Callbacks) {
+		Callbacks.navigation = function (data) {
 			$('#divNavigationPlaceHolder').html(data);
 			
 			TeamFinder.Utils.delay.call(this, function () {
@@ -15,11 +15,11 @@ window.TeamFinder.Tips = (function (Tips) {
 			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.navigateR)', $('.navigateRMenu'), 1);
 		};
 		
-		return UI;
-	}(Tips.UI || {}));
+		return Callbacks;
+	}(Tips.Callbacks || {}));
 	
 	Tips.initialize = function () {
-		TeamFinder.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.UI.createNavigation, TeamFinder.handleError);
+		TeamFinder.callServer('../data/tipsNavigation.html', '', 'GET', 'html', Tips.Callbacks.navigation, TeamFinder.handleError);
 	};
 	
 	Tips.loadDependencies = function () {
