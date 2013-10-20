@@ -288,11 +288,6 @@ window.TeamFinder.ListAds = (function (ListAds) {
 		return (ListAds.adFilter.loc != null || ListAds.adFilter.lf != null || ListAds.adFilter.s != null);
 	};
 	
-	ListAds.loadDependencies = function () {
-		TeamFinder.loadStyle('../lib/jquery.paginate.styles.css', null);
-		TeamFinder.loadStyle('../css/listAds.css', null);
-	};
-	
 	ListAds.initialize = function () {
 		TeamFinder.loadScript('../lib/jquery.paginate.js', function () {
 			//Set initial values
@@ -368,7 +363,6 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				ListAds.adFilter.s = TeamFinder.Utils.getSelectedDropDownValue($(this));
 			});
 			
-			//Subscribe to events
 			TeamFinder.Events.on('logIn', function (user) {
 				ListAds.Elements.initialize();
 				ListAds.Elements.adButtons.each(function () {
@@ -384,6 +378,11 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				});
 			});
 		});
+	};
+	
+	ListAds.loadDependencies = function () {
+		TeamFinder.loadStyle('../lib/jquery.paginate.styles.css', null);
+		TeamFinder.loadStyle('../css/listAds.css', null);
 	};
 	
 	ListAds.loadDependencies();

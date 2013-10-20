@@ -18,7 +18,71 @@
 					<p><b>You need to be logged in to access the settings page. <a href="#" id ="aLogIn">Click here to log in.</a></b></p>
 				</div>
 				<div id="divSettingsContainer">
-					<p><b>ToDo: Add editable settings</b></p>
+					<h1 id="h1FormSettingsHeadline">Edit information</h1>
+					<form action="#" id="formSettings" method="post" enctype="multipart/form-data" onsubmit="return false">
+						<input id="txtUserId" name="txtUserId" type="hidden" />
+						<table>
+							<tr>
+								<td>
+									<label for="txtUsername">Username</label><br />
+									<input id="txtUsername" name="txtUsername" type="text" />
+								</td>
+								<td>
+									<label for="txtEmail">Email</label><br />
+									<input id="txtEmail" name="txtEmail" type="text" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="txtFirstName">First Name</label><br />
+									<input id="txtFirstName" name="txtFirstName" type="text" />
+								</td>
+								<td>
+									<label for="txtLastName">Last Name</label><br />
+									<input id="txtLastName" name="txtLastName" type="text" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="txtAge">Age</label><br />
+									<input id="txtAge" name="txtAge" type="text" />
+								</td>
+								<td>
+									<label for="txtGender">Gender</label><br />
+									<input id="txtGenderMale" name="rdoGender" type="radio" value="Male">Male</input>
+									<input id="txtGenderFemale" name="rdoGender" type="radio" value="Female">Female</input>
+									<label class="error" for="rdoGender" style="display: none;">This field is required.</label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="txtDescription">Description</label><br />
+									<textarea id="txtDescription" name="txtDescription" rows="5" placeholder="Enter your description here!"></textarea>
+								</td>
+							</tr>
+							<tr>
+								<!--td>
+									<label for="btnSignUpPicture">Picture (Optional)</label><br />
+									<div id="divSignUpUploaderContainer"></div>
+									<div class="formAuthenticateButtons" id="divSignUpPictureButtonContainer">
+										<div class="divButton" id="divSignUpPictureButton"><a class="aButton" id="aSignUpPicture">Browse</a></div>
+									</div>
+									<div id="divSignUpPictureNamePlaceholder">(No file)</div>
+								</td-->
+								<td>
+									<div id="divPasswordChangeContainer"><div id="divPasswordChangeButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Change Password</a></div></div></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input id="btnSubmit" type="submit" value="Save" />
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div id="divSuccess">
+					<p><b>We have received your request to update your information, we will take it under consideration. In the mean time you may want to check out <a href="../listAds.html">the latest ads</a>.</b></p>
 				</div>
 			</div>
 			<div id="divLowerContent"></div>

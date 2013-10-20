@@ -25,6 +25,11 @@
     width: 600px;
 }
 
+.aButton
+{
+    line-height: 15px;
+}
+
 .adContentWrapper
 {
 	padding: 0px !important;
@@ -75,4 +80,17 @@
 	line-height: 23px;
 	margin-right: 50px;
 	padding-left: 20px;
+}
+
+.divButton
+{
+	cursor: pointer;
+    font-size: small;
+    position: absolute;
+}
+
+.divButtonBackground
+{
+    margin: 2px;
+	padding: 2px 5px;
 }

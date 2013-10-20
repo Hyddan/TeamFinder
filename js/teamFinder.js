@@ -388,6 +388,13 @@
 		console.log(error);
 	};
 	
+	TeamFinder.initialize = function () {
+		TeamFinder.loadDependencies();
+		TeamFinder.Environment.detect();
+		
+		TeamFinder.Plugins.Google.Analytics.initialize('UA-44948166-1', '//www.google-analytics.com/analytics.js');
+	};
+	
 	TeamFinder.isLoggedIn = function () {
 		if (null == _loggedInUser) {
 			var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
@@ -509,16 +516,9 @@
 		}
 	};
 	
-	TeamFinder.initialize = function () {
-		TeamFinder.loadDependencies();
-		TeamFinder.Environment.detect();
-		
-		TeamFinder.Plugins.Google.Analytics.initialize('UA-44948166-1', '//www.google-analytics.com/analytics.js');
-	};
+	TeamFinder.ready = $(document).ready;
 	
 	TeamFinder.initialize();
-	
-	TeamFinder.ready = $(document).ready;
 	
 	return TeamFinder;
 }(window.TeamFinder || {}));

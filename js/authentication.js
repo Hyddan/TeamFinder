@@ -1,6 +1,158 @@
 window.TeamFinder.Authentication = (function (Authentication) {
 	var _activeForm = null;
 	
+	Authentication.Callbacks = (function (Callbacks) {
+		Callbacks.authentication = function(data) {
+			Authentication.Elements.divAuthenticationPlaceHolder.html(data);
+			Authentication.Elements.divAuthenticationPlaceHolder.hide();
+			Authentication.Elements.divSignUpPlaceHolder.hide();
+			
+			Authentication.Elements.initialize();
+			
+			//Subscribe to events
+			TeamFinder.Authentication.Elements.divAuthenticationButton.on('click', function (e) {
+				if (TeamFinder.isLoggedIn()) {
+					TeamFinder.logOut();
+					return;
+				}
+				
+				if (Authentication.Elements.formSignUp.is(':visible')) {
+					Authentication.Elements.divSignUpPlaceHolder.slideUp();
+				}
+				else {
+					Authentication.Elements.divAuthenticationPlaceHolder.slideToggle();
+					Authentication.Elements.txtAuthenticateUsername.focus();
+					e.stopPropagation();
+				}
+			});
+			
+			Authentication.Elements.divAuthenticateSubmitAuthenticationButton.on('click', function (e) {
+				Authentication.Elements.formAuthenticate.trigger('submit');
+			});
+			
+			Authentication.Elements.divAuthenticateSignUpButton.on('click', function (e) {
+				TeamFinder.callServer('../data/signUp.html', '', 'GET', 'html', Authentication.Callbacks.signUp, TeamFinder.handleError);
+			});
+			
+			$(document).on('click', function (e) {
+				if ((Authentication.Elements.formAuthenticate.is(':visible') || Authentication.Elements.formSignUp.is(':visible'))
+						&& (!Authentication.UI.isClicked(Authentication.Elements.divAuthenticationPlaceHolder, e.target)
+							&& !Authentication.UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target))) {
+					Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+					Authentication.Elements.divSignUpPlaceHolder.slideUp();
+				}
+			});
+			
+			$(document).on('keyup', function (e) {
+				if (Authentication.UI.isActive(Authentication.Elements.divAuthenticationContainer)) {
+					if (27 === e.keyCode) { //ESC
+						Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+						Authentication.Elements.divSignUpPlaceHolder.slideUp();
+					}
+					else if (13 === e.keyCode) { //Enter
+						if (Authentication.Elements.formAuthenticate.is(':visible')) {
+							Authentication.Elements.divAuthenticateSubmitAuthenticationButton.trigger('click');
+						}
+						else if (Authentication.Elements.formSignUp.is(':visible')) {
+							Authentication.Elements.divSignUpSignUpButton.trigger('click');
+						}
+					}
+				}
+			});
+			
+			(function () { //Hook up validation
+				Authentication.Elements.formAuthenticate.validate({
+					rules: {
+						txtAuthenticateUsername: {
+							email: true,
+							required: true
+						},
+						txtAuthenticatePassword: {
+							required: true
+						}
+					},
+					submitHandler: function () {
+						TeamFinder.logIn(Base64.encode(Authentication.Elements.txtAuthenticateUsername.val()), Base64.encode(Authentication.Elements.txtAuthenticatePassword.val()));
+						Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
+						Authentication.Elements.txtAuthenticatePassword.val('');
+					}
+				});
+			})();
+		};
+		
+		Callbacks.signUp = function(data) {
+			Authentication.Elements.divSignUpPlaceHolder.html(data);
+			Authentication.Elements.divSignUpPlaceHolder.hide();
+			
+			Authentication.Elements.initialize();
+			
+			Authentication.Elements.divAuthenticationPlaceHolder.fadeOut('slow');
+			Authentication.Elements.divSignUpPlaceHolder.fadeIn('slow');
+			
+			Authentication.Elements.txtSignUpFirstName.focus();
+			
+			//Subscribe to events
+			Authentication.Elements.divSignUpSignUpButton.on('click', function () {
+				Authentication.Elements.formSignUp.trigger('submit');
+			});
+			
+			Authentication.Elements.rdoSignUpGender.on('click', function () {
+				Authentication.Elements.rdoSignUpGender = $('input[name="rdoSignUpGender"]:checked');
+			});
+			
+			(function () { //Hook up validation
+				Authentication.Elements.formSignUp.validate({
+					rules: {
+						rdoSignUpGender: {
+							required: true
+						},
+						txtSignUpAge: {
+							min: 10,
+							required: true
+						},
+						txtSignUpDescription: {
+							required: true
+						},
+						txtSignUpEmail: {
+							email: true,
+							required: true
+						},
+						txtSignUpFirstName: {
+							required: true
+						},
+						txtSignUpLastName: {
+							required: true
+						},
+						txtSignUpPassword: {
+							minlength: 8,
+							required: true
+						}
+					},
+					submitHandler: function () {
+						TeamFinder.createUser(Authentication.Elements.txtSignUpAge.val(),
+											Authentication.Elements.txtSignUpDescription.val(),
+											Authentication.Elements.txtSignUpEmail.val(),
+											Authentication.Elements.txtSignUpFirstName.val(),
+											Authentication.Elements.rdoSignUpGender.val(),
+											Authentication.Elements.txtSignUpLastName.val(),
+											Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
+											((TeamFinder.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
+												&& '(No file)' !== Authentication.Elements.divSignUpPictureNamePlaceholder.text()) ?
+													Authentication.Elements.divSignUpPictureNamePlaceholder.text() :
+													null)
+						);
+						Authentication.Elements.divSignUpPlaceHolder.slideUp();
+						Authentication.Elements.txtSignUpPassword.val('');
+					}
+				});
+			})();
+			
+			Authentication.UI.initUploader();
+		};
+		
+		return Callbacks;
+	}(Authentication.Callbacks || {}));
+	
 	Authentication.Elements = (function (Elements) {
 		Elements.aAuthenticationButton = null;
 		Elements.divAuthenticationButton = null;
@@ -39,158 +191,6 @@ window.TeamFinder.Authentication = (function (Authentication) {
 	}(Authentication.Elements || {}));
 	
 	Authentication.UI = (function (UI) {
-		UI.Callbacks = (function (Callbacks) {
-			Callbacks.authentication = function(data) {
-				Authentication.Elements.divAuthenticationPlaceHolder.html(data);
-				Authentication.Elements.divAuthenticationPlaceHolder.hide();
-				Authentication.Elements.divSignUpPlaceHolder.hide();
-				
-				Authentication.Elements.initialize();
-				
-				//Subscribe to events
-				TeamFinder.Authentication.Elements.divAuthenticationButton.on('click', function (e) {
-					if (TeamFinder.isLoggedIn()) {
-						TeamFinder.logOut();
-						return;
-					}
-					
-					if (Authentication.Elements.formSignUp.is(':visible')) {
-						Authentication.Elements.divSignUpPlaceHolder.slideUp();
-					}
-					else {
-						Authentication.Elements.divAuthenticationPlaceHolder.slideToggle();
-						Authentication.Elements.txtAuthenticateUsername.focus();
-						e.stopPropagation();
-					}
-				});
-				
-				Authentication.Elements.divAuthenticateSubmitAuthenticationButton.on('click', function (e) {
-					Authentication.Elements.formAuthenticate.trigger('submit');
-				});
-				
-				Authentication.Elements.divAuthenticateSignUpButton.on('click', function (e) {
-					TeamFinder.callServer('../data/signUp.html', '', 'GET', 'html', UI.Callbacks.signUp, TeamFinder.handleError);
-				});
-				
-				$(document).on('click', function (e) {
-					if ((Authentication.Elements.formAuthenticate.is(':visible') || Authentication.Elements.formSignUp.is(':visible'))
-							&& (!UI.isClicked(Authentication.Elements.divAuthenticationPlaceHolder, e.target)
-								&& !UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target))) {
-						Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
-						Authentication.Elements.divSignUpPlaceHolder.slideUp();
-					}
-				});
-				
-				$(document).on('keyup', function (e) {
-					if (UI.isActive(Authentication.Elements.divAuthenticationContainer)) {
-						if (27 === e.keyCode) { //ESC
-							Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
-							Authentication.Elements.divSignUpPlaceHolder.slideUp();
-						}
-						else if (13 === e.keyCode) { //Enter
-							if (Authentication.Elements.formAuthenticate.is(':visible')) {
-								Authentication.Elements.divAuthenticateSubmitAuthenticationButton.trigger('click');
-							}
-							else if (Authentication.Elements.formSignUp.is(':visible')) {
-								Authentication.Elements.divSignUpSignUpButton.trigger('click');
-							}
-						}
-					}
-				});
-				
-				(function () { //Hook up validation
-					Authentication.Elements.formAuthenticate.validate({
-						rules: {
-							txtAuthenticateUsername: {
-								email: true,
-								required: true
-							},
-							txtAuthenticatePassword: {
-								required: true
-							}
-						},
-						submitHandler: function () {
-							TeamFinder.logIn(Base64.encode(Authentication.Elements.txtAuthenticateUsername.val()), Base64.encode(Authentication.Elements.txtAuthenticatePassword.val()));
-							Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
-							Authentication.Elements.txtAuthenticatePassword.val('');
-						}
-					});
-				})();
-			};
-			
-			Callbacks.signUp = function(data) {
-				Authentication.Elements.divSignUpPlaceHolder.html(data);
-				Authentication.Elements.divSignUpPlaceHolder.hide();
-				
-				Authentication.Elements.initialize();
-				
-				Authentication.Elements.divAuthenticationPlaceHolder.fadeOut('slow');
-				Authentication.Elements.divSignUpPlaceHolder.fadeIn('slow');
-				
-				Authentication.Elements.txtSignUpFirstName.focus();
-				
-				//Subscribe to events
-				Authentication.Elements.divSignUpSignUpButton.on('click', function () {
-					Authentication.Elements.formSignUp.trigger('submit');
-				});
-				
-				Authentication.Elements.rdoSignUpGender.on('click', function () {
-					Authentication.Elements.rdoSignUpGender = $('input[name="rdoSignUpGender"]:checked');
-				});
-				
-				(function () { //Hook up validation
-					Authentication.Elements.formSignUp.validate({
-						rules: {
-							rdoSignUpGender: {
-								required: true
-							},
-							txtSignUpAge: {
-								min: 10,
-								required: true
-							},
-							txtSignUpDescription: {
-								required: true
-							},
-							txtSignUpEmail: {
-								email: true,
-								required: true
-							},
-							txtSignUpFirstName: {
-								required: true
-							},
-							txtSignUpLastName: {
-								required: true
-							},
-							txtSignUpPassword: {
-								minlength: 8,
-								required: true
-							}
-						},
-						submitHandler: function () {
-							TeamFinder.createUser(Authentication.Elements.txtSignUpAge.val(),
-												Authentication.Elements.txtSignUpDescription.val(),
-												Authentication.Elements.txtSignUpEmail.val(),
-												Authentication.Elements.txtSignUpFirstName.val(),
-												Authentication.Elements.rdoSignUpGender.val(),
-												Authentication.Elements.txtSignUpLastName.val(),
-												Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
-												((TeamFinder.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
-													&& '(No file)' !== Authentication.Elements.divSignUpPictureNamePlaceholder.text()) ?
-														Authentication.Elements.divSignUpPictureNamePlaceholder.text() :
-														null)
-							);
-							Authentication.Elements.divSignUpPlaceHolder.slideUp();
-							Authentication.Elements.txtSignUpPassword.val('');
-						}
-					});
-				})();
-				
-				UI.initUploader();
-			};
-			
-			return Callbacks;
-		}(UI.Callbacks || {}));
-		
 		UI.initUploader = function () {
 			var _plUploader = new plupload.Uploader({
 				browse_button: 'aSignUpPicture',
@@ -301,7 +301,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			TeamFinder.Utils.delay.call(this, function () {
 				Authentication.Elements.initialize();
 				
-				TeamFinder.callServer('../data/authentication.html', '', 'GET', 'html', Authentication.UI.Callbacks.authentication, TeamFinder.handleError);
+				TeamFinder.callServer('../data/authentication.html', '', 'GET', 'html', Authentication.Callbacks.authentication, TeamFinder.handleError);
 				
 				Authentication.updateButtonLabel();
 			}, 'obj => false === TeamFinder.Utils.notNullOrEmpty($(\'#menuAuthentication\')[0])', null, 1);

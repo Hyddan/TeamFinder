@@ -1,4 +1,9 @@
-#divSettingsContainer p
+#divSettingsContainer h1
+{
+	line-height: 30px;
+}
+
+#divSettingsContainer h1, #divSettingsContainer p
 {
 	margin: 10px 0px 10px 0px;
 }

@@ -103,22 +103,9 @@ label.error
 }
 /*** /Basic page structure ***/
 
-.aButton
-{
-    line-height: 15px;
-}
-
 .divButton
 {
 	cursor: pointer;
-    font-size: small;
-    position: absolute;
-}
-
-.divButtonBackground
-{
-    margin: 2px;
-	padding: 2px 5px;
 }
 
 .results

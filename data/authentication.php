@@ -30,6 +30,15 @@
 			echo null != $user ? json_encode($user) : "{}";
 			exit();
 		}
+		else if ("changePassword" === $ajaxAction)
+		{
+			//$newPassword = isset($_POST["newPassword"]) ? $_POST["newPassword"] : null;
+			//$sessionId = isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
+			//$user = TeamFinder::changePassword($sessionId, base64_decode($newPassword));
+			//
+			//echo null != $user ? json_encode($user) : "{}";
+			//exit();
+		}
 		
 		echo "{}";
 		exit();

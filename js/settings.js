@@ -1,9 +1,33 @@
 window.TeamFinder.Settings = (function (Settings) {
+	Settings.Callbacks = (function (Callbacks) {
+		Callbacks.passwordChange = function (data) {
+			if (TeamFinder.Utils.notNullOrEmpty(data.success) && true === data.success) {
+				//Password changed
+			}
+		};
+		
+		Callbacks.passwordForm = function (data) {
+			//Present Change Password Form
+		};
+		
+		Callbacks.update = function (data) {
+			Settings.Elements.divSuccess.show();
+			Settings.Elements.divSettingsContainer.hide();
+			
+			setTimeout(function () {
+				$(window.location).attr('href', '../settings.html');
+			}, 5000);
+		};
+		
+		return Callbacks;
+	}(Settings.Callbacks || {}));
+	
 	Settings.Elements = (function (Elements) {
 		Elements.aLogIn = null;
 		Elements.divNotLoggedInContainer = null;
+		Elements.divPasswordChangeButton = null;
 		Elements.divSettingsContainer = null;
-		Elements.menuSettings = null;
+		Elements.divSuccess = null;
 		
 		Elements.initialize = function () {
 			for (var key in this) {
@@ -19,6 +43,7 @@ window.TeamFinder.Settings = (function (Settings) {
 	Settings.initialize = function () {
 		//Set initial values
 		Settings.Elements.initialize();
+		Settings.Elements.divSuccess.hide();
 		Settings.Elements.divSettingsContainer.hide();
 		Settings.Elements.divNotLoggedInContainer.show();
 		
@@ -34,14 +59,14 @@ window.TeamFinder.Settings = (function (Settings) {
 			e.stopPropagation();
 		});
 		
+		Settings.Elements.divPasswordChangeButton.on('click', function () {
+			alert('ToDo: add change password functionality!');
+		});
+		
 		TeamFinder.Events.on('logIn', function (user) {
-			Settings.updateMenuItemVisibility();
-			
 			Settings.Elements.divNotLoggedInContainer.hide();
 			Settings.Elements.divSettingsContainer.fadeIn();
 		}).on('logOut', function (user) {
-			Settings.updateMenuItemVisibility();
-			
 			Settings.Elements.divSettingsContainer.hide();
 			Settings.Elements.divNotLoggedInContainer.fadeIn();
 		}).on('menuInitialized', function (user) {
@@ -51,16 +76,6 @@ window.TeamFinder.Settings = (function (Settings) {
 	
 	Settings.loadDependencies = function () {
 		TeamFinder.loadStyle('../css/settings.css', null);
-	};
-	
-	Settings.updateMenuItemVisibility = function () {
-		var _display = 'none';
-		
-		if (TeamFinder.isLoggedIn()) {
-			_display = 'block';
-		}
-		
-		Settings.Elements.menuSettings.css('display', _display);
 	};
 	
 	Settings.loadDependencies();
