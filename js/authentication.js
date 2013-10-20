@@ -64,7 +64,6 @@ window.TeamFinder.Authentication = (function (Authentication) {
 				Authentication.Elements.formAuthenticate.validate({
 					rules: {
 						txtAuthenticateUsername: {
-							email: true,
 							required: true
 						},
 						txtAuthenticatePassword: {

@@ -53,9 +53,9 @@
 			return $filter;
 		}
 		
-		static function logIn($email, $password)
+		static function logIn($userName, $password)
 		{
-			$user = UserRepository::GetByEmail($email);
+			$user = UserRepository::GetByUserName($userName);
 			if (null != $user && UserRepository::ValidatePassword($user->Id, $password))
 			{
 				return UserRepository::StartSession($user);

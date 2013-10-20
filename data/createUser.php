@@ -25,11 +25,12 @@
 												$gender,
 												$lastName,
 												$pictureFileName,
-												null));
+												null,
+												$email));
 		
 		if (null != $user) {
 			if (UserRepository::SetPassword($user->Id, base64_decode($password))) {
-				$user = TeamFinder::logIn($user->Email, base64_decode($password));
+				$user = TeamFinder::logIn($user->UserName, base64_decode($password));
 			}
 			else {
 				$user = null;

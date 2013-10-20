@@ -77,8 +77,9 @@
 		var $LastName;
 		var $PictureUrl;
 		var $SessionId;
+		var $UserName;
 		
-		function __construct($Id, $Age, $CreatedDate, $Description, $Email, $FirstName, $Gender, $LastName, $PictureUrl, $SessionId)
+		function __construct($Id, $Age, $CreatedDate, $Description, $Email, $FirstName, $Gender, $LastName, $PictureUrl, $SessionId, $UserName)
 		{
 			$this->Id = $Id;
 			$this->Age = $Age;
@@ -90,6 +91,7 @@
 			$this->LastName = $LastName;
 			$this->PictureUrl = $PictureUrl;
 			$this->SessionId = $SessionId;
+			$this->UserName = $UserName;
 		}
 	}
 ?>

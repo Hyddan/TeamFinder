@@ -496,10 +496,10 @@
 		};
 	})();
 	
-	TeamFinder.logIn = function (username, password) {
+	TeamFinder.logIn = function (userName, password) {
 		TeamFinder.callServer('../data/authentication.php', {
 				ajaxAction: 'logIn',
-				username: username,
+				userName: userName,
 				password: password
 			}, 'POST', 'json', TeamFinder.Callbacks.logIn, TeamFinder.handleError
 		);

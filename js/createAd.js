@@ -198,7 +198,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 					submitHandler: function () {
 						var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
 						if (null == user || !TeamFinder.Utils.notNullOrEmpty(user.Id) || !TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
-							alert('You need to be logged in to create an ad');
+							alert('You need to be logged in to create an ad.');
 							return false;
 						}
 						

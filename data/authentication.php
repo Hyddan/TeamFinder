@@ -11,12 +11,12 @@
 		
 		if ("logIn" === $ajaxAction)
 		{
-			$username = isset($_POST["username"]) ? $_POST["username"] : null;
+			$userName = isset($_POST["userName"]) ? $_POST["userName"] : null;
 			$password = isset($_POST["password"]) ? $_POST["password"] : null;
 			
-			if (null != $username && null != $password)
+			if (null != $userName && null != $password)
 			{
-				$user = TeamFinder::logIn(base64_decode($username), base64_decode($password));
+				$user = TeamFinder::logIn(base64_decode($userName), base64_decode($password));
 				
 				echo null != $user ? json_encode($user) : "{}";
 				exit();

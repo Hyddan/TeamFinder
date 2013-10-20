@@ -321,7 +321,7 @@
 			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
 				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
-			$query = "SELECT `Id`,`Age`, `CreatedDate`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `PictureUrl`, `SessionId` FROM `Users`" . $filter . " LIMIT 1;";
+			$query = "SELECT `Id`,`Age`, `CreatedDate`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `PictureUrl`, `SessionId`, `UserName` FROM `Users`" . $filter . " LIMIT 1;";
 			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
 			if ($result = mysqli_query($connection, $query))
 			{
@@ -331,7 +331,7 @@
 			
 					mysqli_close($connection);
 					
-					return new User($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
+					return new User($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9], $row[10]);
 				}
 			}
 			
@@ -353,6 +353,11 @@
 		static function GetBySessionId($sessionId)
 		{
 			return UserRepository::GetByFilter(" WHERE `SessionId` = '" . $sessionId . "'");
+		}
+		
+		static function GetByUserName($userName)
+		{
+			return UserRepository::GetByFilter(" WHERE `UserName` = '" . $userName . "'");
 		}
 		
 		static function GetSalt($userId)
@@ -386,10 +391,10 @@
 			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
 				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
-			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `SessionId`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->FirstName . "', '" . $user->Gender . "', '" . $user->LastName . "', null, '" . $user->PictureUrl . "', null);";
+			$query = "INSERT INTO `Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `SessionId`, `UserName`) VALUES(" . $user->Age . ", '" . $user->Description . "', '" . $user->Email . "', '" . $user->FirstName . "', '" . $user->Gender . "', '" . $user->LastName . "', null, '" . $user->PictureUrl . "', null, '" . $user->UserName . "');";
 			if (0 < $user->Id)
 			{
-				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `FirstName` = '" . $user->FirstName . "', `Gender` = '" . $user->Gender . "', `LastName` = '" . $user->LastName . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "' WHERE `Id` = " . $user->Id;
+				$query = "UPDATE `Users` SET `Age` = " . $user->Age . ", `Description` = '" . $user->Description . "', `Email` = '" . $user->Email . "', `FirstName` = '" . $user->FirstName . "', `Gender` = '" . $user->Gender . "', `LastName` = '" . $user->LastName . "', `PictureUrl` = '" . $user->PictureUrl . "', `SessionId` = '" . $user->SessionId . "', `UserName` = '" . $user->UserName . "' WHERE `Id` = " . $user->Id;
 			}
 			
 			mysqli_query($connection, "SET CHARACTER SET 'utf8'");

@@ -13,7 +13,7 @@
 	$sessionId		=	isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
 	$ad				=	null;
 	
-	if (is_numeric($id) &&null != $locationId && null != $lookingForId && null != $sportId && null != $sessionId)
+	if (is_numeric($id) && null != $locationId && null != $lookingForId && null != $sportId && null != $sessionId)
 	{
 		$ad = AdRepository::GetById($id);
 		$user = UserRepository::GetBySessionId($sessionId);

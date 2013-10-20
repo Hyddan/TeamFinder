@@ -4,35 +4,35 @@
 	require_once "../bin/repositories.php";
 	
 	//Set parameters
-	$id				=	isset($_POST["id"]) ? (int) $_POST["id"] : null;
-	$headline		=	isset($_POST["headline"]) ? $_POST["headline"] : null;
-	$description	=	isset($_POST["description"]) ? $_POST["description"] : null;
-	$locationId		=	isset($locations[$_POST["location"]]) ? (int) $locations[$_POST["location"]] : null;
-	$lookingForId	=	isset($lookingFor[$_POST["lookingFor"]]) ? (int) $lookingFor[$_POST["lookingFor"]] : null;
-	$sportId		=	isset($sports[$_POST["sport"]]) ? (int) $sports[$_POST["sport"]] : null;
-	$sessionId		=	isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
-	$ad				=	null;
+	$age				=	isset($_POST["age"]) ? (int) $_POST["age"] : null;
+	$description		=	isset($_POST["description"]) ? $_POST["description"] : null;
+	$email				=	isset($_POST["email"]) ? $_POST["email"] : null;
+	$firstName			=	isset($_POST["firstName"]) ? $_POST["firstName"] : null;
+	$gender				=	isset($_POST["gender"]) ? $_POST["gender"] : null;
+	$lastName			=	isset($_POST["lastName"]) ? $_POST["lastName"] : null;
+	$pictureFileName	=	isset($_POST["pictureFileName"]) ? "../images/users/" . $_POST["pictureFileName"] : null;
+	$sessionId			=	isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
+	$userName			=	isset($_POST["userName"]) ? $_POST["userName"] : null;
+	$user				= 	null;
 	
-	if (is_numeric($id) &&null != $locationId && null != $lookingForId && null != $sportId && null != $sessionId)
+	if (null != $sessionId)
 	{
-		$ad = AdRepository::GetById($id);
 		$user = UserRepository::GetBySessionId($sessionId);
-		if (null != $ad && null != $user && $user->Id === $ad->User->Id)
+		if (null != $user)
 		{
-			$ad->Description = $description;
-			$ad->Headline = $headline;
-			$ad->Location = LocationRepository::GetById($locationId);
-			$ad->LookingFor = LookingForRepository::GetById($lookingForId);
-			$ad->Sport = SportRepository::GetById($sportId);
+			$user->Age = null != $age && $user->Age !== $age ? $age : $user->Age;
+			$user->Description = null != $description && $user->Description !== $description ? $description : $user->Description;
+			$user->Email = null != $email && $user->Email !== $email ? $email : $user->Email;
+			$user->FirstName = null != $firstName && $user->FirstName !== $firstName ? $firstName : $user->FirstName;
+			$user->Gender = null != $gender && $user->Gender !== $gender ? $gender : $user->Gender;
+			$user->LastName = null != $lastName && $user->LastName !== $lastName ? $lastName : $user->LastName;
+			$user->PictureUrl = null != $pictureFileName && $user->PictureUrl !== $pictureFileName ? $pictureFileName : $user->PictureUrl;
+			$user->UserName = null != $userName && $user->UserName !== $userName ? $userName : $user->UserName;
 			
-			$ad = AdRepository::Save($ad);
-		}
-		else
-		{
-			$ad = null;
+			$user = UserRepository::Save($user);
 		}
 	}
 	
 	header("Content-Type: application/json; charset=utf-8", true);
-	echo null != $ad ? json_encode($ad) : "{}";
+	echo null != $user ? json_encode($user) : "{}";
 ?>

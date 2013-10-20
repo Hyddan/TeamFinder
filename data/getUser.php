@@ -5,11 +5,11 @@
 	require_once "../bin/repositories.php";
 	
 	//Set parameters
-	$sessionId	=	isset($_GET["sessionId"]) ? (int) $_GET["sessionId"] : null;
+	$sessionId	=	isset($_GET["sessionId"]) ? $_GET["sessionId"] : null;
 	$user		=	null;
 	
 	header("Content-Type: application/json; charset=utf-8", true);
-	if (null === $sessionId || "" === $sessionId)
+	if (null == $sessionId)
 	{
 		echo "{}";
 	}
