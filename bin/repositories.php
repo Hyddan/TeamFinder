@@ -414,13 +414,16 @@
 			
 			$salt = UserRepository::SetSalt($userId);
 			
-			$query = "UPDATE `Users` SET `Password` = '" . hash("sha256", (null != $salt ? $salt : "") . $password) . "' WHERE `Id` = " . $userId;
-			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
-			if ($result = mysqli_query($connection, $query))
+			if (null != $salt)
 			{
-				mysqli_close($connection);
-				
-				return true;
+				$query = "UPDATE `Users` SET `Password` = '" . hash("sha256", (null != $salt ? $salt : "") . $password) . "' WHERE `Id` = " . $userId;
+				mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+				if ($result = mysqli_query($connection, $query))
+				{
+					mysqli_close($connection);
+					
+					return true;
+				}
 			}
 			
 			mysqli_close($connection);

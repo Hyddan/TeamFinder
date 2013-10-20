@@ -15,7 +15,7 @@
 	$filter 	=	TeamFinder::getFilter($loc, $lf, $s);
 	
 	header("Content-Type: application/json; charset=utf-8", true);
-	if (("count" != $q && "data" != $q && "specific" != $q) || null === $filter)
+	if (("count" != $q && "data" != $q && "specific" != $q) || null == $filter)
 	{
 		echo "{}";
 	}
