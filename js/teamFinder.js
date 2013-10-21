@@ -109,12 +109,20 @@
 	
 	TeamFinder.UI = (function (UI) {
 		UI.adFilterData = {
+			genders: [
+				'Female',
+				'Male'
+			],
 			locations: null,
 			lookingFor: null,
 			sports: null
 		};
 		
 		UI.adFilterMapping = {
+			genders: {
+				'Female': 'Female',
+				'Male': 'Male'
+			},
 			locations: {
 				'Linköping': 'l',
 				'Stockholm': 'st',
@@ -373,9 +381,9 @@
 		});
 	};
 	
-	TeamFinder.createUser = function (age, description, email, firstName, gender, lastName, password, pictureFileName) {
+	TeamFinder.createUser = function (birthDate, description, email, firstName, gender, lastName, password, pictureFileName) {
 		TeamFinder.callServer('../data/createUser.php', {
-				age: age,
+				birthDate: birthDate,
 				description: description,
 				email: email,
 				firstName: firstName,

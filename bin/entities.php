@@ -68,7 +68,7 @@
 	class User
 	{
 		var $Id;
-		var $Age;
+		var $BirthDate;
 		var $CreatedDate;
 		var $Description;
 		var $Email;
@@ -79,10 +79,10 @@
 		var $SessionId;
 		var $UserName;
 		
-		function __construct($Id, $Age, $CreatedDate, $Description, $Email, $FirstName, $Gender, $LastName, $PictureUrl, $SessionId, $UserName)
+		function __construct($Id, $BirthDate, $CreatedDate, $Description, $Email, $FirstName, $Gender, $LastName, $PictureUrl, $SessionId, $UserName)
 		{
 			$this->Id = $Id;
-			$this->Age = $Age;
+			$this->BirthDate = $BirthDate;
 			$this->CreatedDate = $CreatedDate;
 			$this->Description = $Description;
 			$this->Email = $Email;

@@ -30,7 +30,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		return Elements;
 	}(CreateAd.Elements || {}));
 	
-	Callbacks = (function (Callbacks) {
+	CreateAd.Callbacks = (function (Callbacks) {
 		Callbacks.createAd = function (data) {
 			CreateAd.Elements.divSuccess.show();
 			CreateAd.Elements.divCreateAdFormContainer.hide();

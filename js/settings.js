@@ -32,13 +32,16 @@ window.TeamFinder.Settings = (function (Settings) {
 			if (null != _rdoGender) {
 				_rdoGender.trigger('click');
 			}
+			TeamFinder.Utils.delay.call(this, function () {
+				Settings.Elements.selectGender.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('genders', TeamFinder.Utils.notNullOrEmpty(data.Gender) ? data.Gender : '-'));
+			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', Settings.Elements.selectGender, 1);
 			
-			Settings.Elements.txtAge.val(TeamFinder.Utils.notNullOrEmpty(data.Age) ? data.Age : '[Age]'),
+			Settings.Elements.txtBirthDate.datepicker('setDate', TeamFinder.Utils.notNullOrEmpty(data.BirthDate) ? data.BirthDate : new Date()),
 			Settings.Elements.txtDescription.val(TeamFinder.Utils.notNullOrEmpty(data.Description) ? data.Description : '[Description]');
 			Settings.Elements.txtEmail.val(TeamFinder.Utils.notNullOrEmpty(data.Email) ? data.Email : '[Email]');
 			Settings.Elements.txtFirstName.val(TeamFinder.Utils.notNullOrEmpty(data.FirstName) ? data.FirstName : '[FirstName]');
 			Settings.Elements.txtLastName.val(TeamFinder.Utils.notNullOrEmpty(data.LastName) ? data.LastName : '[LastName]');
-			Settings.Elements.divPictureNamePlaceholder.text(null != _pictureUrlParts ? _pictureUrlParts[_pictureUrlParts - 1] : '(No file)');
+			Settings.Elements.divPictureNamePlaceholder.text(null != _pictureUrlParts ? _pictureUrlParts[_pictureUrlParts.length - 1] : '(No file)');
 			Settings.Elements.txtUserName.val(TeamFinder.Utils.notNullOrEmpty(data.UserName) ? data.UserName : '[UserName]');
 		};
 		
@@ -55,11 +58,13 @@ window.TeamFinder.Settings = (function (Settings) {
 		Elements.divSuccess = null;
 		Elements.formSettings = null;
 		Elements.rdoGender = null;
-		Elements.txtAge = null;
+		Elements.selectGender = null;
+		Elements.txtBirthDate = null;
 		Elements.txtDescription = null;
 		Elements.txtEmail = null;
 		Elements.txtFirstName = null;
 		Elements.txtLastName = null;
+		Elements.txtSelectGender = null;
 		Elements.txtUserName = null;
 		
 		Elements.initialize = function () {
@@ -83,16 +88,27 @@ window.TeamFinder.Settings = (function (Settings) {
 		Settings.Elements.divSettingsValidationMessage.hide();
 		Settings.Elements.divNotLoggedInContainer.show();
 		
-		if (TeamFinder.isLoggedIn()) {
-			Settings.Elements.divNotLoggedInContainer.hide();
-			Settings.Elements.divSettingsContainer.show();
+		TeamFinder.Utils.delay.call(this, function () {
+			if (TeamFinder.isLoggedIn()) {
+				Settings.Elements.divNotLoggedInContainer.hide();
+				Settings.Elements.divSettingsContainer.show();
+			
+				TeamFinder.callServer('../data/getUser.php', {
+						sessionId: TeamFinder.loggedInUser.sessionId()
+					}, 'GET', 'json', Settings.Callbacks.user, TeamFinder.handleError
+				);
+			}
 		
-			TeamFinder.callServer('../data/getuser.php', {
-					sessionId: TeamFinder.loggedInUser.sessionId()
-				}, 'GET', 'json', Settings.Callbacks.user, TeamFinder.handleError
-			);
-		}
-		
+			//Create UI elements
+			Settings.Elements.txtBirthDate.datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'yy-mm-dd'
+			});
+			
+			TeamFinder.UI.createDropDown(Settings.Elements.selectGender, '', {q: 'genders', defaultText: '--Gender--', selected: null});
+		}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.datepicker)', Settings.Elements.txtBirthDate, 1);
+			
 		TeamFinder.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
 			//Fix issues in jQuery Validation plugin
 			$.validator.prototype.elements = function () {
@@ -142,11 +158,8 @@ window.TeamFinder.Settings = (function (Settings) {
 				TeamFinder.Settings.Elements.formSettings.validate({
 					ignore: [],
 					rules: {
-						rdoGender: {
-							required: true
-						},
-						txtAge: {
-							min: 10,
+						txtBirthDate: {
+							date: true,
 							required: true
 						},
 						txtDescription: {
@@ -160,6 +173,9 @@ window.TeamFinder.Settings = (function (Settings) {
 							required: true
 						},
 						txtLastName: {
+							required: true
+						},
+						txtSelectGender: {
 							required: true
 						},
 						txtUserName: {
@@ -177,7 +193,7 @@ window.TeamFinder.Settings = (function (Settings) {
 						Settings.Elements.divSettingsValidationMessage.hide();
 						
 						TeamFinder.callServer('../data/updateUser.php', {
-							age: Settings.Elements.txtAge.val(),
+							birthDate: Settings.Elements.txtBirthDate.val(),
 							description: Settings.Elements.txtDescription.val(),
 							email: Settings.Elements.txtEmail.val(),
 							firstName: Settings.Elements.txtFirstName.val(),
@@ -206,8 +222,9 @@ window.TeamFinder.Settings = (function (Settings) {
 			alert('ToDo: add change password functionality!');
 		});
 			
-		Settings.Elements.rdoGender.on('click', function () {
-			Settings.Elements.rdoGender = $('input[name="rdoGender"]:checked');
+		Settings.Elements.selectGender.on('change', function () {
+			Settings.Elements.txtSelectGender.val(TeamFinder.Utils.getSelectedDropDownValue(Settings.Elements.selectGender));
+			Settings.Elements.txtSelectGender.valid();
 		});
 		
 		TeamFinder.Events.on('logIn', function (user) {

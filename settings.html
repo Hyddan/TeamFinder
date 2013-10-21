@@ -25,37 +25,34 @@
 							<tr>
 								<td>
 									<label for="txtUserName">Username</label><br />
-									<input id="txtUserName" name="txtUserName" type="text" />
+									<input class="textInput" id="txtUserName" name="txtUserName" type="text" />
 								</td>
 								<td>
 									<label for="txtEmail">Email</label><br />
-									<input id="txtEmail" name="txtEmail" type="text" />
+									<input class="textInput" id="txtEmail" name="txtEmail" type="text" />
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<label for="txtFirstName">First Name</label><br />
-									<input id="txtFirstName" name="txtFirstName" type="text" />
+									<input class="textInput" id="txtFirstName" name="txtFirstName" type="text" />
 								</td>
 								<td>
 									<label for="txtLastName">Last Name</label><br />
-									<input id="txtLastName" name="txtLastName" type="text" />
+									<input class="textInput" id="txtLastName" name="txtLastName" type="text" />
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label for="txtAge">Age</label><br />
-									<input id="txtAge" name="txtAge" type="text" />
+									<label for="txtBirthDate">BirthDate</label><br />
+									<input class="datepickerInput" id="txtBirthDate" name="txtBirthDate" type="text" />
 								</td>
 								<td>
-									<label for="txtGender">Gender</label><br />
-									<input id="txtGenderMale" name="rdoGender" type="radio" value="Male">Male</input>
-									<input id="txtGenderFemale" name="rdoGender" type="radio" value="Female">Female</input>
-									<label class="error" for="rdoGender" style="display: none;">This field is required.</label>
+									<select id="selectGender" name="selectGender"></select><input id="txtSelectGender" name="txtSelectGender" type="hidden" />
 								</td>
 							</tr>
 							<tr>
-								<td>
+								<td colspan="2">
 									<label for="txtDescription">Description</label><br />
 									<textarea id="txtDescription" name="txtDescription" rows="5" placeholder="Enter your description here!"></textarea>
 								</td>
@@ -69,13 +66,9 @@
 									</div>
 									<div id="divPictureNamePlaceholder">(No file)</div>
 								</td-->
-								<td>
-									<div id="divPasswordChangeContainer"><div id="divPasswordChangeButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Change Password</a></div></div></div>
-								</td>
-							</tr>
-							<tr>
-								<td>
+								<td colspan="2">
 									<input id="btnSubmit" type="submit" value="Save" />
+									<div id="divPasswordChangeContainer"><div id="divPasswordChangeButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Change Password</a></div></div></div>
 								</td>
 							</tr>
 						</table>

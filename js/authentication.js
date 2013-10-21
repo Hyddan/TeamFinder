@@ -105,7 +105,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 						rdoSignUpGender: {
 							required: true
 						},
-						txtSignUpAge: {
+						txtSignUpBirthDate: {
 							min: 10,
 							required: true
 						},
@@ -128,7 +128,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 						}
 					},
 					submitHandler: function () {
-						TeamFinder.createUser(Authentication.Elements.txtSignUpAge.val(),
+						TeamFinder.createUser(Authentication.Elements.txtSignUpBirthDate.val(),
 											Authentication.Elements.txtSignUpDescription.val(),
 											Authentication.Elements.txtSignUpEmail.val(),
 											Authentication.Elements.txtSignUpFirstName.val(),
@@ -169,7 +169,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 		Elements.rdoSignUpGender = null;
 		Elements.txtAuthenticatePassword = null;
 		Elements.txtAuthenticateUsername = null;
-		Elements.txtSignUpAge = null;
+		Elements.txtSignUpBirthDate = null;
 		Elements.txtSignUpDescription = null;
 		Elements.txtSignUpEmail = null;
 		Elements.txtSignUpFirstName = null;

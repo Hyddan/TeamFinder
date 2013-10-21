@@ -3,8 +3,8 @@ CREATE DATABASE IF NOT EXISTS `db1179530_TeamFinder` CHARACTER SET utf8 COLLATE 
 
 /*
 -- Create user and priviliges
-CREATE USER 'u1179530_tf'@'83.168.227.109' IDENTIFIED BY 'teamfinder';
-GRANT ALL PRIVILEGES ON `db1179530_TeamFinder`.* TO 'u1179530_tf'@'83.168.227.109';
+CREATE USER 'u1179530_tf'@'%' IDENTIFIED BY 'teamfinder';
+GRANT ALL PRIVILEGES ON `db1179530_TeamFinder`.* TO 'u1179530_tf'@'%';
 FLUSH PRIVILEGES;
 */
 
@@ -38,7 +38,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `db1179530_TeamFinder`.`Users` (
 	`Id` INT NOT NULL AUTO_INCREMENT,
-	`Age` INT NULL,
+	`BirthDate` TIMESTAMP NULL DEFAULT NULL,
 	`CreatedDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`Description` VARCHAR(5000) NULL,
 	`Email` VARCHAR(500) NOT NULL,
@@ -102,8 +102,8 @@ INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Bas
 INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Hockey', 'Hockey');
 INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Squash', 'Squash');
 
-INSERT INTO `db1179530_TeamFinder`.`Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `Salt`, `SessionId`, `UserName`)
-	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null, 'asdf', null, 'hyddan');
+INSERT INTO `db1179530_TeamFinder`.`Users` (`BirthDate`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `Salt`, `SessionId`, `UserName`)
+	VALUES ('1987-09-28', 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null, 'asdf', null, 'hyddan');
 
 INSERT INTO `db1179530_TeamFinder`.`Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`)
 	VALUES ('Some Description', 'Some Headline', 1, 1, 1, 1);

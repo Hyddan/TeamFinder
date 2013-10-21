@@ -29,3 +29,10 @@
     height: 200px;
     width: 600px;
 }
+
+
+/*ToDo: Test on iPad*/
+.selectboxit-container .selectboxit-options
+{
+	z-index: 0;
+}
