@@ -7,7 +7,7 @@
 		static function ChangePassword($sessionId, $currentPassword, $newPassword)
 		{
 			$user = UserRepository::GetBySessionId($sessionId);
-			if (null != $user && UserRepository::ValidatePassword($user->Id, $currentPassword))
+			if (null !== $user && UserRepository::ValidatePassword($user->Id, $currentPassword))
 			{
 				return UserRepository::SetPassword($user->Id, $newPassword);
 			}
@@ -39,12 +39,14 @@
 			global $locations, $sports, $lookingFor;
 			
 			//If faulty input, return null
-			if(($loc != null && $loc !== "" && $locations[$loc] == null) || ($lf != null && $lf !== "" && $lookingFor[$lf] == null) || ($s != null && $s !== "" && $sports[$s] == null)) {
+			if(($loc !== null && $loc !== "" && $locations[$loc] === null) || ($lf !== null && $lf !== "" && $lookingFor[$lf] === null) || ($s !== null && $s !== "" && $sports[$s] === null))
+			{
 				return null;
 			}
 			
 			//If no filter, return ""
-			if(empty($loc) && empty($lf) && empty($s)){
+			if(empty($loc) && empty($lf) && empty($s))
+			{
 				return "";
 			}
 			
@@ -52,18 +54,18 @@
 			$filter = " WHERE";
 			$initialFilterLength = strlen($filter);
 			
-			if(!empty($loc) && $locations[$loc] != null) {
+			if(!empty($loc) && $locations[$loc] !== null) {
 				$filter = $filter . "  `LocationId` = '" . $locations[$loc] . "'";
 			}
 			
-			if(!empty($lf) && $lookingFor[$lf] != null) {
+			if(!empty($lf) && $lookingFor[$lf] !== null) {
 				if(strlen($filter) > $initialFilterLength) {
 					$filter = $filter . " AND";
 				}
 				$filter = $filter . " `LookingForId` = '" . $lookingFor[$lf] . "'";
 			}
 			
-			if(!empty($s) && $sports[$s] != null) {
+			if(!empty($s) && $sports[$s] !== null) {
 				if(strlen($filter) > $initialFilterLength) {
 					$filter = $filter . " AND";
 				}
@@ -76,7 +78,7 @@
 		static function logIn($userName, $password)
 		{
 			$user = UserRepository::GetByUserName($userName);
-			if (null != $user && UserRepository::ValidatePassword($user->Id, $password))
+			if (null !== $user && UserRepository::ValidatePassword($user->Id, $password))
 			{
 				return UserRepository::StartSession($user);
 			}
