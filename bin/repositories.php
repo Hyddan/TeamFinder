@@ -410,8 +410,6 @@
 				if ($row = mysqli_fetch_row($result))
 				{
 					mysqli_free_result($result);
-			
-					mysqli_close($connection);
 					
 					$isValueAvailable = 0 >= $row[0];
 				}

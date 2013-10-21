@@ -32,12 +32,22 @@
 		}
 		else if ("changePassword" === $ajaxAction)
 		{
-			//$newPassword = isset($_POST["newPassword"]) ? $_POST["newPassword"] : null;
-			//$sessionId = isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
-			//$user = TeamFinder::changePassword($sessionId, base64_decode($newPassword));
-			//
-			//echo null != $user ? json_encode($user) : "{}";
-			//exit();
+			$currentPassword = isset($_POST["currentPassword"]) ? $_POST["currentPassword"] : null;
+			$newPassword = isset($_POST["newPassword"]) ? $_POST["newPassword"] : null;
+			$sessionId = isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
+			
+			$user = null;
+			if (TeamFinder::ChangePassword($sessionId, base64_decode($currentPassword), base64_decode($newPassword)))
+			{
+				$user = UserRepository::GetBySessionId($sessionId);
+			}
+			else
+			{
+				$user = TeamFinder::GetError("Unable to change password.");
+			}
+			
+			echo null != $user ? json_encode($user) : "{}";
+			exit();
 		}
 		
 		echo "{}";

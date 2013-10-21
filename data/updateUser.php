@@ -20,16 +20,27 @@
 		$user = UserRepository::GetBySessionId($sessionId);
 		if (null != $user)
 		{
-			$user->Age = null != $age && $user->Age !== $age ? $age : $user->Age;
-			$user->Description = null != $description && $user->Description !== $description ? $description : $user->Description;
-			$user->Email = null != $email && $user->Email !== $email ? $email : $user->Email;
-			$user->FirstName = null != $firstName && $user->FirstName !== $firstName ? $firstName : $user->FirstName;
-			$user->Gender = null != $gender && $user->Gender !== $gender ? $gender : $user->Gender;
-			$user->LastName = null != $lastName && $user->LastName !== $lastName ? $lastName : $user->LastName;
-			$user->PictureUrl = null != $pictureFileName && $user->PictureUrl !== $pictureFileName ? $pictureFileName : $user->PictureUrl;
-			$user->UserName = null != $userName && $user->UserName !== $userName ? $userName : $user->UserName;
-			
-			$user = UserRepository::Save($user);
+			if (null != $email && $user->Email !== $email && !UserRepository::IsEmailAvailable($email))
+			{
+				$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
+			}
+			if (null != $userName && $user->UserName !== $userName && !UserRepository::IsUserNameAvailable($userName))
+			{
+				$user = TeamFinder::GetError("An account with this username already exists, please choose another one.");
+			}
+			else
+			{
+				$user->Age = null != $age && $user->Age !== $age ? $age : $user->Age;
+				$user->Description = null != $description && $user->Description !== $description ? $description : $user->Description;
+				$user->Email = null != $email && $user->Email !== $email ? $email : $user->Email;
+				$user->FirstName = null != $firstName && $user->FirstName !== $firstName ? $firstName : $user->FirstName;
+				$user->Gender = null != $gender && $user->Gender !== $gender ? $gender : $user->Gender;
+				$user->LastName = null != $lastName && $user->LastName !== $lastName ? $lastName : $user->LastName;
+				$user->PictureUrl = null != $pictureFileName && $user->PictureUrl !== $pictureFileName ? $pictureFileName : $user->PictureUrl;
+				$user->UserName = null != $userName && $user->UserName !== $userName ? $userName : $user->UserName;
+				
+				$user = UserRepository::Save($user);
+			}
 		}
 	}
 	

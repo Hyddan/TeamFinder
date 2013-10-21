@@ -4,6 +4,17 @@
 	
 	class TeamFinder
 	{
+		static function ChangePassword($sessionId, $currentPassword, $newPassword)
+		{
+			$user = UserRepository::GetBySessionId($sessionId);
+			if (null != $user && UserRepository::ValidatePassword($user->Id, $currentPassword))
+			{
+				return UserRepository::SetPassword($user->Id, $newPassword);
+			}
+			
+			return false;
+		}
+		
 		static function GenerateGuid()
 		{
 			if (function_exists("com_create_guid") === true)
@@ -12,6 +23,15 @@
 			}
 
 			return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+		}
+		
+		static function GetError($message)
+		{
+			$error = new stdClass();
+			$error->Error = new stdClass();
+			$error->Error->Message = $message;
+			
+			return $error;
 		}
 		
 		static function getFilter($loc, $lf, $s)

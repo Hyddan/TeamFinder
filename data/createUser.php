@@ -18,15 +18,11 @@
 	{
 		if (!UserRepository::IsEmailAvailable($email))
 		{
-			$user = new stdClass();
-			$user->Error = new stdClass();
-			$user->Error->Message = "An account with this email already exists, please use another one.";
+			$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
 		}
-		else if (!UserRepository::IsUserNameAvailable($userName))
+		else if (!UserRepository::IsUserNameAvailable($email))
 		{
-			$user = new stdClass();
-			$user->Error = new stdClass();
-			$user->Error->Message = "An account with this username already exists, please choose another one.";
+			$user = TeamFinder::GetError("An account with this username already exists, please choose another one.");
 		}
 		else
 		{
@@ -42,11 +38,14 @@
 													null,
 													$email));
 			
-			if (null != $user) {
-				if (UserRepository::SetPassword($user->Id, base64_decode($password))) {
+			if (null != $user)
+			{
+				if (UserRepository::SetPassword($user->Id, base64_decode($password)))
+				{
 					$user = TeamFinder::logIn($user->UserName, base64_decode($password));
 				}
-				else {
+				else
+				{
 					$user = null;
 				}
 			}
