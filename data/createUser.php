@@ -16,24 +16,39 @@
 	
 	if (null != $age && null != $description && null != $email && null != $firstName && null != $gender && null != $lastName && null != $password)
 	{
-		$user = UserRepository::Save(new User(-1,
-												$age,
-												null,
-												$description,
-												$email,
-												$firstName,
-												$gender,
-												$lastName,
-												$pictureFileName,
-												null,
-												$email));
-		
-		if (null != $user) {
-			if (UserRepository::SetPassword($user->Id, base64_decode($password))) {
-				$user = TeamFinder::logIn($user->UserName, base64_decode($password));
-			}
-			else {
-				$user = null;
+		if (!UserRepository::IsEmailAvailable($email))
+		{
+			$user = new stdClass();
+			$user->Error = new stdClass();
+			$user->Error->Message = "An account with this email already exists, please use another one.";
+		}
+		else if (!UserRepository::IsUserNameAvailable($userName))
+		{
+			$user = new stdClass();
+			$user->Error = new stdClass();
+			$user->Error->Message = "An account with this username already exists, please choose another one.";
+		}
+		else
+		{
+			$user = UserRepository::Save(new User(-1,
+													$age,
+													null,
+													$description,
+													$email,
+													$firstName,
+													$gender,
+													$lastName,
+													$pictureFileName,
+													null,
+													$email));
+			
+			if (null != $user) {
+				if (UserRepository::SetPassword($user->Id, base64_decode($password))) {
+					$user = TeamFinder::logIn($user->UserName, base64_decode($password));
+				}
+				else {
+					$user = null;
+				}
 			}
 		}
 	}

@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `db1179530_TeamFinder`.`Users` (
 	`PictureUrl` VARCHAR(500) NULL,
 	`Salt` VARCHAR(500) NULL,
 	`SessionId` VARCHAR(500) NULL,
+	`UserName` VARCHAR(500) NULL,
 	PRIMARY KEY (`Id`)
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
@@ -101,8 +102,8 @@ INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Bas
 INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Hockey', 'Hockey');
 INSERT INTO `db1179530_TeamFinder`.`Sports` (`Description`, `Name`) VALUES ('Squash', 'Squash');
 
-INSERT INTO `db1179530_TeamFinder`.`Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `Salt`, `SessionId`)
-	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null, 'asdf', null);
+INSERT INTO `db1179530_TeamFinder`.`Users` (`Age`, `Description`, `Email`, `FirstName`, `Gender`, `LastName`, `Password`, `PictureUrl`, `Salt`, `SessionId`, `UserName`)
+	VALUES (25, 'System Developer & Ball sport enthusiast', 'daniel.hedenius@gmail.com', 'Daniel', 'Male', 'Hedenius', 'asdf', null, 'asdf', null, 'hyddan');
 
 INSERT INTO `db1179530_TeamFinder`.`Ads` (`Description`, `Headline`, `LocationId`, `LookingForId`, `SportId`, `UserId`)
 	VALUES ('Some Description', 'Some Headline', 1, 1, 1, 1);

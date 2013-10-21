@@ -10,6 +10,9 @@
 				TeamFinder.Events.fire('signUp', user);
 				TeamFinder.Events.fire('logIn', user);
 			}
+			else if (TeamFinder.Utils.notNullOrEmpty(user) && TeamFinder.Utils.notNullOrEmpty(user.Error)) {
+				TeamFinder.Events.fire('signUpFailed', user.Error);
+			}
 		};
 		
 		Callbacks.logIn = function (user) {

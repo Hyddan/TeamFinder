@@ -322,6 +322,10 @@ window.TeamFinder.Authentication = (function (Authentication) {
 				Authentication.Elements.divSignUpPlaceHolder.slideUp();
 				Authentication.Elements.divSignUpValidationMessage.text('');
 				Authentication.Elements.divSignUpValidationMessage.hide();
+			}).on('signUpFailed', function (error) {
+				Authentication.Elements.divSignUpPlaceHolder.slideDown();
+				Authentication.Elements.divSignUpValidationMessage.text(error.Message);
+				Authentication.Elements.divSignUpValidationMessage.show();
 			});
 		});
 	};

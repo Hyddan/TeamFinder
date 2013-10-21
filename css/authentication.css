@@ -82,13 +82,17 @@
 	float: right;
 }
 
+#divAuthenticateValidationMessage
+{
+	width: 120px;
+}
+
 #divAuthenticateValidationMessage, #divSignUpValidationMessage
 {
 	display: none;
 	color: red;
 	font-size: 12px;
 	margin-left: 5px;
-	width: 120px;
 }
 
 #divSignUpPictureNamePlaceholder

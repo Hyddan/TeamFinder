@@ -385,6 +385,43 @@
 			return null;
 		}
 		
+		static function IsEmailAvailable($email)
+		{
+			return UserRepository::IsValueUnused("Email", "'" . $email . "'");
+		}
+		
+		static function IsUserNameAvailable($userName)
+		{
+			return UserRepository::IsValueUnused("UserName", "'" . $userName . "'");
+		}
+		
+		static function IsValueUnused($column, $value)
+		{
+			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
+			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
+				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
+			
+			$isValueAvailable = false;
+			
+			$query = "SELECT COUNT(`" . $column . "`) FROM `Users` WHERE `" . $column . "` = " . $value;
+			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
+			if ($result = mysqli_query($connection, $query))
+			{
+				if ($row = mysqli_fetch_row($result))
+				{
+					mysqli_free_result($result);
+			
+					mysqli_close($connection);
+					
+					$isValueAvailable = 0 >= $row[0];
+				}
+			}
+			
+			mysqli_close($connection);
+			
+			return $isValueAvailable;
+		}
+		
 		static function Save($user)
 		{
 			global $tfHost, $tfUser, $tfPass, $tfDatabaseName;
