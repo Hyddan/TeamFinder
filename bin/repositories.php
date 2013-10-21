@@ -13,11 +13,11 @@
 				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
 			$success = false;
-			if (is_numeric($id) && null != $sessionId)
+			if (is_numeric($id) && null !== $sessionId)
 			{
 				$ad = AdRepository::GetById($id);
 				$user = UserRepository::GetBySessionId($sessionId);
-				if (null != $ad && null != $user && $user->Id === $ad->User->Id)
+				if (null !== $ad && null !== $user && $user->Id === $ad->User->Id)
 				{
 					$query = "UPDATE `Ads` SET `Deleted` = '1' WHERE `Id` = " . $ad->Id;
 					mysqli_query($connection, "SET CHARACTER SET 'utf8'");
@@ -401,8 +401,7 @@
 			$connection = mysqli_connect($tfHost, $tfUser, $tfPass, $tfDatabaseName)
 				or die("Could not connect to database: " . $tfDatabaseName . "@" . $tfHost);
 			
-			$isValueAvailable = false;
-			
+			$isValueAvailable = false;			
 			$query = "SELECT COUNT(`" . $column . "`) FROM `Users` WHERE `" . $column . "` = " . $value;
 			mysqli_query($connection, "SET CHARACTER SET 'utf8'");
 			if ($result = mysqli_query($connection, $query))
@@ -454,7 +453,7 @@
 			
 			$salt = UserRepository::SetSalt($userId);
 			
-			if (null != $salt)
+			if (null !== $salt)
 			{
 				$query = "UPDATE `Users` SET `Password` = '" . hash("sha256", (null != $salt ? $salt : "") . $password) . "' WHERE `Id` = " . $userId;
 				mysqli_query($connection, "SET CHARACTER SET 'utf8'");
@@ -513,7 +512,7 @@
 				{
 					mysqli_free_result($result);
 					
-					return $row[0] == hash("sha256", UserRepository::GetSalt($userId) . $password);
+					return $row[0] === hash("sha256", UserRepository::GetSalt($userId) . $password);
 				}
 			}
 			
