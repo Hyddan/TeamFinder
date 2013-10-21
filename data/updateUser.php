@@ -24,7 +24,7 @@
 			{
 				$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
 			}
-			if (null != $userName && $user->UserName !== $userName && !UserRepository::IsUserNameAvailable($userName))
+			else if (null != $userName && $user->UserName !== $userName && !UserRepository::IsUserNameAvailable($userName))
 			{
 				$user = TeamFinder::GetError("An account with this username already exists, please choose another one.");
 			}

@@ -11,12 +11,18 @@ window.TeamFinder.Settings = (function (Settings) {
 		};
 		
 		Callbacks.update = function (data) {
-			Settings.Elements.divSuccess.show();
-			Settings.Elements.divSettingsContainer.hide();
-			
-			setTimeout(function () {
-				$(window.location).attr('href', '../settings.html');
-			}, 5000);
+			if (TeamFinder.Utils.notNullOrEmpty(data) && TeamFinder.Utils.notNullOrEmpty(data.Error)) {
+				Settings.Elements.divSettingsValidationMessage.text(data.Error.Message);
+				Settings.Elements.divSettingsValidationMessage.show();
+			}
+			else {
+				Settings.Elements.divSuccess.show();
+				Settings.Elements.divSettingsContainer.hide();
+				
+				setTimeout(function () {
+					$(window.location).attr('href', '../settings.html');
+				}, 5000);
+			}
 		};
 		
 		Callbacks.user = function (data) {
@@ -45,6 +51,7 @@ window.TeamFinder.Settings = (function (Settings) {
 		Elements.divPasswordChangeButton = null;
 		Elements.divPictureNamePlaceholder = null;
 		Elements.divSettingsContainer = null;
+		Elements.divSettingsValidationMessage = null;
 		Elements.divSuccess = null;
 		Elements.formSettings = null;
 		Elements.rdoGender = null;
@@ -73,6 +80,7 @@ window.TeamFinder.Settings = (function (Settings) {
 		Settings.Elements.initialize();
 		Settings.Elements.divSuccess.hide();
 		Settings.Elements.divSettingsContainer.hide();
+		Settings.Elements.divSettingsValidationMessage.hide();
 		Settings.Elements.divNotLoggedInContainer.show();
 		
 		if (TeamFinder.isLoggedIn()) {
@@ -164,6 +172,9 @@ window.TeamFinder.Settings = (function (Settings) {
 							alert('You need to be logged in update user information.');
 							return false;
 						}
+						
+						Settings.Elements.divSettingsValidationMessage.text('');
+						Settings.Elements.divSettingsValidationMessage.hide();
 						
 						TeamFinder.callServer('../data/updateUser.php', {
 							age: Settings.Elements.txtAge.val(),
