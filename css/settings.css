@@ -13,12 +13,6 @@ td
 	margin-top: 4px;
 }
 
-#btnSubmit, #divPasswordChangeContainer
-{
-	float: right;
-	margin-left: 10px;
-}
-
 #divSettingsContainer h1
 {
 	line-height: 30px;
@@ -37,14 +31,15 @@ td
 	margin-left: 5px;
 }
 
-#selectGenderSelectBoxItContainer
-{
-	margin-top: 16px;
-}
-
 .datepickerInput
 {
 	width: 66px;
+}
+
+.right
+{
+	float: right;
+	margin-left: 10px;
 }
 
 .textInput
@@ -58,3 +53,10 @@ td
 	font-size: 80%;
 }
 /* /jQuery UI overrides */
+
+/* SelectBoxIt overrides */
+#selectGenderSelectBoxItContainer
+{
+	margin-top: 16px;
+}
+/* /SelectBoxIt overrides */

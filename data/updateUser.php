@@ -4,7 +4,7 @@
 	require_once "../bin/repositories.php";
 	
 	//Set parameters
-	$age				=	isset($_POST["age"]) ? (int) $_POST["age"] : null;
+	$birthDate			=	isset($_POST["birthDate"]) ? $_POST["birthDate"] : null;
 	$description		=	isset($_POST["description"]) ? $_POST["description"] : null;
 	$email				=	isset($_POST["email"]) ? $_POST["email"] : null;
 	$firstName			=	isset($_POST["firstName"]) ? $_POST["firstName"] : null;
@@ -30,7 +30,7 @@
 			}
 			else
 			{
-				$user->Age = null != $age && $user->Age !== $age ? $age : $user->Age;
+				$user->BirthDate = null != $birthDate && $user->BirthDate !== $birthDate ? $birthDate : $user->BirthDate;
 				$user->Description = null != $description && $user->Description !== $description ? $description : $user->Description;
 				$user->Email = null != $email && $user->Email !== $email ? $email : $user->Email;
 				$user->FirstName = null != $firstName && $user->FirstName !== $firstName ? $firstName : $user->FirstName;

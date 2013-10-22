@@ -26,12 +26,8 @@ window.TeamFinder.Settings = (function (Settings) {
 		};
 		
 		Callbacks.user = function (data) {
-			var _pictureUrlParts = TeamFinder.Utils.notNullOrEmpty(data.PictureUrl) ? data.PictureUrl.split('/') : null,
-				_rdoGender = TeamFinder.Utils.notNullOrEmpty(data.Gender) ? $('input[name="rdoGender"][value="' + data.Gender + '"]') : null;
+			var _pictureUrlParts = TeamFinder.Utils.notNullOrEmpty(data.PictureUrl) ? data.PictureUrl.split('/') : null;
 			
-			if (null != _rdoGender) {
-				_rdoGender.trigger('click');
-			}
 			TeamFinder.Utils.delay.call(this, function () {
 				Settings.Elements.selectGender.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('genders', TeamFinder.Utils.notNullOrEmpty(data.Gender) ? data.Gender : '-'));
 			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', Settings.Elements.selectGender, 1);
@@ -57,7 +53,6 @@ window.TeamFinder.Settings = (function (Settings) {
 		Elements.divSettingsValidationMessage = null;
 		Elements.divSuccess = null;
 		Elements.formSettings = null;
-		Elements.rdoGender = null;
 		Elements.selectGender = null;
 		Elements.txtBirthDate = null;
 		Elements.txtDescription = null;
@@ -73,8 +68,6 @@ window.TeamFinder.Settings = (function (Settings) {
 					this[key] = $('#' + key);
 				}
 			}
-			
-			Elements.rdoGender = $('input[name="rdoGender"]');
 		};
 		
 		return Elements;

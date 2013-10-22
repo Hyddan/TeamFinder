@@ -4,13 +4,13 @@
 			<td>
 				<p>
 					<label for="txtSignUpFirstName">First Name</label><br />
-					<input id="txtSignUpFirstName" name="txtSignUpFirstName" type="text" />
+					<input class="textInput" id="txtSignUpFirstName" name="txtSignUpFirstName" type="text" />
 				</p>
 			</td>
 			<td>
 				<p>
 					<label for="txtSignUpLastName">Last Name</label><br />
-					<input id="txtSignUpLastName" name="txtSignUpLastName" type="text" />
+					<input class="textInput" id="txtSignUpLastName" name="txtSignUpLastName" type="text" />
 				</p>
 			</td>
 		</tr>
@@ -26,15 +26,12 @@
 			<td>
 				<p>
 					<label for="txtSignUpBirthDate">BirthDate</label><br />
-					<input id="txtSignUpBirthDate" name="txtSignUpBirthDate" type="text" />
+					<input class="datepickerInput" id="txtSignUpBirthDate" name="txtSignUpBirthDate" type="text" />
 				</p>
 			</td>
 			<td>
 				<p>
-					<label for="txtSignUpGender">Gender</label><br />
-					<input id="txtSignUpGenderMale" name="rdoSignUpGender" type="radio" value="Male">Male</input>
-					<input id="txtSignUpGenderFemale" name="rdoSignUpGender" type="radio" value="Female">Female</input>
-					<label class="error" for="rdoSignUpGender" style="display: none;">This field is required.</label>
+					<select id="selectSignUpGender" name="selectSignUpGender"></select><input id="txtSelectSignUpGender" name="txtSelectSignUpGender" type="hidden" />
 				</p>
 			</td>
 		</tr>
@@ -42,13 +39,13 @@
 			<td>
 				<p>
 					<label for="txtSignUpEmail">Email (Username)</label><br />
-					<input id="txtSignUpEmail" name="txtSignUpEmail" type="text" />
+					<input class="textInput" id="txtSignUpEmail" name="txtSignUpEmail" type="text" />
 				</p>
 			</td>
 			<td>
 				<p>
 					<label for="txtSignUpPassword">Password</label><br />
-					<input id="txtSignUpPassword" name="txtSignUpPassword" type="password" />
+					<input class="textInput" id="txtSignUpPassword" name="txtSignUpPassword" type="password" />
 				</p>
 			</td>
 		</tr>
@@ -59,7 +56,7 @@
 					<div id="divSignUpUploaderContainer"></div>
 					<div class="formAuthenticateButtons" id="divSignUpPictureButtonContainer">
 						<div class="divButton" id="divSignUpPictureButton"><a class="aButton" id="aSignUpPicture">Browse</a></div>
-					</div>
+					</div><br />
 					<div id="divSignUpPictureNamePlaceholder">(No file)</div>
 				</p>
 			</td>

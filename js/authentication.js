@@ -90,23 +90,36 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			
 			Authentication.Elements.txtSignUpFirstName.focus();
 			
+			TeamFinder.Utils.delay.call(this, function () {
+				//Create UI elements
+				Authentication.Elements.txtSignUpBirthDate.datepicker({
+					changeMonth: true,
+					changeYear: true,
+					dateFormat: 'yy-mm-dd'
+				});
+				
+				TeamFinder.UI.createDropDown(Authentication.Elements.selectSignUpGender, '', {q: 'genders', defaultText: '--Gender--', selected: null});
+			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.datepicker)', Authentication.Elements.txtSignUpBirthDate, 1);
+			
 			//Subscribe to events
 			Authentication.Elements.divSignUpSignUpButton.on('click', function () {
 				Authentication.Elements.formSignUp.trigger('submit');
 			});
 			
-			Authentication.Elements.rdoSignUpGender.on('click', function () {
-				Authentication.Elements.rdoSignUpGender = $('input[name="rdoSignUpGender"]:checked');
+			Authentication.Elements.selectSignUpGender.on('change', function () {
+				Authentication.Elements.txtSelectSignUpGender.val(TeamFinder.Utils.getSelectedDropDownValue(Authentication.Elements.selectSignUpGender));
+				Authentication.Elements.txtSelectSignUpGender.valid();
 			});
 			
 			(function () { //Hook up validation
 				Authentication.Elements.formSignUp.validate({
+					ignore: [],
 					rules: {
-						rdoSignUpGender: {
+						txtSelectSignUpGender: {
 							required: true
 						},
 						txtSignUpBirthDate: {
-							min: 10,
+							date: true,
 							required: true
 						},
 						txtSignUpDescription: {
@@ -132,7 +145,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 											Authentication.Elements.txtSignUpDescription.val(),
 											Authentication.Elements.txtSignUpEmail.val(),
 											Authentication.Elements.txtSignUpFirstName.val(),
-											Authentication.Elements.rdoSignUpGender.val(),
+											TeamFinder.Utils.getSelectedDropDownValue(Authentication.Elements.selectSignUpGender),
 											Authentication.Elements.txtSignUpLastName.val(),
 											Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
 											((TeamFinder.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
@@ -166,7 +179,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 		Elements.divSignUpValidationMessage = null;
 		Elements.formAuthenticate = null;
 		Elements.formSignUp = null;
-		Elements.rdoSignUpGender = null;
+		Elements.selectSignUpGender = null;
 		Elements.txtAuthenticatePassword = null;
 		Elements.txtAuthenticateUsername = null;
 		Elements.txtSignUpBirthDate = null;
@@ -175,6 +188,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 		Elements.txtSignUpFirstName = null;
 		Elements.txtSignUpLastName = null;
 		Elements.txtSignUpPassword = null;
+		Elements.txtSelectSignUpGender = null;
 		
 		Elements.initialize = function () {
 			for (var key in this) {
@@ -182,8 +196,6 @@ window.TeamFinder.Authentication = (function (Authentication) {
 					this[key] = $('#' + key);
 				}
 			}
-			
-			Elements.rdoSignUpGender = $('input[name="rdoSignUpGender"]');
 		};
 		
 		return Elements;

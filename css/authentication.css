@@ -1,3 +1,8 @@
+td
+{
+	width: 222px;
+}
+
 #divAuthenticationButton
 {
 	position: relative;
@@ -63,7 +68,7 @@
 	position: absolute;
 	right: 20px;
 	top: 40px;
-	width: 325px;
+	width: 452px;
 	z-index: 999;
 }
 
@@ -97,7 +102,6 @@
 
 #divSignUpPictureNamePlaceholder
 {
-	float: left;
 	font-size: 12px;
 	margin: 10px 0px 0px 5px;
 	width: 120px;
@@ -106,5 +110,29 @@
 #txtSignUpDescription
 {
 	margin-left: 2px;
-	width: 311px;
+	width: 438px;
 }
+
+.datepickerInput
+{
+	width: 66px;
+}
+
+.textInput
+{
+	width: 216px;
+}
+
+/* jQuery UI overrides */
+.ui-datepicker
+{
+	font-size: 80%;
+}
+/* /jQuery UI overrides */
+
+/* SelectBoxIt overrides */
+#selectSignUpGenderSelectBoxItContainer
+{
+	margin-top: 16px;
+}
+/* /SelectBoxIt overrides */

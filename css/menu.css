@@ -1,18 +1,4 @@
-#divMenuPlaceHolder
-{
-	height: 70px;
-}
-
-#divMenuPlaceHolder ul
-{
-	background-image: url('../images/list_bg.png');
-	background-repeat: repeat-x;
-	height: 70px;
-	list-style: none;
-	padding-left: 0px;
-}
-
-#divMenuPlaceHolder ul li a
+li#menuAuthentication a.aMenuAnchor
 {
 	color: #c4d92e;
 	display: block;
@@ -24,20 +10,45 @@
 	text-decoration: none;
 }
 
-#divMenuPlaceHolder ul li a.home
+li#menuSettings a
 {
-	left: 0px;
-	top: 0px;
+	color: #c4d92e;
+	display: block;
+	float: left;
+	font-size: 23px;
+	margin-top: 6px;
+	padding-right: 30px;
+	text-align: center;
+	text-decoration: none;
 }
 
-#divMenuPlaceHolder ul li a.about
+#divMenuPlaceHolder
 {
-	left: 0px;
-	top: 0px;
-	width: 145px;
+	height: 70px;
 }
 
-#divMenuPlaceHolder ul li a:hover , #divMenuPlaceHolder ul li.menuSelectedItem a
+#divMenuPlaceHolder ul#ulMenu
+{
+	background-image: url('../images/list_bg.png');
+	background-repeat: repeat-x;
+	height: 70px;
+	list-style: none;
+	padding-left: 0px;
+}
+
+#divMenuPlaceHolder ul#ulMenu li.liMenuItem a
+{
+	color: #c4d92e;
+	display: block;
+	float: left;
+	font-size: 23px;
+	margin-top: 6px;
+	padding-right: 30px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#divMenuPlaceHolder ul#ulMenu li.liMenuItem a:hover , #divMenuPlaceHolder ul li.menuSelectedItem a
 {
 	color: white;
 }
@@ -54,7 +65,7 @@
 
 #menuAuthentication #aAuthenticationButton
 {
-	line-height: 23px;
+	line-height: 27px;
 	padding-right: 0em;
 }
 
