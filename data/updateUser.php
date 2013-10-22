@@ -20,13 +20,13 @@
 		$user = UserRepository::GetBySessionId($sessionId);
 		if (null != $user)
 		{
-			if (null != $email && $user->Email !== $email && !UserRepository::IsEmailAvailable($email))
-			{
-				$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
-			}
-			else if (null != $userName && $user->UserName !== $userName && !UserRepository::IsUserNameAvailable($userName))
+			if (null != $userName && $user->UserName !== $userName && !UserRepository::IsUserNameAvailable($userName))
 			{
 				$user = TeamFinder::GetError("An account with this username already exists, please choose another one.");
+			}
+			else if (null != $email && $user->Email !== $email && !UserRepository::IsEmailAvailable($email))
+			{
+				$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
 			}
 			else
 			{

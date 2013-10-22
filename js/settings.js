@@ -29,8 +29,8 @@ window.TeamFinder.Settings = (function (Settings) {
 			var _pictureUrlParts = TeamFinder.Utils.notNullOrEmpty(data.PictureUrl) ? data.PictureUrl.split('/') : null;
 			
 			TeamFinder.Utils.delay.call(this, function () {
-				Settings.Elements.selectGender.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('genders', TeamFinder.Utils.notNullOrEmpty(data.Gender) ? data.Gender : '-'));
-			}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', Settings.Elements.selectGender, 1);
+				Settings.Elements.selectGender.data("selectBox-selectBoxIt").selectOption(TeamFinder.Utils.getFilterValue('genders', TeamFinder.Utils.notNullOrEmpty(data.Gender) ? data.Gender : '-'));
+			}, 'obj => !TeamFinder.Utils.notNullOrEmpty(obj.data("selectBox-selectBoxIt"))', Settings.Elements.selectGender, 1);
 			
 			Settings.Elements.txtBirthDate.datepicker('setDate', TeamFinder.Utils.notNullOrEmpty(data.BirthDate) ? data.BirthDate : new Date()),
 			Settings.Elements.txtDescription.val(TeamFinder.Utils.notNullOrEmpty(data.Description) ? data.Description : '[Description]');
@@ -190,7 +190,7 @@ window.TeamFinder.Settings = (function (Settings) {
 							description: Settings.Elements.txtDescription.val(),
 							email: Settings.Elements.txtEmail.val(),
 							firstName: Settings.Elements.txtFirstName.val(),
-							gender: Settings.Elements.rdoGender.val(),
+							gender: Settings.Elements.txtSelectGender.val(),
 							lastName: Settings.Elements.txtLastName.val(),
 							pictureFileName: ((TeamFinder.Utils.notNullOrEmpty(Settings.Elements.divPictureNamePlaceholder.text())
 								&& '(No file)' !== Settings.Elements.divPictureNamePlaceholder.text()) ?

@@ -54,16 +54,16 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 				CreateAd.Elements.txtDescription.val(data.Description);
 				
 				TeamFinder.Utils.delay.call(this, function () {
-					CreateAd.Elements.selectLocation.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('locations', data.Location.Name));
-				}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLocation, 1);
+					CreateAd.Elements.selectLocation.data("selectBox-selectBoxIt").selectOption(TeamFinder.Utils.getFilterValue('locations', data.Location.Name));
+				}, 'obj => !TeamFinder.Utils.notNullOrEmpty(obj.data("selectBox-selectBoxIt"))', CreateAd.Elements.selectLocation, 1);
 				
 				TeamFinder.Utils.delay.call(this, function () {
-					CreateAd.Elements.selectLookingFor.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('lookingFor', data.LookingFor.Name));
-				}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectLookingFor, 1);
+					CreateAd.Elements.selectLookingFor.data("selectBox-selectBoxIt").selectOption(TeamFinder.Utils.getFilterValue('lookingFor', data.LookingFor.Name));
+				}, 'obj => !TeamFinder.Utils.notNullOrEmpty(obj.data("selectBox-selectBoxIt"))', CreateAd.Elements.selectLookingFor, 1);
 				
 				TeamFinder.Utils.delay.call(this, function () {
-					CreateAd.Elements.selectSport.selectBoxIt('selectOption', TeamFinder.Utils.getFilterValue('sports', data.Sport.Name));
-				}, 'obj => 1 > obj.children().length', CreateAd.Elements.selectSport, 1);
+					CreateAd.Elements.selectSport.data("selectBox-selectBoxIt").selectOption(TeamFinder.Utils.getFilterValue('sports', data.Sport.Name));
+				}, 'obj => !TeamFinder.Utils.notNullOrEmpty(obj.data("selectBox-selectBoxIt"))', CreateAd.Elements.selectSport, 1);
 			}
 		};
 		

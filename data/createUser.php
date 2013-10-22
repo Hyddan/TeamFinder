@@ -4,7 +4,7 @@
 	require_once "../bin/repositories.php";
 	
 	//Set parameters
-	$age				=	isset($_POST["age"]) ? (int) $_POST["age"] : null;
+	$birthDate			=	isset($_POST["birthDate"]) ? $_POST["birthDate"] : null;
 	$description		=	isset($_POST["description"]) ? $_POST["description"] : null;
 	$email				=	isset($_POST["email"]) ? $_POST["email"] : null;
 	$firstName			=	isset($_POST["firstName"]) ? $_POST["firstName"] : null;
@@ -14,20 +14,20 @@
 	$pictureFileName	=	isset($_POST["pictureFileName"]) ? "../images/users/" . $_POST["pictureFileName"] : null;
 	$user				= 	null;
 	
-	if (null != $age && null != $description && null != $email && null != $firstName && null != $gender && null != $lastName && null != $password)
+	if (null != $birthDate && null != $description && null != $email && null != $firstName && null != $gender && null != $lastName && null != $password)
 	{
-		if (!UserRepository::IsEmailAvailable($email))
-		{
-			$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
-		}
-		else if (!UserRepository::IsUserNameAvailable($email))
+		if (!UserRepository::IsUserNameAvailable($email))
 		{
 			$user = TeamFinder::GetError("An account with this username already exists, please choose another one.");
+		}
+		else if (!UserRepository::IsEmailAvailable($email))
+		{
+			$user = TeamFinder::GetError("An account with this email already exists, please use another one.");
 		}
 		else
 		{
 			$user = UserRepository::Save(new User(-1,
-													$age,
+													$birthDate,
 													null,
 													$description,
 													$email,
