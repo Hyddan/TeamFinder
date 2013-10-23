@@ -128,11 +128,18 @@ td
 {
 	font-size: 80%;
 }
+
+.ui-datepicker-trigger
+{
+	padding: 0em;
+	position: relative;
+	top: 6px;
+}
 /* /jQuery UI overrides */
 
 /* SelectBoxIt overrides */
 #selectSignUpGenderSelectBoxItContainer
 {
-	margin-top: 16px;
+	margin-top: 21px;
 }
 /* /SelectBoxIt overrides */

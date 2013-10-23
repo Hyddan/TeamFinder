@@ -37,7 +37,8 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			$(document).on('click', function (e) {
 				if ((Authentication.Elements.formAuthenticate.is(':visible') || Authentication.Elements.formSignUp.is(':visible'))
 						&& (!Authentication.UI.isClicked(Authentication.Elements.divAuthenticationPlaceHolder, e.target)
-							&& !Authentication.UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target))) {
+							&& !Authentication.UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target)
+								&& !Authentication.UI.isClicked(Authentication.Elements.txtSignUpBirthDate.datepicker('widget'), e.target))) {
 					Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
 					Authentication.Elements.divSignUpPlaceHolder.slideUp();
 				}
@@ -93,9 +94,11 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			TeamFinder.Utils.delay.call(this, function () {
 				//Create UI elements
 				Authentication.Elements.txtSignUpBirthDate.datepicker({
+					buttonImage: '../images/btn_calendar.gif',
 					changeMonth: true,
 					changeYear: true,
-					dateFormat: 'yy-mm-dd'
+					dateFormat: 'yy-mm-dd',
+					showOn: 'both'
 				});
 				
 				TeamFinder.UI.createDropDown(Authentication.Elements.selectSignUpGender, '', {q: 'genders', defaultText: '--Gender--', selected: null});

@@ -8,9 +8,14 @@ td
 	width: 222px;
 }
 
-#divPasswordChangeButton
+#btnSubmit
 {
-	margin-top: 4px;
+	margin-top: 14px;
+}
+
+#divPasswordChangeContainer
+{
+	margin-top: 19px;
 }
 
 #divSettingsContainer h1
@@ -29,6 +34,11 @@ td
 	color: red;
 	font-size: 12px;
 	margin-left: 5px;
+}
+
+.alignBottom
+{
+	vertical-align: bottom;
 }
 
 .datepickerInput
@@ -52,11 +62,18 @@ td
 {
 	font-size: 80%;
 }
+
+.ui-datepicker-trigger
+{
+	padding: 0em;
+	position: relative;
+	top: 6px;
+}
 /* /jQuery UI overrides */
 
 /* SelectBoxIt overrides */
 #selectGenderSelectBoxItContainer
 {
-	margin-top: 16px;
+	margin-top: 21px;
 }
 /* /SelectBoxIt overrides */

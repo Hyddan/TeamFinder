@@ -21,12 +21,15 @@ window.TeamFinder.Settings = (function (Settings) {
 				
 				setTimeout(function () {
 					$(window.location).attr('href', '../settings.html');
-				}, 5000);
+				}, 2000);
 			}
 		};
 		
 		Callbacks.user = function (data) {
-			var _pictureUrlParts = TeamFinder.Utils.notNullOrEmpty(data.PictureUrl) ? data.PictureUrl.split('/') : null;
+			if (TeamFinder.Utils.notNullOrEmpty(data.PictureUrl)) {
+				Settings.Elements.imgProfilePicture.attr('src', data.PictureUrl);
+				Settings.Elements.imgProfilePicture.show();
+			}
 			
 			TeamFinder.Utils.delay.call(this, function () {
 				Settings.Elements.selectGender.data("selectBox-selectBoxIt").selectOption(TeamFinder.Utils.getFilterValue('genders', TeamFinder.Utils.notNullOrEmpty(data.Gender) ? data.Gender : '-'));
@@ -37,7 +40,6 @@ window.TeamFinder.Settings = (function (Settings) {
 			Settings.Elements.txtEmail.val(TeamFinder.Utils.notNullOrEmpty(data.Email) ? data.Email : '[Email]');
 			Settings.Elements.txtFirstName.val(TeamFinder.Utils.notNullOrEmpty(data.FirstName) ? data.FirstName : '[FirstName]');
 			Settings.Elements.txtLastName.val(TeamFinder.Utils.notNullOrEmpty(data.LastName) ? data.LastName : '[LastName]');
-			Settings.Elements.divPictureNamePlaceholder.text(null != _pictureUrlParts ? _pictureUrlParts[_pictureUrlParts.length - 1] : '(No file)');
 			Settings.Elements.txtUserName.val(TeamFinder.Utils.notNullOrEmpty(data.UserName) ? data.UserName : '[UserName]');
 		};
 		
@@ -46,13 +48,14 @@ window.TeamFinder.Settings = (function (Settings) {
 	
 	Settings.Elements = (function (Elements) {
 		Elements.aLogIn = null;
+		Elements.aPicture = null;
 		Elements.divNotLoggedInContainer = null;
 		Elements.divPasswordChangeButton = null;
-		Elements.divPictureNamePlaceholder = null;
 		Elements.divSettingsContainer = null;
 		Elements.divSettingsValidationMessage = null;
 		Elements.divSuccess = null;
 		Elements.formSettings = null;
+		Elements.imgProfilePicture = null;
 		Elements.selectGender = null;
 		Elements.txtBirthDate = null;
 		Elements.txtDescription = null;
@@ -73,6 +76,81 @@ window.TeamFinder.Settings = (function (Settings) {
 		return Elements;
 	}(Settings.Elements || {}));
 	
+	Settings.UI = (function (UI) {
+		UI.initDatePicker = function () {
+			Settings.Elements.txtBirthDate.datepicker({
+				buttonImage: '../images/btn_calendar.gif',
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'yy-mm-dd',
+				showOn: 'both'
+			});
+		};
+		
+		UI.initGenderSelect = function () {
+			TeamFinder.UI.createDropDown(Settings.Elements.selectGender, '', {q: 'genders', defaultText: '--Gender--', selected: null});
+		};
+		
+		UI.initialize = function () {
+			Settings.UI.initDatePicker();
+			Settings.UI.initUploader();
+			Settings.UI.initGenderSelect();
+		};
+		
+		UI.initUploader = function () {
+			var _plUploader = new plupload.Uploader({
+				browse_button: 'aPicture',
+				chunk_size: '1mb',
+				container : 'divUploaderContainer',
+				filters: [
+					{title : 'Image files', extensions : 'jpg,gif,png'}
+				],
+				flash_swf_url: '../lib/plupload/plupload.flash.swf',
+				max_file_size: '5mb',
+				multi_selection: false,
+				resize: {
+					height: 240,
+					width: 320,
+					quality: 90
+				},
+				runtimes: 'gears,html5,flash,silverlight,browserplus',
+				silverlight_xap_url: '../lib/plupload/plupload.silverlight.xap',
+				unique_names: true,
+				url: '../handlers/plUploaderHandler.php'
+			});
+			
+			//Syntax "fix"
+			plupload.Uploader.prototype.on = _plUploader.bind;
+			
+			_plUploader.on('BeforeUpload', function (uploader) { });
+
+			_plUploader.on('Error', function(uploader, error) {
+				TeamFinder.handleError(error);
+			});
+
+			_plUploader.on('QueueChanged', function(uploader, files) {
+				if (1 === uploader.files.length) {
+					uploader.start();
+				}
+			});
+
+			_plUploader.on('FileUploaded', function (uploader, file) {
+				uploader.removeFile(file);
+				Settings.Elements.divPictureNamePlaceholder.fadeOut(function () {
+					Settings.Elements.divPictureNamePlaceholder.text(file.target_name);
+					Settings.Elements.divPictureNamePlaceholder.fadeIn();
+					Settings.Elements.aPicture.hide();
+				});
+			});
+
+			_plUploader.init();
+			
+			window.uploader = _plUploader;
+		};
+		
+		return UI;
+	}(Settings.UI || {}));
+	
 	Settings.initialize = function () {
 		//Set initial values
 		Settings.Elements.initialize();
@@ -80,26 +158,23 @@ window.TeamFinder.Settings = (function (Settings) {
 		Settings.Elements.divSettingsContainer.hide();
 		Settings.Elements.divSettingsValidationMessage.hide();
 		Settings.Elements.divNotLoggedInContainer.show();
+		Settings.Elements.imgProfilePicture.hide();
 		
 		TeamFinder.Utils.delay.call(this, function () {
-			if (TeamFinder.isLoggedIn()) {
-				Settings.Elements.divNotLoggedInContainer.hide();
-				Settings.Elements.divSettingsContainer.show();
-			
-				TeamFinder.callServer('../data/getUser.php', {
-						sessionId: TeamFinder.loggedInUser.sessionId()
-					}, 'GET', 'json', Settings.Callbacks.user, TeamFinder.handleError
-				);
-			}
-		
-			//Create UI elements
-			Settings.Elements.txtBirthDate.datepicker({
-				changeMonth: true,
-				changeYear: true,
-				dateFormat: 'yy-mm-dd'
-			});
-			
-			TeamFinder.UI.createDropDown(Settings.Elements.selectGender, '', {q: 'genders', defaultText: '--Gender--', selected: null});
+			TeamFinder.Utils.delay.call(this, function () {
+				if (TeamFinder.isLoggedIn()) {
+					Settings.Elements.divNotLoggedInContainer.hide();
+					Settings.Elements.divSettingsContainer.show();
+					
+					//Create UI elements
+					Settings.UI.initialize();
+					
+					TeamFinder.callServer('../data/getUser.php', {
+							sessionId: TeamFinder.loggedInUser.sessionId()
+						}, 'GET', 'json', Settings.Callbacks.user, TeamFinder.handleError
+					);
+				}
+			}, 'obj => !TeamFinder.Utils.notNullOrEmpty(obj.plupload) && !TeamFinder.Utils.notNullOrUndefinedFunction(obj.plupload)', window, 1);
 		}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.datepicker)', Settings.Elements.txtBirthDate, 1);
 			
 		TeamFinder.loadScript('../lib/jquery.validate-1.11.1.min.js', function () {
@@ -225,6 +300,9 @@ window.TeamFinder.Settings = (function (Settings) {
 			Settings.Elements.divNotLoggedInContainer.hide();
 			Settings.Elements.divSettingsContainer.fadeIn();
 			
+			//Create UI elements
+			Settings.UI.initialize();
+			
 			TeamFinder.callServer('../data/getuser.php', {
 					sessionId: TeamFinder.loggedInUser.sessionId()
 				}, 'GET', 'json', Settings.Callbacks.user, TeamFinder.handleError
@@ -240,6 +318,8 @@ window.TeamFinder.Settings = (function (Settings) {
 	
 	Settings.loadDependencies = function () {
 		TeamFinder.loadStyle('../css/settings.css', null);
+		
+		TeamFinder.loadScript('../lib/plupload/plupload.full.js', null);
 	};
 	
 	Settings.loadDependencies();

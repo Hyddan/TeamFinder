@@ -1,35 +1,6 @@
 window.TeamFinder.CreateAd = (function (CreateAd) {
 	CreateAd.editMode = false;
 	
-	CreateAd.Elements = (function (Elements) {
-		Elements.aLogIn = null;
-		Elements.divCreateAdFormContainer = null;
-		Elements.divNotLoggedInContainer = null;
-		Elements.divResult = null;
-		Elements.divSuccess = null;
-		Elements.h1AdFormHeadline = null;
-		Elements.formCreateAd = null;
-		Elements.selectLocation = null;
-		Elements.selectLookingFor = null;
-		Elements.selectSport = null;
-		Elements.txtAdId = null;
-		Elements.txtDescription = null;
-		Elements.txtHeadline = null;
-		Elements.txtSelectSport = null;
-		Elements.txtSelectLocation = null;
-		Elements.txtSelectLookingFor = null;
-		
-		Elements.initialize = function() {
-			for (var key in this) {
-				if ('function' !== typeof this[key]) {
-					this[key] = $('#' + key);
-				}
-			}
-		};
-		
-		return Elements;
-	}(CreateAd.Elements || {}));
-	
 	CreateAd.Callbacks = (function (Callbacks) {
 		Callbacks.createAd = function (data) {
 			CreateAd.Elements.divSuccess.show();
@@ -37,7 +8,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 			
 			setTimeout(function () {
 				$(window.location).attr('href', '../createAd.html');
-			}, 5000);
+			}, 2000);
 		};
 		
 		Callbacks.adData = function (data) {
@@ -69,6 +40,35 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		
 		return Callbacks;
 	}(CreateAd.Callbacks || {}));
+	
+	CreateAd.Elements = (function (Elements) {
+		Elements.aLogIn = null;
+		Elements.divCreateAdFormContainer = null;
+		Elements.divNotLoggedInContainer = null;
+		Elements.divResult = null;
+		Elements.divSuccess = null;
+		Elements.h1AdFormHeadline = null;
+		Elements.formCreateAd = null;
+		Elements.selectLocation = null;
+		Elements.selectLookingFor = null;
+		Elements.selectSport = null;
+		Elements.txtAdId = null;
+		Elements.txtDescription = null;
+		Elements.txtHeadline = null;
+		Elements.txtSelectSport = null;
+		Elements.txtSelectLocation = null;
+		Elements.txtSelectLookingFor = null;
+		
+		Elements.initialize = function() {
+			for (var key in this) {
+				if ('function' !== typeof this[key]) {
+					this[key] = $('#' + key);
+				}
+			}
+		};
+		
+		return Elements;
+	}(CreateAd.Elements || {}));
 	
 	CreateAd.initialize = function () {
 		//Set initial values
