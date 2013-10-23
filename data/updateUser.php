@@ -10,7 +10,7 @@
 	$firstName			=	isset($_POST["firstName"]) ? $_POST["firstName"] : null;
 	$gender				=	isset($_POST["gender"]) ? $_POST["gender"] : null;
 	$lastName			=	isset($_POST["lastName"]) ? $_POST["lastName"] : null;
-	$pictureFileName	=	isset($_POST["pictureFileName"]) ? "../images/users/" . $_POST["pictureFileName"] : null;
+	$pictureFileName	=	isset($_POST["pictureFileName"]) ? $_POST["pictureFileName"] : null;
 	$sessionId			=	isset($_POST["sessionId"]) ? $_POST["sessionId"] : null;
 	$userName			=	isset($_POST["userName"]) ? $_POST["userName"] : null;
 	$user				= 	null;

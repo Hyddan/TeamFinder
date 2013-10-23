@@ -1,6 +1,8 @@
 ﻿window.TeamFinder = (function (TeamFinder) {
 	var _loggedInUser = null;
 	
+	TeamFinder.userImagesUrlPrefix = '../images/users/';
+	
 	TeamFinder.Callbacks = (function (Callbacks) {
 		Callbacks.createUser = function (user) {
 			if (TeamFinder.Utils.notNullOrEmpty(user) && TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {

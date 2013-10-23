@@ -153,7 +153,7 @@ window.TeamFinder.Authentication = (function (Authentication) {
 											Base64.encode(Authentication.Elements.txtSignUpPassword.val()),
 											((TeamFinder.Utils.notNullOrEmpty(Authentication.Elements.divSignUpPictureNamePlaceholder.text())
 												&& '(No file)' !== Authentication.Elements.divSignUpPictureNamePlaceholder.text()) ?
-													Authentication.Elements.divSignUpPictureNamePlaceholder.text() :
+													TeamFinder.userImagesUrlPrefix + Authentication.Elements.divSignUpPictureNamePlaceholder.text() :
 													null)
 						);
 						Authentication.Elements.divSignUpPlaceHolder.slideUp();

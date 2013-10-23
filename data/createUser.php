@@ -11,7 +11,7 @@
 	$gender				=	isset($_POST["gender"]) ? $_POST["gender"] : null;
 	$lastName			=	isset($_POST["lastName"]) ? $_POST["lastName"] : null;
 	$password			=	isset($_POST["password"]) ? $_POST["password"] : null;
-	$pictureFileName	=	isset($_POST["pictureFileName"]) ? "../images/users/" . $_POST["pictureFileName"] : null;
+	$pictureFileName	=	isset($_POST["pictureFileName"]) ? $_POST["pictureFileName"] : null;
 	$user				= 	null;
 	
 	if (null != $birthDate && null != $description && null != $email && null != $firstName && null != $gender && null != $lastName && null != $password)
