@@ -267,9 +267,8 @@ window.TeamFinder.Settings = (function (Settings) {
 							firstName: Settings.Elements.txtFirstName.val(),
 							gender: Settings.Elements.txtSelectGender.val(),
 							lastName: Settings.Elements.txtLastName.val(),
-							pictureFileName: ((TeamFinder.Utils.notNullOrEmpty(Settings.Elements.divPictureNamePlaceholder.text())
-								&& '(No file)' !== Settings.Elements.divPictureNamePlaceholder.text()) ?
-									Settings.Elements.divPictureNamePlaceholder.text() :
+							pictureFileName: (TeamFinder.Utils.notNullOrEmpty(Settings.Elements.imgProfilePicture.attr('src')) ?
+									Settings.Elements.imgProfilePicture.attr('src') :
 									null),
 							sessionId: user.SessionId,
 							userName: Settings.Elements.txtUserName.val()
