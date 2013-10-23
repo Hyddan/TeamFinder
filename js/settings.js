@@ -136,9 +136,9 @@ window.TeamFinder.Settings = (function (Settings) {
 
 			_plUploader.on('FileUploaded', function (uploader, file) {
 				uploader.removeFile(file);
-				Settings.Elements.divPictureNamePlaceholder.fadeOut(function () {
-					Settings.Elements.divPictureNamePlaceholder.text(file.target_name);
-					Settings.Elements.divPictureNamePlaceholder.fadeIn();
+				Settings.Elements.imgProfilePicture.fadeOut(function () {
+					Settings.Elements.imgProfilePicture.attr('src', '../images/users/' + file.target_name);
+					Settings.Elements.imgProfilePicture.fadeIn();
 					Settings.Elements.aPicture.hide();
 				});
 			});

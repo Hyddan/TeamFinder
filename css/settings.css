@@ -36,6 +36,11 @@ td
 	margin-left: 5px;
 }
 
+#divSettingsValidationMessage
+{
+	margin-top: 4px;
+}
+
 .alignBottom
 {
 	vertical-align: bottom;
