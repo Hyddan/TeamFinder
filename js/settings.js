@@ -379,7 +379,7 @@ window.TeamFinder.Settings = (function (Settings) {
 			//Create UI elements
 			Settings.UI.initialize();
 			
-			TeamFinder.callServer('../data/getuser.php', {
+			TeamFinder.callServer('../data/getUser.php', {
 					sessionId: TeamFinder.loggedInUser.sessionId()
 				}, 'GET', 'json', Settings.Callbacks.user, TeamFinder.handleError
 			);
