@@ -18,8 +18,7 @@
 					<p><b>You need to be logged in to access the settings page. <a href="#" id ="aLogIn">Click here to log in.</a></b></p>
 				</div>
 				<div id="divSettingsContainer">
-					<h1 id="h1FormSettingsHeadline">Edit information</h1>
-					<form action="#" class="nonMenu" id="formSettings" method="post" enctype="multipart/form-data" onsubmit="return false">
+					<form action="#" class="left" id="formSettings" method="post" enctype="multipart/form-data" onsubmit="return false">
 						<input id="txtUserId" name="txtUserId" type="hidden" />
 						<table>
 							<tr>
@@ -67,19 +66,47 @@
 									</div>
 								</td>
 								<td class="alignBottom">
-									<input class="right" id="btnSubmit" type="submit" value="Save" />
-									<div class="right" id="divPasswordChangeContainer"><div id="divPasswordChangeButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Change Password</a></div></div></div>
+									<div class="divButton right" id="divSubmitButton"><a class="aButton">Save</a></div>
+									<div class="right" id="divPasswordChangeContainer"><div id="divPasswordChangeButton" class="divButton"><a class="aButton">Change Password</a></div></div>
 								</td>
-							</tr>
-							<tr>
-								<!--td colspan="2">
-									<input class="right" id="btnSubmit" type="submit" value="Save" />
-									<div class="right" id="divPasswordChangeContainer"><div id="divPasswordChangeButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Change Password</a></div></div></div>
-								</td-->
 							</tr>
 						</table>
 						<div id="divSettingsValidationMessage"></div>
 					</form>
+					<div class="left" id="divPasswordChangeSuccess">
+						<b>Your password has been changed!</b>
+					</div>
+					<div class="left" id="divPasswordChangeFormContainer">
+						<form action="#" id="formPasswordChange" method="post" enctype="multipart/form-data" onsubmit="return false">
+							<table>
+								<tr>
+									<td>
+										<label for="txtCurrentPassword">Current Password</label><br />
+										<input class="textInput" id="txtCurrentPassword" name="txtCurrentPassword" type="password" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="txtNewPassword">New Password</label><br />
+										<input class="textInput" id="txtNewPassword" name="txtNewPassword" type="password" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="txtConfirmPassword">Confirm New Password</label><br />
+										<input class="textInput" id="txtConfirmPassword" name="txtConfirmPassword" type="password" />
+									</td>
+								</tr>
+								<tr>
+									<td class="alignBottom">
+										<div class="divButton right" id="divPasswordChangeSubmitButton"><a class="aButton aButtonBackground">Save</a></div>
+										<div class="right" id="divPasswordChangeContainer"><div id="divPasswordChangeCancelButton" class="divButton"><a class="aButton aButtonBackground">Cancel</a></div></div>
+									</td>
+								</tr>
+							</table>
+							<div id="divPasswordChangeValidationMessage"></div>
+						</form>
+					</div>
 				</div>
 				<div id="divSuccess">
 					<p><b>We have received your request to update your information, we will take it under consideration. In the mean time you may want to check out <a href="../listAds.html">the latest ads</a>.</b></p>

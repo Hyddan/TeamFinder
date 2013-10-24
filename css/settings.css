@@ -13,9 +13,26 @@ td
 	margin-top: 14px;
 }
 
-#divPasswordChangeContainer
+#divPasswordChangeFormContainer
 {
-	margin-top: 19px;
+	-webkit-border-radius: 10px;
+	margin-left: 50px;
+	background-color: #dadada;
+	border-radius: 10px;
+	color: black;
+}
+
+#divPasswordChangeSuccess
+{
+	margin-left: 50px;
+}
+
+#divPasswordChangeValidationMessage, #divSettingsValidationMessage
+{
+	display: none;
+	color: red;
+	font-size: 12px;
+	margin-left: 5px;
 }
 
 #divSettingsContainer h1
@@ -28,27 +45,40 @@ td
 	margin: 10px 0px 10px 0px;
 }
 
-#divSettingsValidationMessage
-{
-	display: none;
-	color: red;
-	font-size: 12px;
-	margin-left: 5px;
-}
-
 #imgProfilePicture
 {
 	margin-top: 4px;
 }
 
+.aButtonBackground
+{
+	-webkit-border-radius: 5px;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	background-color: black;
+	border-radius: 5px;
+	margin: 0px;
+	padding: 2px;
+	text-decoration: none;
+	transition: all 0.3s ease-in-out;
+}
+
 .alignBottom
 {
+	margin-top: 19px;
 	vertical-align: bottom;
 }
 
 .datepickerInput
 {
 	width: 66px;
+}
+
+.left
+{
+	float: left;
 }
 
 .right
@@ -82,3 +112,9 @@ td
 	margin-top: 21px;
 }
 /* /SelectBoxIt overrides */
+
+/*ToDo: Test on iPad*/
+.selectboxit-container .selectboxit
+{
+	z-index: 0;
+}

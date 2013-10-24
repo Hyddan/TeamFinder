@@ -36,16 +36,16 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			
 			$(document).on('click', function (e) {
 				if ((Authentication.Elements.formAuthenticate.is(':visible') || Authentication.Elements.formSignUp.is(':visible'))
-						&& (!Authentication.UI.isClicked(Authentication.Elements.divAuthenticationPlaceHolder, e.target)
-							&& !Authentication.UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target)
-								&& !Authentication.UI.isClicked(Authentication.Elements.txtSignUpBirthDate.datepicker('widget'), e.target))) {
+						&& (!TeamFinder.UI.isClicked(Authentication.Elements.divAuthenticationPlaceHolder, e.target)
+							&& !TeamFinder.UI.isClicked(Authentication.Elements.divSignUpPlaceHolder, e.target)
+								&& !TeamFinder.UI.isClicked(Authentication.Elements.txtSignUpBirthDate.datepicker('widget'), e.target))) {
 					Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
 					Authentication.Elements.divSignUpPlaceHolder.slideUp();
 				}
 			});
 			
 			$(document).on('keyup', function (e) {
-				if (Authentication.UI.isActive(Authentication.Elements.divAuthenticationContainer)) {
+				if (TeamFinder.UI.isActive(Authentication.Elements.divAuthenticationContainer)) {
 					if (27 === e.keyCode) { //ESC
 						Authentication.Elements.divAuthenticationPlaceHolder.slideUp();
 						Authentication.Elements.divSignUpPlaceHolder.slideUp();
@@ -253,14 +253,6 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			_plUploader.init();
 			
 			window.uploader = _plUploader;
-		};
-		
-		UI.isActive = function (jqElement) {
-			return 0 < jqElement.has($(document.activeElement)).length;
-		};
-		
-		UI.isClicked = function (jqElement, target) {
-			return jqElement.is(target) || 0 < jqElement.has(target).length;
 		};
 		
 		return UI;

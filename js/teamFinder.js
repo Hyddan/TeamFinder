@@ -186,6 +186,14 @@
 			return jqSelectElement;
 		};
 		
+		UI.isActive = function (jqElement) {
+			return 0 < jqElement.has($(document.activeElement)).length;
+		};
+		
+		UI.isClicked = function (jqElement, target) {
+			return jqElement.is(target) || 0 < jqElement.has(target).length;
+		};
+		
 		return UI;
 	}(TeamFinder.UI || {}));
 	
@@ -261,6 +269,12 @@
 			}
 			
 			return null;
+		};
+		
+		Utils.getAge = function (dateString) {
+			var birthday = +new Date(dateString);
+			
+			return ~~((Date.now() - birthday) / (31557600000));
 		};
 		
 		Utils.getFilterValue = function(filterType, filterKey) {

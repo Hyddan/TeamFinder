@@ -18,10 +18,10 @@ td
 
 #divAuthenticationContainer div.formAuthenticateButtons a
 {
-	-moz-border-radius: 5px 5px 5px %2px;
-	-webkit-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px;
 	-webkit-transition: all 0.3s ease-in-out;
 	background-color: black;
+	border-radius: 5px;
 	color: #c4d92e;
 	margin: 0px;
 	text-decoration: none;
@@ -35,9 +35,9 @@ td
 
 #divAuthenticationPlaceHolder
 {
-	-moz-border-radius: 10px 10px 10px 10px;
-	-webkit-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px;
 	background-color: #dadada;
+	border-radius: 10px;
 	filter: alpha(opacity=97);
 	opacity: 0.97;
 	padding: 10px;
@@ -59,9 +59,9 @@ td
 
 #divSignUpPlaceHolder
 {
-	-moz-border-radius: 10px 10px 10px 10px;
-	-webkit-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px;
 	background-color: #dadada;
+	border-radius: 10px;
 	filter: alpha(opacity=97);
 	opacity: 0.97;
 	padding: 10px;

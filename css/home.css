@@ -7,7 +7,6 @@
 
 #divSlideshow
 {
-	box-shadow: 0 0 20px rgba(0,0,0,0.4);
 	float: left;
 	height: 250px;
 	margin: 0px;
@@ -30,9 +29,9 @@
     width: 600px;
 }
 
-
-/*ToDo: Test on iPad*/
+/* Fix for SelectBoxIt on iPad */
 .selectboxit-container .selectboxit
 {
 	z-index: 0;
 }
+/* /Fix for SelectBoxIt on iPad */

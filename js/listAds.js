@@ -176,7 +176,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			adContent.append(adContentEmail);
 			
 			var adContentAge = $(document.createElement('div'));
-			adContentAge.html('Age: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.Age) ? data.User.Age : '[Unspecified]'));
+			adContentAge.html('Age: ' + (TeamFinder.Utils.notNullOrEmpty(data.User.BirthDate) ? TeamFinder.Utils.getAge(data.User.BirthDate) : '[Unspecified]'));
 			adContent.append(adContentAge);
 			
 			var adContentGender = $(document.createElement('div'));

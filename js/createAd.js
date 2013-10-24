@@ -46,6 +46,7 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		Elements.divCreateAdFormContainer = null;
 		Elements.divNotLoggedInContainer = null;
 		Elements.divResult = null;
+		Elements.divSubmitButton = null;
 		Elements.divSuccess = null;
 		Elements.h1AdFormHeadline = null;
 		Elements.formCreateAd = null;
@@ -101,6 +102,10 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		}
 		
 		//Subscribe to events
+		CreateAd.Elements.divSubmitButton.on('click', function () {
+			CreateAd.Elements.formCreateAd.submit();
+		});
+		
 		CreateAd.Elements.selectSport.on('change', function () {
 			CreateAd.Elements.txtSelectSport.val(TeamFinder.Utils.getSelectedDropDownValue(CreateAd.Elements.selectSport));
 			CreateAd.Elements.txtSelectSport.valid();

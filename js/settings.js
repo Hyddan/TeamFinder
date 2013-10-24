@@ -1,13 +1,22 @@
 window.TeamFinder.Settings = (function (Settings) {
 	Settings.Callbacks = (function (Callbacks) {
 		Callbacks.passwordChange = function (data) {
-			if (TeamFinder.Utils.notNullOrEmpty(data.success) && true === data.success) {
-				//Password changed
+			if (TeamFinder.Utils.notNullOrEmpty(data) && TeamFinder.Utils.notNullOrEmpty(data.Error)) {
+				Settings.Elements.divPasswordChangeValidationMessage.text(data.Error.Message);
+				Settings.Elements.divPasswordChangeValidationMessage.show();
 			}
-		};
-		
-		Callbacks.passwordForm = function (data) {
-			//Present Change Password Form
+			else {
+				Settings.Elements.divPasswordChangeFormContainer.fadeOut();
+				Settings.Elements.divPasswordChangeSuccess.slideDown();
+				
+				Settings.Elements.formPasswordChange[0].reset();
+				Settings.Elements.divPasswordChangeValidationMessage.text('');
+				Settings.Elements.divPasswordChangeValidationMessage.hide();
+				
+				setTimeout(function () {
+					Settings.Elements.divPasswordChangeSuccess.slideUp();
+				}, 2000);
+			}
 		};
 		
 		Callbacks.update = function (data) {
@@ -51,17 +60,27 @@ window.TeamFinder.Settings = (function (Settings) {
 		Elements.aPicture = null;
 		Elements.divNotLoggedInContainer = null;
 		Elements.divPasswordChangeButton = null;
+		Elements.divPasswordChangeCancelButton = null;
+		Elements.divPasswordChangeFormContainer = null;
+		Elements.divPasswordChangeSubmitButton = null;
+		Elements.divPasswordChangeSuccess = null;
+		Elements.divPasswordChangeValidationMessage = null;
 		Elements.divSettingsContainer = null;
 		Elements.divSettingsValidationMessage = null;
+		Elements.divSubmitButton = null;
 		Elements.divSuccess = null;
+		Elements.formPasswordChange = null;
 		Elements.formSettings = null;
 		Elements.imgProfilePicture = null;
 		Elements.selectGender = null;
+		Elements.txtConfirmPassword = null;
+		Elements.txtCurrentPassword = null;
 		Elements.txtBirthDate = null;
 		Elements.txtDescription = null;
 		Elements.txtEmail = null;
 		Elements.txtFirstName = null;
 		Elements.txtLastName = null;
+		Elements.txtNewPassword = null;
 		Elements.txtSelectGender = null;
 		Elements.txtUserName = null;
 		
@@ -157,8 +176,11 @@ window.TeamFinder.Settings = (function (Settings) {
 		Settings.Elements.divSuccess.hide();
 		Settings.Elements.divSettingsContainer.hide();
 		Settings.Elements.divSettingsValidationMessage.hide();
+		Settings.Elements.divPasswordChangeSuccess.hide();
+		Settings.Elements.divPasswordChangeValidationMessage.hide();
 		Settings.Elements.divNotLoggedInContainer.show();
 		Settings.Elements.imgProfilePicture.hide();
+		Settings.Elements.divPasswordChangeFormContainer.hide();
 		
 		TeamFinder.Utils.delay.call(this, function () {
 			TeamFinder.Utils.delay.call(this, function () {
@@ -275,6 +297,45 @@ window.TeamFinder.Settings = (function (Settings) {
 						}, 'POST', 'json', Settings.Callbacks.update, TeamFinder.handleError);
 					}
 				});
+				
+				TeamFinder.Settings.Elements.formPasswordChange.validate({
+					ignore: [],
+					rules: {
+						txtConfirmPassword: {
+							equalTo: '#txtNewPassword'
+						},
+						txtCurrentPassword: {
+							minlength: 8,
+							required: true
+						},
+						txtNewPassword: {
+							minlength: 8,
+							required: true
+						}
+					},
+					messages: {
+						txtConfirmPassword: {
+							equalTo: 'Passwords do not match'
+						}
+					},
+					submitHandler: function () {
+						var user = JSON.parse(TeamFinder.Utils.getCookie('tfUser'));
+						if (null == user || !TeamFinder.Utils.notNullOrEmpty(user.Id) || !TeamFinder.Utils.notNullOrEmpty(user.SessionId)) {
+							alert('You need to be logged in change password.');
+							return false;
+						}
+						
+						Settings.Elements.divPasswordChangeValidationMessage.text('');
+						Settings.Elements.divPasswordChangeValidationMessage.hide();
+						
+						TeamFinder.callServer('../data/authentication.php', {
+							ajaxAction: 'changePassword',
+							currentPassword: Base64.encode(Settings.Elements.txtCurrentPassword.val()),
+							newPassword: Base64.encode(Settings.Elements.txtNewPassword.val()),
+							sessionId: user.SessionId
+						}, 'POST', 'json', Settings.Callbacks.passwordChange, TeamFinder.handleError);
+					}
+				});
 			})();
 		});
 		
@@ -286,7 +347,23 @@ window.TeamFinder.Settings = (function (Settings) {
 		});
 		
 		Settings.Elements.divPasswordChangeButton.on('click', function () {
-			alert('ToDo: add change password functionality!');
+			Settings.Elements.divPasswordChangeFormContainer.fadeIn();
+		});
+		
+		Settings.Elements.divPasswordChangeCancelButton.on('click', function () {
+			Settings.Elements.divPasswordChangeFormContainer.fadeOut();
+			
+			Settings.Elements.formPasswordChange[0].reset();
+			Settings.Elements.divPasswordChangeValidationMessage.text('');
+			Settings.Elements.divPasswordChangeValidationMessage.hide();
+		});
+		
+		Settings.Elements.divPasswordChangeSubmitButton.on('click', function () {
+			Settings.Elements.formPasswordChange.submit();
+		});
+		
+		Settings.Elements.divSubmitButton.on('click', function () {
+			Settings.Elements.formSettings.submit();
 		});
 			
 		Settings.Elements.selectGender.on('change', function () {

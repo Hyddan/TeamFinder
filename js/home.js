@@ -37,6 +37,7 @@ window.TeamFinder.Home = (function(Home) {
 	
 	Home.Elements = (function (Elements) {
 		Elements.divSlideshow = null;
+		Elements.divSubmitButton = null;
 		Elements.formQuickSearch = null;
 		Elements.selectLocation = null;
 		Elements.selectLookingFor = null;
@@ -84,14 +85,14 @@ window.TeamFinder.Home = (function(Home) {
 		TeamFinder.UI.createDropDown(Home.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
 		TeamFinder.UI.createDropDown(Home.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
 		TeamFinder.UI.createDropDown(Home.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
+		
+		Home.Elements.divSubmitButton.on('click', function () {
+			$(window.location).attr('href', '../listAds.html?' + Home.Elements.formQuickSearch.serialize());
+		});
 	};
 	
 	Home.loadDependencies = function () {
 		TeamFinder.loadStyle('../css/home.css', null);
-	};
-	
-	Home.quickSearch = function () {
-		$(window.location).attr('href', '../listAds.html?' + Home.Elements.formQuickSearch.serialize());
 	};
 	
 	Home.loadDependencies();

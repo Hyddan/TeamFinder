@@ -1,8 +1,3 @@
-#btnSubmit
-{
-	float: right;
-}
-
 #divCreateAdFormContainer h1
 {
 	line-height: 30px;
@@ -22,4 +17,9 @@
 #txtDescription
 {
 	width: 892px;
+}
+
+.right
+{
+	float: right;
 }
