@@ -82,13 +82,14 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		if (TeamFinder.isLoggedIn()) {
 			CreateAd.Elements.divNotLoggedInContainer.hide();
 			CreateAd.Elements.divCreateAdFormContainer.show();
+			
+			//Create UI elements
+			TeamFinder.UI.createDropDown(CreateAd.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
+			TeamFinder.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
+			TeamFinder.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 		}
 		
 		//Create UI elements
-		TeamFinder.UI.createDropDown(CreateAd.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
-		TeamFinder.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
-		TeamFinder.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
-		
 		CreateAd.Elements.h1AdFormHeadline.html('Create an ad');
 		CreateAd.Elements.txtHeadline.focus();
 		
@@ -130,6 +131,11 @@ window.TeamFinder.CreateAd = (function (CreateAd) {
 		TeamFinder.Events.on('logIn', function (user) {
 			CreateAd.Elements.divNotLoggedInContainer.hide();
 			CreateAd.Elements.divCreateAdFormContainer.fadeIn();
+			
+			//Create UI elements
+			TeamFinder.UI.createDropDown(CreateAd.Elements.selectSport, '../data/getAdFilterData.php', {q: 'sports', defaultText: '--Sport--', selected: null});
+			TeamFinder.UI.createDropDown(CreateAd.Elements.selectLocation, '../data/getAdFilterData.php', {q: 'locations', defaultText: '--Location--', selected: null});
+			TeamFinder.UI.createDropDown(CreateAd.Elements.selectLookingFor, '../data/getAdFilterData.php', {q: 'lookingFor', defaultText: '--Looking For--', selected: null});
 		}).on('logOut', function (user) {
 			CreateAd.Elements.divCreateAdFormContainer.hide();
 			CreateAd.Elements.divNotLoggedInContainer.fadeIn();
