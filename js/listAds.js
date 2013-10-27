@@ -120,6 +120,12 @@ window.TeamFinder.ListAds = (function (ListAds) {
 	}(ListAds.Events || {}));
 	
 	ListAds.UI = (function(UI) {
+		UI.initializedState = {
+			selectLocation: false,
+			selectLookingFor: false,
+			selectSport: false
+		};
+		
 		UI.createAdContent = function (data) {
 			var adContentWrapper = $(document.createElement('div'));
 			adContentWrapper.addClass('adContentWrapper');
@@ -210,6 +216,16 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			headline.append(headlineInfo);
 			
 			return headline;
+		};
+		
+		UI.isInitialized = function () {
+			for (var key in UI.initializedState) {
+				if (!UI.initializedState[key]) {
+					return false;
+				}
+			}
+			
+			return true;
 		};
 		
 		UI.paginate = function (pageIndex) {	
@@ -331,19 +347,46 @@ window.TeamFinder.ListAds = (function (ListAds) {
 			ListAds.Elements.selectLocation = TeamFinder.UI.createDropDown(ListAds.Elements.selectLocation, '../data/getAdFilterData.php', {
 					q: 'locations',
 					defaultText: '--Location--',
-					selected: ListAds.adFilter.loc
+					selected: ListAds.adFilter.loc,
+					eventHandlers: {
+						create: function (event, object) {
+							ListAds.UI.initializedState.selectLocation = true;
+							
+							if (ListAds.UI.isInitialized()) {
+								ListAds.Elements.divFilter.slideUp();
+							}
+						}
+					}
 				}
 			);
 			ListAds.Elements.selectLookingFor = TeamFinder.UI.createDropDown(ListAds.Elements.selectLookingFor, '../data/getAdFilterData.php', {
 					q: 'lookingFor',
 					defaultText: '--Looking For--',
-					selected: ListAds.adFilter.lf
+					selected: ListAds.adFilter.lf,
+					eventHandlers: {
+						create: function (event, object) {
+							ListAds.UI.initializedState.selectLookingFor = true;
+							
+							if (ListAds.UI.isInitialized()) {
+								ListAds.Elements.divFilter.slideUp();
+							}
+						}
+					}
 				}
 			);
 			ListAds.Elements.selectSport = TeamFinder.UI.createDropDown(ListAds.Elements.selectSport, '../data/getAdFilterData.php', {
 					q: 'sports',
 					defaultText: '--Sport--',
-					selected: ListAds.adFilter.s
+					selected: ListAds.adFilter.s,
+					eventHandlers: {
+						create: function (event, object) {
+							ListAds.UI.initializedState.selectSport = true;
+							
+							if (ListAds.UI.isInitialized()) {
+								ListAds.Elements.divFilter.slideUp();
+							}
+						}
+					}
 				}
 			);
 			

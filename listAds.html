@@ -15,14 +15,20 @@
 			<div id="divMenuPlaceHolder"></div>
 			<div id="divUpperContent">
 				<a class="aRSS" href="../handlers/rss.php" target="_blank">Subscribe</a>
-				<div id="divFilterButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Filter</a></div></div>
+				<div id="divFilterButton" class="divButton"><a class="aButton">Filter</a></div>
 				<div id="divPagination"></div>
-				<div id="divFilter" style="display: none;">
-					<select id="selectSport"></select>
-					<select id="selectLocation"></select>
-					<select id="selectLookingFor"></select>
-					<div id="divApplyFilterButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Apply Filter</a></div></div>
-					<div id="divClearFilterButton" class="divButton"><div class="divButtonBackground"><a class="aButton">Clear Filter</a></div></div>
+				<div id="divFilter">
+					<div id="divSelectContainer">
+						<table>
+							<tr>
+								<td><select id="selectSport" name="selectSport"></select></td>
+								<td><select id="selectLocation" name="selectLocation"></select></td>
+								<td><select id="selectLookingFor" name="selectLookingFor"></select></td>
+							</tr>
+						</table>
+					</div>
+					<div id="divApplyFilterButton" class="divButton"><a class="aButton">Apply Filter</a></div>
+					<div id="divClearFilterButton" class="divButton"><a class="aButton">Clear Filter</a></div>
 				</div>
 				<div id="divAdContainer"></div>
 			</div>

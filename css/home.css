@@ -29,9 +29,10 @@
     width: 600px;
 }
 
-/* Fix for SelectBoxIt on iPad */
-.selectboxit-container .selectboxit
+/* Fix for overlays over SelectBoxIt on iPad */
+#divQuickSearchFormContainer *
 {
+	position: relative;
 	z-index: 0;
 }
-/* /Fix for SelectBoxIt on iPad */
+/* /Fix for overlays over SelectBoxIt on iPad */

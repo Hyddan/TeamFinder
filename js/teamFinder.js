@@ -44,6 +44,8 @@
 		Environment.detect = function () {
 			Environment.Device.isIPhone = TeamFinder.Utils.notNullOrEmpty(navigator.userAgent.match(/(iPhone)/gi));
 			Environment.Device.isMobile = TeamFinder.Utils.notNullOrEmpty(navigator.userAgent.match(/(android|iPad|iPhone|iPod)/gi));
+			
+			Environment.isLocalhost = -1 < window.location.hostname.indexOf('localhost');
 		};
 		
 		return Environment;
@@ -175,7 +177,10 @@
 				});
 				
 				TeamFinder.Utils.delay.call(this, function () {
-					jqSelectElement.selectBoxIt({ theme: 'jqueryui' });
+					jqSelectElement.selectBoxIt({
+						create: TeamFinder.Utils.notNullOrEmpty(params.eventHandlers) && TeamFinder.Utils.notNullOrUndefinedFunction(params.eventHandlers.create) ? params.eventHandlers.create : TeamFinder.Utils.nullFunction,
+						theme: 'jqueryui'
+					});
 				}, 'obj => !TeamFinder.Utils.notNullOrUndefinedFunction(obj.selectBoxIt)', jqSelectElement, 1);
 			}
 			else {
@@ -252,6 +257,9 @@
 		
 		Utils.deleteCookie = function (name) {
 			TeamFinder.Utils.setCookie(name, '', -1);
+		};
+		
+		Utils.emptyFunction = function () {
 		};
 		
 		Utils.exists = function (obj) {
@@ -419,7 +427,9 @@
 		TeamFinder.loadDependencies();
 		TeamFinder.Environment.detect();
 		
-		TeamFinder.Plugins.Google.Analytics.initialize('UA-44948166-1', '//www.google-analytics.com/analytics.js');
+		if (!TeamFinder.Environment.isLocalhost) {
+			TeamFinder.Plugins.Google.Analytics.initialize('UA-44948166-1', '//www.google-analytics.com/analytics.js');
+		}
 	};
 	
 	TeamFinder.isLoggedIn = function () {

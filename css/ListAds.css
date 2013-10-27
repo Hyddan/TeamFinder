@@ -3,26 +3,41 @@
 	opacity: 0.5;
 }
 
+#divFilter
+{
+	height: 38px
+}
+
 #divFilterButton
 {
+	margin-top: 4px;
 	right: 0px;
 }
 
 #divApplyFilterButton
 {
 	display: inline;
+	margin-top: 11px;
 	right: 0px;
 }
 
 #divClearFilterButton
 {
 	display: inline;
+	margin-top: 11px;
 	right: 80px;
 }
 
 #divPagination
 {
     width: 600px;
+}
+
+#divSelectContainer
+{
+	float: left;
+	position: relative;
+	width: 680px;
 }
 
 .aButton
@@ -93,10 +108,4 @@
 {
     margin: 2px;
 	padding: 2px 5px;
-}
-
-/*ToDo: Test on iPad*/
-.selectboxit-container .selectboxit
-{
-	z-index: 0;
 }
