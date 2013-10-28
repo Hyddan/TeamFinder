@@ -307,6 +307,9 @@ window.TeamFinder.Authentication = (function (Authentication) {
 			TeamFinder.Utils.delay.call(this, function () {
 				Authentication.Elements.initialize();
 				
+				Authentication.Elements.divAuthenticationPlaceHolder.hide();
+				Authentication.Elements.divSignUpPlaceHolder.hide();
+				
 				TeamFinder.callServer('../data/authentication.html', '', 'GET', 'html', Authentication.Callbacks.authentication, TeamFinder.handleError);
 				
 				Authentication.updateButtonLabel();
