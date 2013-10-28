@@ -177,7 +177,7 @@ window.TeamFinder.ListAds = (function (ListAds) {
 				adContentEmailAnchor = $(document.createElement('a'));
 			adContentEmail.html('Email: ');
 			adContentEmailAnchor.html((TeamFinder.Utils.notNullOrEmpty(data.User.Email) ? data.User.Email : '[Unspecified]'));
-			adContentEmailAnchor.attr('href', TeamFinder.Utils.stringFormat('mailto:{0}&subject={1}&body={2}{3}',
+			adContentEmailAnchor.attr('href', TeamFinder.Utils.stringFormat('mailto:{0}?subject={1}&body={2}{3}',
 				(TeamFinder.Utils.notNullOrEmpty(data.User.Email) ? data.User.Email : '[Unspecified]'),
 				encodeURIComponent('RE: ' + data.Headline + ' - http://teamfinder.se'),
 				'%0D%0A%0D%0A%0D%0A--------------------------------------------------------------------------------%0D%0A%0D%0A',
