@@ -1,0 +1,12 @@
+#divNavigationPlaceHolder
+{
+	float: left;
+	width: 250px;
+}
+
+#divContentContainer
+{
+	float: left;
+	padding: 10px;
+	width: 620px;
+}
